@@ -1,0 +1,5 @@
+package Ljc.JFramework.Utility;
+
+public static class BitConverter {
+
+}

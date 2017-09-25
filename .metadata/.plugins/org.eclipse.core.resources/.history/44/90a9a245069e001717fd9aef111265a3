@@ -1,0 +1,13 @@
+package Ljc.JFramework;
+
+public class Box<T> {
+	private T _data;
+
+	public T getData() {
+		return _data;
+	}
+
+	public void setBool(T val) {
+		_data = val;
+	}
+}

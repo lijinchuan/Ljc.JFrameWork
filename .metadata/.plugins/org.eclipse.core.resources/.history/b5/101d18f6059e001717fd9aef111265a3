@@ -1,0 +1,13 @@
+package Ljc.JFramework;
+
+public class BoolObject<T> {
+	private T _data;
+
+	public boolean getBool() {
+		return _bool;
+	}
+
+	public void setBool(boolean val) {
+		_bool = val;
+	}
+}

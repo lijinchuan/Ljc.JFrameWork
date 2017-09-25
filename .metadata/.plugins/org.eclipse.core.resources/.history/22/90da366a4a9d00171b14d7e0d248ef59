@@ -1,0 +1,51 @@
+package Ljc.JFramework;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+
+import Ljc.JFramework.Utility.Tuple;
+
+public class EntityBufCore {
+	private static HashMap<Integer, Tuple<EntityBufType, Boolean>> TypeBufTypeDic = new HashMap<Integer, Tuple<EntityBufType, Boolean>>();
+
+	public static Tuple<EntityBufCore, Boolean> GetTypeBufType(Class cls) {
+		if (cls == null) {
+			return null;
+		}
+		int key = cls.hashCode();
+		Tuple<EntityBufType, Boolean> tp = TypeBufTypeDic.getOrDefault(key, null);
+		if (tp != null) {
+			return tp;
+		}
+
+		return null;
+	}
+
+	private static void Serialize(Object o, ByteArrayOutputStream buffer) {
+		if (o == null) {
+			EntityBufTypeFlag flag = EntityBufTypeFlag.VlaueNull;
+			buffer.write(flag.getVal());
+			return;
+		} else {
+			EntityBufTypeFlag flag = EntityBufTypeFlag.Empty;
+			buffer.write(flag.getVal());
+		}
+		Tuple<EntityBufCore, Boolean> touple = null;
+	}
+
+	public static byte[] Serialize(Object o) throws IOException {
+		if (null == o) {
+			return null;
+		}
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+		try {
+			Serialize(o, buffer);
+
+			return buffer.toByteArray();
+		} finally {
+			buffer.close();
+		}
+	}
+}

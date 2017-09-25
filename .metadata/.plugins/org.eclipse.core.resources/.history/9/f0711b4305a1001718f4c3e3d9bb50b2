@@ -1,0 +1,26 @@
+package Ljc.JFramework.Utility;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+public class BitConverter {
+	public static byte[] GetBytes(long value) {
+
+		ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.nativeOrder());
+		buffer.putLong(value);
+		return buffer.array();
+	}
+
+	public static byte[] GetBytes(int value) {
+		ByteBuffer buffer = ByteBuffer.allocate(4).order(ByteOrder.nativeOrder());
+		buffer.putLong(value);
+		return buffer.array();
+	}
+
+	public static byte[] GetBytes(String value) {
+		byte[] bs = value.getBytes("UTF-8");
+		ByteBuffer buffer = ByteBuffer.allocate(4).order(ByteOrder.nativeOrder());
+		buffer.put(value);
+		return buffer.array();
+	}
+}

@@ -1,0 +1,248 @@
+package Ljc.JFramework;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+
+import Ljc.JFramework.Utility.Tuple;
+
+public class EntityBufCore {
+	private static final short DefaultShort = 0;
+	private static final char DefaultUShort = 0;
+	private static final int DefaultInt = 0;
+	private static final long DefaultLong = 0;
+	private static final byte DefaultByte = 0;
+	private static final char DefaultChar = 0;
+	private static final double DefaultDouble = 0;
+	private static final float DefaultFloat = 0;
+	private static final String DefaultString = "";
+	private static final BigDecimal DefaultDecimal = BigDecimal.ZERO;
+	private static final Boolean DefaultBool = false;
+
+	private static HashMap<Integer, Tuple<EntityBufType, Boolean>> TypeBufTypeDic = new HashMap<Integer, Tuple<EntityBufType, Boolean>>();
+
+	private static EntityBufType MapBufType(Class type, Box<Boolean> isArray) {
+		EntityBufType ebtype = new EntityBufType();
+		ebtype.setValueType(type);
+
+		if (type.isArray())
+		// if (type.Name.EndsWith("[]"))
+		{
+			isArray.setData(true);
+
+			// String typefullname = String.Format("{0}, {1}",
+			// type.getTypeName().substring(0, type.getTypeName().lastIndexOf('[')),
+			// type.ass.FullName);
+			ebtype.setClassType(type);
+		} else {
+			isArray.setData(false);
+			ebtype.setClassType(type);
+		}
+
+		if (ebtype.getClass().isPrimitive()) {
+			String typename = ebtype.getClassType().getName();
+			switch (typename) {
+			case "Short":
+				ebtype.setEntityType(EntityType.SHORT);
+				ebtype.setDefaultValue(DefaultShort);
+				break;
+			case "UInt16":
+			case "Ushort":
+				ebtype.setEntityType(EntityType.USHORT);
+				ebtype.setDefaultValue(DefaultUShort);
+				break;
+			case "Int16":
+				ebtype.setEntityType(EntityType.INT16);
+				ebtype.setDefaultValue(DefaultShort);
+				break;
+			case "Int32":
+				ebtype.setEntityType(EntityType.INT32);
+				ebtype.setDefaultValue(DefaultInt);
+				break;
+			case "Long":
+			case "Int64":
+				ebtype.setEntityType(EntityType.INT64);
+				ebtype.setDefaultValue(DefaultLong);
+				break;
+			case "Byte":
+				ebtype.setEntityType(EntityType.BYTE);
+				ebtype.setDefaultValue(DefaultByte);
+				break;
+			case "Char":
+				ebtype.setEntityType(EntityType.CHAR);
+				ebtype.setDefaultValue(DefaultChar);
+				break;
+			case "Double":
+				ebtype.setEntityType(EntityType.DOUBLE);
+				ebtype.setDefaultValue(DefaultDouble);
+				break;
+			case "Float":
+				ebtype.setEntityType(EntityType.FLOAT);
+				ebtype.setDefaultValue(DefaultFloat);
+				break;
+			case "String":
+				ebtype.setEntityType(EntityType.STRING);
+				ebtype.setDefaultValue(DefaultString);
+				break;
+			case "DateTime":
+				ebtype.setEntityType(EntityType.DATETIME);
+				break;
+			case "Decimal":
+				ebtype.setEntityType(EntityType.DECIMAL);
+				ebtype.setDefaultValue(DefaultDecimal);
+				break;
+			case "Boolean":
+				ebtype.setEntityType(EntityType.BOOL);
+				ebtype.setDefaultValue(DefaultBool);
+				break;
+			case "Dictionary`2":
+				ebtype.setEntityType(EntityType.DICTIONARY);
+				break;
+			case "List`1":
+				ebtype.setEntityType(EntityType.LIST);
+				break;
+			default:
+				if (isArray.getData()) {
+					ebtype.setEntityType(EntityType.ARRAY);
+				} else if (ebtype.getClassType().isEnum()) {
+					ebtype.setEntityType(EntityType.ENUM);
+				} else {
+					ebtype.setEntityType(EntityType.COMPLEX);
+				}
+				break;
+			}
+		} else {
+			ebtype.setEntityType(EntityType.COMPLEX);
+		}
+
+		return ebtype;
+	}
+
+	public static Tuple<EntityBufType, Boolean> GetTypeBufType(Class cls) {
+		if (cls == null) {
+			return null;
+		}
+		int key = cls.hashCode();
+		Tuple<EntityBufType, Boolean> tp = TypeBufTypeDic.getOrDefault(key, null);
+		if (tp != null) {
+			return tp;
+		} else {
+			Box<Boolean> isArray = new Box<Boolean>();
+			EntityBufType objType = MapBufType(cls, isArray);
+			Tuple<EntityBufType, Boolean> touple = new Tuple<EntityBufType, Boolean>(objType, isArray.getData());
+			try {
+				TypeBufTypeDic.put(key, touple);
+			} catch (Exception ex) {
+
+			}
+			return touple;
+		}
+	}
+
+	private static void SerializeSimple(Object val, Boolean isArray, EntityBufType bufType,
+			MemoryStreamWriter msWriter) {
+		/*
+		 * switch (bufType.EntityType) { case EntityType.BYTE: if (isArray) {
+		 * msWriter.write((byte[])val); } else { msWriter.write((byte)val); } break;
+		 * case EntityType.STRING: if (isArray) {
+		 * msWriter.WriteStringArray((string[])val); } else {
+		 * msWriter.WriteString((string)val); } break; case EntityType.SHORT: case
+		 * EntityType.INT16: if (isArray) { msWriter.WriteInt16Array((Int16[])val); }
+		 * else { msWriter.WriteInt16((Int16)val); } break; case EntityType.USHORT: if
+		 * (isArray) { msWriter.WriteUInt16Array((UInt16[])val); } else {
+		 * msWriter.WriteUInt16((UInt16)val); } break; case EntityType.INT32: if
+		 * (isArray) { msWriter.WriteInt32Array((Int32[])val); } else {
+		 * msWriter.WriteInt32((Int32)val); } break; case EntityType.DECIMAL: if
+		 * (isArray) { msWriter.WriteDeciamlArray((decimal[])val); } else {
+		 * msWriter.WriteDecimal((decimal)val); } break; case EntityType.DOUBLE: if
+		 * (isArray) { msWriter.WriteDoubleArray((double[])val); } else {
+		 * msWriter.WriteDouble((double)val); } break; case EntityType.INT64: if
+		 * (isArray) { msWriter.WriteInt64Array((Int64[])val); } else {
+		 * msWriter.WriteInt64((Int64)val); } break; case EntityType.DATETIME: if
+		 * (isArray) { msWriter.WriteDateTimeArray((DateTime[])val); } else {
+		 * msWriter.WriteDateTime((DateTime)val); } break; case EntityType.BOOL: if
+		 * (isArray) { msWriter.WriteBoolArray((bool[])val); } else {
+		 * msWriter.WriteBool((bool)val); } break; case EntityType.ENUM: if (isArray) {
+		 * Array arr = (Array)val; string[] strarr = new string[arr.Length]; for (int i
+		 * = 0; i < arr.Length; i++) { strarr[i] = arr.GetValue(i).ToString(); }
+		 * msWriter.WriteStringArray(strarr); } else {
+		 * msWriter.WriteString(val.ToString()); } break; case EntityType.DICTIONARY: if
+		 * (isArray) { if (val == null) { msWriter.WriteInt32(-1); break; } var dicArray
+		 * = (Array)val; msWriter.WriteInt32(dicArray.Length); for (int i = 0; i <
+		 * dicArray.Length; i++) { Serialize(dicArray.GetValue(i), msWriter); } } else {
+		 * if (val == null) { msWriter.WriteInt32(-1); break; } // IDictionary idic =
+		 * (IDictionary)val; //写入长度 msWriter.WriteInt32(idic.Count); int i = 0; foreach
+		 * (var kv in idic) { object k=kv.Eval("Key"); object v = kv.Eval("Value");
+		 * 
+		 * Serialize(k, msWriter); Serialize(v, msWriter); i++; } } break; case
+		 * EntityType.LIST: if (isArray) { if (val == null) { msWriter.WriteInt32(-1);
+		 * break; } var listarr = (Array)val; msWriter.WriteInt32(listarr.Length); for
+		 * (int i = 0; i < listarr.Length; i++) { Serialize(listarr.GetValue(i),
+		 * msWriter); } } else { if (val == null) { msWriter.WriteInt32(-1); break; }
+		 * var list = (IList)val; msWriter.WriteInt32(list.Count); foreach (var item in
+		 * list) { Serialize(item, msWriter); } } break; case EntityType.ARRAY: if
+		 * (isArray) { if (val == null) { msWriter.WriteInt32(-1); break; } var listarr
+		 * = (Array)val; msWriter.WriteInt32(listarr.Length); for (int i = 0; i <
+		 * listarr.Length; i++) { Serialize(listarr.GetValue(i), msWriter); } } else {
+		 * if (val == null) { msWriter.WriteInt32(-1); break; } var arr = (Array)val;
+		 * msWriter.WriteInt32(arr.Length); foreach (var item in arr) { Serialize(item,
+		 * msWriter); } } break; default: throw new Exception("序列化错误");
+		 * 
+		 * }
+		 */
+
+	}
+
+	private static void Serialize(Object o, ByteArrayOutputStream buffer) {
+		if (o == null) {
+			EntityBufTypeFlag flag = EntityBufTypeFlag.VlaueNull;
+			buffer.write(flag.getVal());
+			return;
+		} else {
+			EntityBufTypeFlag flag = EntityBufTypeFlag.Empty;
+			buffer.write(flag.getVal());
+		}
+		Tuple<EntityBufType, Boolean> tuple = GetTypeBufType(o.getClass());
+
+		if (tuple.GetItem1().getEntityType() != EntityType.COMPLEX) {
+			SerializeSimple(o, tuple.GetItem2(), tuple.GetItem1(), new Ljc.JFramework.MemoryStreamWriter(buffer));
+			return;
+		}
+
+		Boolean isArray;
+		// PropertyInfo[] props = o.GetType().GetProperties();
+		List<Tuple<EntityBufType, Boolean>> entitybuftypelist = GetTypeEntityBufType(o.getClass());
+		// foreach (var tp in entitybuftypelist)
+		Tuple<EntityBufType, Boolean> tp = null;
+		for (int i = 0; i < entitybuftypelist.size(); i++) {
+			tp = entitybuftypelist.get(i);
+			// EntityBufType buftype = MapBufType(prop.PropertyType, out isArray);
+			isArray = tp.GetItem2();
+
+			// Object val = o.Eval(tp.GetItem1().getProperty());
+
+			if (tp.GetItem1().getEntityType() == EntityType.COMPLEX) {
+				SerializeComplex(val, isArray, tp.Item1, msWriter);
+			} else {
+				SerializeSimple(val, isArray, tp.Item1, msWriter);
+			}
+		}
+	}
+
+	public static byte[] Serialize(Object o) throws IOException {
+		if (null == o) {
+			return null;
+		}
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+		try {
+			Serialize(o, buffer);
+
+			return buffer.toByteArray();
+		} finally {
+			buffer.close();
+		}
+	}
+}
