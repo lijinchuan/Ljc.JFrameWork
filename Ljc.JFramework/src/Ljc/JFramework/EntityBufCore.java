@@ -196,51 +196,14 @@ public class EntityBufCore {
 
 	}
 
-	public static List<Tuple<EntityBufType,Boolean>> GetTypeEntityBufType(Class tp)
-    {
-        if (tp == null)
-            return null;
+	public static List<Tuple<EntityBufType, Boolean>> GetTypeEntityBufType(Class tp) {
+		if (tp == null)
+			return null;
 
-        int key = tp.hashCode();
-        try
-        {
-            //EntityBufTypeDicLockSlim.EnterUpgradeableReadLock();
-            List<Tuple<EntityBufType, Boolean>> val;
-            if (EntityBufTypeDic.TryGetValue(key, out val))
-            {
-                if (val != null)
-                {
-                    return val;
-                }
-            }
+		List<Tuple<EntityBufType, Boolean>> list = new LinkedList<Tuple<EntityBufType, Boolean>>();
+		return list;
 
-                List<Tuple<EntityBufType, Boolean>> list = new LinkedList<Tuple<EntityBufType, Boolean>>();
-
-                PropertyInfo[] props = tp.GetProperties();
-                bool isArray = false;
-                foreach (PropertyInfo prop in props)
-                {
-                    EntityBufType buftype = MapBufType(prop.PropertyType, out isArray);
-                    buftype.Property =new PropertyInfoEx(prop);
-                    list.Add(new Tuple<EntityBufType, bool>(buftype, isArray));
-                }
-                //再次检查下
-                try
-                {
-                    EntityBufTypeDic.Add(key, list);
-                }
-                catch
-                {
-                }
-
-                return list;
-
-        }
-        finally
-        {
-            //EntityBufTypeDicLockSlim.ExitUpgradeableReadLock();
-        }
-    }
+	}
 
 	private static void Serialize(Object o, ByteArrayOutputStream buffer) {
 		if (o == null) {

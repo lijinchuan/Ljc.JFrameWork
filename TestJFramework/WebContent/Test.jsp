@@ -14,11 +14,11 @@
 <body>
 <%
   Person p=new Person();
-  byte[] bts= EntityBufCore.Serialize(p);
+  p.setAge(20);
+  p.setName("ljc");
+  Person newperson=p.serializeMe();
   
-  byte[] bytes=BitConverter.GetBytes(1200);
-  //response.getWriter().write(bytes.length);
-  System.out.println(Integer.MAX_VALUE);
+  response.getWriter().write(newperson.getAge()+" "+newperson.getName());
 %>
 </body>
 </html>
