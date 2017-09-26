@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
 org.eclipse.debug.core.PREF_BREAKPOINT_MANAGER_ENABLED_STATE=true
-prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions>\r\n<expression enabled\="true" text\="ebtype.getClassType()"/>\r\n<expression enabled\="true" text\="ebtype.getClassType()"/>\r\n</watchExpressions>\r\n
+prefWatchExpressions=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<watchExpressions>\r\n<expression enabled\="true" text\="Class.forName(field.getGenericType().getTypeName())"/>\r\n<expression enabled\="true" text\="field.getGenericType().getTypeName()"/>\r\n<expression enabled\="true" text\="ReflectUtil.GetFieldType(f)"/>\r\n</watchExpressions>\r\n

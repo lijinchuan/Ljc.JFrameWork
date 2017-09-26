@@ -1,3 +1,4 @@
+<%@page import="java.util.LinkedList"%>
 <%@page import="Ljc.JFramework.Utility.BitConverter"%>
 <%@page import="Ljc.JFramework.Utility.StringUtil"%>
 <%@page import="java.lang.reflect.Method"%>
@@ -14,11 +15,14 @@
 <body>
 <%
   Person p=new Person();
-  byte[] bts= EntityBufCore.Serialize(p);
+  p.setAge(20);
+  p.setName("ljc");
+  java.util.List<Integer> list=new LinkedList<Integer>();
+  list.add(1);
+  p.SetList(list);
+  Person newperson=p.serializeMe();
   
-  byte[] bytes=BitConverter.GetBytes(1200);
-  //response.getWriter().write(bytes.length);
-  System.out.println(Integer.MAX_VALUE);
+  response.getWriter().write(newperson.getAge()+" "+newperson.getName()+" "+newperson.getList().get(0));
 %>
 </body>
 </html>

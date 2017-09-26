@@ -1,9 +1,0 @@
-
-public class Person {
-	private String _name = null;
-	private int _age=0;
-
-	public String getName() {
-		return this._name;
-	}
-}
