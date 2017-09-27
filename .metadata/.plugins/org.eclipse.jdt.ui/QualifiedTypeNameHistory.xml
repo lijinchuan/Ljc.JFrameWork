@@ -23,11 +23,13 @@
 <fullyQualifiedTypeName name="Ljc.JFramework.Person"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.StringUtil"/>
 <fullyQualifiedTypeName name="java.lang.Object"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.lang.reflect.Type"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Field"/>
+<fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
+<fullyQualifiedTypeName name="java.lang.reflect.ParameterizedType"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.ReflectUtil"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Type"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.awt.List"/>
 </qualifiedTypeNameHistroy>

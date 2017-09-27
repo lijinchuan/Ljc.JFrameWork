@@ -1,3 +1,7 @@
+<%@page import="Ljc.JFramework.TypeUtil.UByte"%>
+<%@page import="Ljc.JFramework.TypeUtil.UInt64"%>
+<%@page import="Ljc.JFramework.TypeUtil.UShort"%>
+<%@page import="java.io.PrintWriter"%>
 <%@page import="java.util.LinkedList"%>
 <%@page import="Ljc.JFramework.Utility.BitConverter"%>
 <%@page import="Ljc.JFramework.Utility.StringUtil"%>
@@ -14,15 +18,19 @@
 </head>
 <body>
 <%
-  Person p=new Person();
+  PrintWriter pw=response.getWriter();
+  
+  UByte ub=UByte.valueOf(188);
+  pw.write(String.valueOf(ub.getVal()));
+/*   Person p=new Person();
   p.setAge(20);
   p.setName("ljc");
   java.util.List<Integer> list=new LinkedList<Integer>();
-  list.add(1);
-  p.SetList(list);
+  list.add(100);
+  p.setList(list);
   Person newperson=p.serializeMe();
   
-  response.getWriter().write(newperson.getAge()+" "+newperson.getName()+" "+newperson.getList().get(0));
+  response.getWriter().write(newperson.getAge()+" "+newperson.getName()+" "+newperson.getList().get(0)); */
 %>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class Person {
 		return this._list;
 	}
 
-	public void SetList(List<Integer> val) {
+	public void setList(List<Integer> val) {
 		this._list = val;
 	}
 
@@ -44,6 +44,7 @@ public class Person {
 		try {
 			Class cls = this.getClass();
 			newone = (Person) cls.newInstance();
+
 			for (Field f : cls.getDeclaredFields()) {
 				String fieldname = f.getName();
 				if (fieldname.startsWith("_")) {
@@ -51,9 +52,8 @@ public class Person {
 				}
 				fieldname = StringUtil.captureName(fieldname);
 
-				Method getMethod = ReflectUtil.GetDeclaredMethod(cls, "get" + fieldname, null);
-
-				Method setMethod = ReflectUtil.GetDeclaredMethod(cls, "set" + fieldname, ReflectUtil.GetFieldType(f));
+				Method getMethod = ReflectUtil.GetMethod(cls, "get" + fieldname, null);
+				Method setMethod = ReflectUtil.GetMethod(cls, "set" + fieldname, ReflectUtil.GetFieldType(f));
 
 				if (getMethod == null || setMethod == null) {
 					continue;
@@ -62,8 +62,7 @@ public class Person {
 
 				setMethod.invoke(newone, oldval);
 			}
-		} catch (Exception e) {
-
+		} catch (SecurityException e) {
 			e.printStackTrace();
 		} finally {
 			return newone;
