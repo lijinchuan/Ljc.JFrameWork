@@ -25,7 +25,9 @@ public class EntityBufCore {
 			}
 			System.out.println(fieldname);
 			System.out.println("是否是基础类型：" + f.getType().isPrimitive());
+			System.out.println("是否数组:" + f.getType().isArray());
 			System.out.println("类型名称:" + f.getType().getName());
+			System.out.println("是否枚举:" + f.getType().isEnum());
 		}
 	}
 }

@@ -24,6 +24,8 @@ public class Person {
 	private BigDecimal _bigDecimal;
 	private Boolean _bool = false;
 	private char _char;
+	private int[] _intArray;
+	private ShortTypeEnum _enum;
 
 	private List<Integer> _list = null;
 	private LinkedList<Integer> _intlist = null;
@@ -112,12 +114,28 @@ public class Person {
 		return this._bool;
 	}
 
+	public void setIntArray(int[] val) {
+		this._intArray = val;
+	}
+
+	public int[] getIntArray() {
+		return this._intArray;
+	}
+
 	public void setBool(Boolean val) {
 		this._bool = val;
 	}
 
 	public char getChar() {
 		return this._char;
+	}
+
+	public ShortTypeEnum getEnum() {
+		return this._enum;
+	}
+
+	public void setEnum(ShortTypeEnum val) {
+		this._enum = val;
 	}
 
 	public void setChar(char val) {
