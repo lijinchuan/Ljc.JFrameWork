@@ -17,9 +17,9 @@
 		<item value="true" key="expanded0"/>
 	</section>
 	<section name="DialogBounds_SuperInterfaceSelectionDialog">
-		<item value="365" key="DIALOG_WIDTH"/>
-		<item value="1|宋体|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|宋体" key="DIALOG_FONT_NAME"/>
-		<item value="468" key="DIALOG_HEIGHT"/>
+		<item value="373" key="DIALOG_WIDTH"/>
+		<item value="1|微软雅黑|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|微软雅黑" key="DIALOG_FONT_NAME"/>
+		<item value="596" key="DIALOG_HEIGHT"/>
 		<item value="96" key="DIALOG_X_ORIGIN"/>
 		<item value="0" key="DIALOG_Y_ORIGIN"/>
 	</section>
@@ -88,6 +88,8 @@
 		<item value="false" key="create_package_info_java"/>
 	</section>
 	<section name="completion_proposal_size">
+		<item value="275" key="size.y"/>
+		<item value="385" key="size.x"/>
 	</section>
 	<section name="JarPackageWizard">
 		<item value="false" key="JarPackageWizardPage.INCLUDE_DIRECTORY_ENTRIES"/>
