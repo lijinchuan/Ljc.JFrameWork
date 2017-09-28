@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="Ljc.JFramework.TypeUtil.DateTime"%>
 <%@page import="Ljc.JFramework.TypeUtil.UByte"%>
 <%@page import="Ljc.JFramework.TypeUtil.UInt64"%>
 <%@page import="Ljc.JFramework.TypeUtil.UShort"%>
@@ -19,9 +21,11 @@
 <body>
 <%
   PrintWriter pw=response.getWriter();
-  
-  UByte ub=UByte.valueOf(188);
-  pw.write(String.valueOf(ub.getVal()));
+  SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  DateTime time=new DateTime(sf.parse("2017-09-28 10:21:33").getTime());
+  //pw.write(String.valueOf(time.ToOadate()));
+  double oadate=time.ToOadate();
+  pw.write(DateTime.FromOaDate(oadate).toGMTString());
 /*   Person p=new Person();
   p.setAge(20);
   p.setName("ljc");

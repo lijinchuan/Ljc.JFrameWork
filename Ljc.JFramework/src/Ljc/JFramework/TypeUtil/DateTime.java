@@ -1,24 +1,36 @@
 package Ljc.JFramework.TypeUtil;
 
-public class DateTime {
-	private double _oadate = 0;
-	private int _year = 1899;
-	private int _mon = 12;
-	private int _day = 31;
-	private int _hour = 0;
-	private int _min = 0;
-	private int _sec = 0;
-	private int _mills = 0;
+import java.util.Date;
+import java.util.TimeZone;
 
-	public DateTime(double oadate) {
-		this._oadate = oadate;
+public class DateTime extends Date {
+	private static Date OADateBegin = new Date(-2209190400000L);
+	private static long DayMills = 24 * 60 * 60 * 1000;
+
+	/*
+	 * static { SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	 * 
+	 * try { OADateBegin = sf.parse("1899-12-30 00:00:00"); } catch (ParseException
+	 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
+	 * 
+	 * }
+	 */
+
+	public DateTime(long time) {
+		super(time);
 	}
 
-	public static DateTime valueOf(double oadate) {
-		return new DateTime(oadate);
+	public double ToOadate() {
+		long days = (this.getTime() - OADateBegin.getTime()) / DayMills;
+		TimeZone tz = TimeZone.getDefault();
+
+		double daypart = (this.getTime() + tz.getRawOffset()) % DayMills * 1.0 / DayMills;
+		return days + daypart;
 	}
 
-	public double toOadate() {
-		return this._oadate;
+	public static DateTime FromOaDate(double oadate) {
+
+		TimeZone tz = TimeZone.getDefault();
+		return new DateTime(OADateBegin.getTime() + tz.getRawOffset() + (long) (oadate * DayMills));
 	}
 }
