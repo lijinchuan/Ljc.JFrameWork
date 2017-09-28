@@ -3,6 +3,7 @@ package Ljc.JFramework;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Person {
 	private char _char;
 	private int[] _intArray;
 	private ShortTypeEnum _enum;
+	private HashMap<Integer, Integer> _dic;
 
 	private List<Integer> _list = null;
 	private LinkedList<Integer> _intlist = null;
@@ -140,6 +142,14 @@ public class Person {
 
 	public void setChar(char val) {
 		this._char = val;
+	}
+
+	public HashMap<Integer, Integer> getDic() {
+		return this._dic;
+	}
+
+	public void setDic(HashMap<Integer, Integer> val) {
+		this._dic = val;
 	}
 
 	public List<Integer> getList() {
