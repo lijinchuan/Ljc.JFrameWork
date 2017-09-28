@@ -21,11 +21,7 @@
 <body>
 <%
   PrintWriter pw=response.getWriter();
-  SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-  DateTime time=new DateTime(sf.parse("2017-09-28 10:21:33").getTime());
-  //pw.write(String.valueOf(time.ToOadate()));
-  double oadate=time.ToOadate();
-  pw.write(DateTime.FromOaDate(oadate).toGMTString());
+  EntityBufCore.Serialize(new Person(), null);
 /*   Person p=new Person();
   p.setAge(20);
   p.setName("ljc");
