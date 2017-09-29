@@ -3,6 +3,7 @@ package Ljc.JFramework;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class Person {
 	private int[] _intArray;
 	private ShortTypeEnum _enum;
 	private HashMap<Integer, Integer> _dic;
+	private Date _date;
+	private Date[] _dateArray;
 
 	private List<Integer> _list = null;
 	private LinkedList<Integer> _intlist = null;
@@ -150,6 +153,22 @@ public class Person {
 
 	public void setDic(HashMap<Integer, Integer> val) {
 		this._dic = val;
+	}
+
+	public void setDate(Date val) {
+		this._date = val;
+	}
+
+	public Date getDate() {
+		return this._date;
+	}
+
+	public void setDateArray(Date[] val) {
+		this._dateArray = val;
+	}
+
+	public Date[] getDateArray() {
+		return this._dateArray;
 	}
 
 	public List<Integer> getList() {

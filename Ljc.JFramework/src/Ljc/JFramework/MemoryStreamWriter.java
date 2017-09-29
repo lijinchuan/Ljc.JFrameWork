@@ -134,6 +134,10 @@ public class MemoryStreamWriter {
 		_ms.write(data, 0, data.length);
 	}
 
+	public void WriteByte(byte data) {
+		_ms.write(data);
+	}
+
 	public void WriteByteArray(byte[] data) {
 		if (data == null) {
 			this._ms.write(-1);

@@ -7,7 +7,6 @@ import java.util.Date;
 
 public class BitConverter {
 	public static byte[] GetBytes(long value) {
-
 		ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.nativeOrder());
 		buffer.putLong(value);
 		return buffer.array();
