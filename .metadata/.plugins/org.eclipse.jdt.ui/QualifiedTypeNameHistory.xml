@@ -9,7 +9,6 @@
 <fullyQualifiedTypeName name="java.lang.Boolean"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="javax.swing.Action"/>
-<fullyQualifiedTypeName name="java.lang.Short"/>
 <fullyQualifiedTypeName name="java.lang.Byte"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
 <fullyQualifiedTypeName name="javax.rmi.CORBA.Util"/>
@@ -24,16 +23,19 @@
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Field"/>
 <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
-<fullyQualifiedTypeName name="java.lang.reflect.ParameterizedType"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.ReflectUtil"/>
-<fullyQualifiedTypeName name="java.lang.reflect.Type"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.awt.List"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.text.Format"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
 <fullyQualifiedTypeName name="java.util.TimeZone"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.MemoryStreamWriter"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Type"/>
+<fullyQualifiedTypeName name="java.lang.reflect.ParameterizedType"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.ReflectUtil"/>
+<fullyQualifiedTypeName name="java.math.BigDecimal"/>
+<fullyQualifiedTypeName name="java.lang.Short"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitConverter"/>
 </qualifiedTypeNameHistroy>

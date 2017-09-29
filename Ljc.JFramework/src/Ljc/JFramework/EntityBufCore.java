@@ -1,10 +1,12 @@
 package Ljc.JFramework;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 
+import Ljc.JFramework.Utility.BitConverter;
 import Ljc.JFramework.Utility.ReflectUtil;
 import Ljc.JFramework.Utility.StringUtil;
 
@@ -105,10 +107,10 @@ public class EntityBufCore {
 
 	}
 
-	public static void TestSerialize(int val) {
+	public static void TestSerialize(short val) throws IOException {
 		ByteArrayOutputStream bs = new ByteArrayOutputStream();
 		MemoryStreamWriter ms = new MemoryStreamWriter(bs);
-		ms.write(val);
+		ms.write(BitConverter.GetBytes(val));
 
 		byte[] bytes = bs.toByteArray();
 		for (byte b : bytes) {

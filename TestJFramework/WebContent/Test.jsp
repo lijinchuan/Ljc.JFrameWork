@@ -22,7 +22,7 @@
 <%
   PrintWriter pw=response.getWriter();
   //EntityBufCore.Serialize(new Person(), null);
-  EntityBufCore.TestSerialize(126);
+  EntityBufCore.TestSerialize((short)126);
 /*   Person p=new Person();
   p.setAge(20);
   p.setName("ljc");
