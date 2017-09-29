@@ -32,6 +32,7 @@ public class MemoryStreamWriter {
 		this._ms.write(b);
 	}
 
+	@Deprecated
 	public void write(int b) {
 		this._ms.write(b);
 	}
@@ -140,7 +141,7 @@ public class MemoryStreamWriter {
 
 	public void WriteByteArray(byte[] data) {
 		if (data == null) {
-			this._ms.write(-1);
+			this.WriteInt32(-1);
 		} else {
 			this.WriteInt32(data.length);
 			this.WriteBytes(data);

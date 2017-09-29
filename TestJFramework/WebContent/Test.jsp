@@ -22,7 +22,13 @@
 <%
   PrintWriter pw=response.getWriter();
   //EntityBufCore.Serialize(new Person(), null);
-  EntityBufCore.TestSerialize((short)126);
+  //EntityBufCore.TestSerialize((short)126);
+  
+  byte[] strbytes=BitConverter.GetBytes("中岽华人民共c和ab国");
+  for(byte b :strbytes){
+	  pw.write(String.valueOf(b&255)+" ");
+  }
+  
 /*   Person p=new Person();
   p.setAge(20);
   p.setName("ljc");

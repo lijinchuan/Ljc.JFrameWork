@@ -19,9 +19,19 @@ public class BitConverter {
 	}
 
 	public static byte[] GetBytes(String value) throws UnsupportedEncodingException {
-		byte[] bs = value.getBytes("UTF-8");
-		ByteBuffer buffer = ByteBuffer.allocate(bs.length).order(ByteOrder.nativeOrder());
-		buffer.put(bs);
+		// byte[] bs = value.getBytes("UTF-8");
+		// ByteBuffer buffer =
+		// ByteBuffer.allocate(bs.length).order(ByteOrder.LITTLE_ENDIAN);
+		// buffer.put(bs);
+		// return buffer.array();
+
+		ByteBuffer buffer = ByteBuffer.allocate(value.toCharArray().length).order(ByteOrder.BIG_ENDIAN);
+
+		for (char ch : value.toCharArray()) {
+			// buffer.put((byte) ((ch >> 8) & 255));
+			buffer.put((byte) (ch & 255));
+		}
+
 		return buffer.array();
 	}
 
