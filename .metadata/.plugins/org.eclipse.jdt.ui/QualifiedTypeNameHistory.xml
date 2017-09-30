@@ -9,7 +9,6 @@
 <fullyQualifiedTypeName name="java.lang.Boolean"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="javax.swing.Action"/>
-<fullyQualifiedTypeName name="java.lang.Byte"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
 <fullyQualifiedTypeName name="javax.rmi.CORBA.Util"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
@@ -27,15 +26,24 @@
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="java.text.Format"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
 <fullyQualifiedTypeName name="java.util.TimeZone"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.MemoryStreamWriter"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Type"/>
 <fullyQualifiedTypeName name="java.lang.reflect.ParameterizedType"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.ReflectUtil"/>
-<fullyQualifiedTypeName name="java.math.BigDecimal"/>
 <fullyQualifiedTypeName name="java.lang.Short"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitConverter"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UInt16"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UShort"/>
+<fullyQualifiedTypeName name="org.apache.tomcat.util.modeler.modules.ModelerSource"/>
+<fullyQualifiedTypeName name="java.math.BigDecimal"/>
+<fullyQualifiedTypeName name="java.lang.Long"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitArray"/>
+<fullyQualifiedTypeName name="java.lang.Byte"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Array"/>
 </qualifiedTypeNameHistroy>
