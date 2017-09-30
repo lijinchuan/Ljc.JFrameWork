@@ -1,3 +1,4 @@
+<%@page import="java.math.BigDecimal"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Ljc.JFramework.TypeUtil.DateTime"%>
 <%@page import="Ljc.JFramework.TypeUtil.UByte"%>
@@ -24,11 +25,14 @@
   //EntityBufCore.Serialize(new Person(), null);
   //EntityBufCore.TestSerialize((short)126);
   
-  byte[] strbytes=BitConverter.GetBytes("中岽华人民共c和ab国");
+/*   byte[] strbytes=BitConverter.GetBytes("中岽华人民共c和ab国");
   for(byte b :strbytes){
 	  pw.write(String.valueOf(b&255)+" ");
   }
-  
+   */
+  Person.TestEnumArray();
+   //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
+   
 /*   Person p=new Person();
   p.setAge(20);
   p.setName("ljc");

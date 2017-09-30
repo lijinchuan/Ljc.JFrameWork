@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.sql.Date;
 
+import Ljc.JFramework.TypeUtil.UInt16;
 import Ljc.JFramework.Utility.BitConverter;
 import Ljc.JFramework.Utility.ReflectUtil;
 import Ljc.JFramework.Utility.StringUtil;
@@ -141,34 +143,84 @@ public class EntityBufCore {
 				msWriter.WriteString((String) val);
 			}
 			break;
+		case SHORT:
+		case INT16:
+			if (isArray) {
+				msWriter.WriteInt16Array((short[]) val);
+			} else {
+				msWriter.WriteInt16((short) val);
+			}
+			break;
+		case USHORT:
+			if (isArray) {
+				msWriter.WriteUInt16Array((UInt16[]) val);
+			} else {
+				msWriter.WriteUInt16((UInt16) val);
+			}
+			break;
+		case INT32:
+			if (isArray) {
+				msWriter.WriteInt32Array((int[]) val);
+			} else {
+				msWriter.WriteInt32((int) val);
+			}
+			break;
+		case DECIMAL:
+			if (isArray) {
+				msWriter.WriteDeciamlArray((BigDecimal[]) val);
+			} else {
+				msWriter.WriteDecimal((BigDecimal) val);
+			}
+			break;
+		case DOUBLE:
+			if (isArray) {
+				msWriter.WriteDoubleArray((double[]) val);
+			} else {
+				msWriter.WriteDouble((double) val);
+			}
+			break;
+		case INT64:
+			if (isArray) {
+				msWriter.WriteInt64Array((long[]) val);
+			} else {
+				msWriter.WriteInt64((long) val);
+			}
+			break;
+		case DATETIME:
+			if (isArray) {
+				msWriter.WriteDateTimeArray((Date[]) val);
+			} else {
+				msWriter.WriteDateTime((Date) val);
+			}
+			break;
+		case BOOL:
+			if (isArray) {
+				msWriter.WriteBoolArray((boolean[]) val);
+			} else {
+				msWriter.WriteBool((boolean) val);
+			}
+			break;
+		case ENUM:
+			if (isArray) {
+				Object[] objarray = (Object[]) val;
+				String[] strarr = new String[objarray.length];
+				int i = 0;
+				for (Object o : objarray) {
+					strarr[i++] = o.toString();
+				}
+				msWriter.WriteStringArray(strarr);
+			} else {
+				msWriter.WriteString(val.toString());
+			}
+			break;
 		/*
-		 * case EntityType.SHORT: case EntityType.INT16: if (isArray) {
-		 * msWriter.WriteInt16Array((Int16[])val); } else {
-		 * msWriter.WriteInt16((Int16)val); } break; case EntityType.USHORT: if
-		 * (isArray) { msWriter.WriteUInt16Array((UInt16[])val); } else {
-		 * msWriter.WriteUInt16((UInt16)val); } break; case EntityType.INT32: if
-		 * (isArray) { msWriter.WriteInt32Array((Int32[])val); } else {
-		 * msWriter.WriteInt32((Int32)val); } break; case EntityType.DECIMAL: if
-		 * (isArray) { msWriter.WriteDeciamlArray((decimal[])val); } else {
-		 * msWriter.WriteDecimal((decimal)val); } break; case EntityType.DOUBLE: if
-		 * (isArray) { msWriter.WriteDoubleArray((double[])val); } else {
-		 * msWriter.WriteDouble((double)val); } break; case EntityType.INT64: if
-		 * (isArray) { msWriter.WriteInt64Array((Int64[])val); } else {
-		 * msWriter.WriteInt64((Int64)val); } break; case EntityType.DATETIME: if
-		 * (isArray) { msWriter.WriteDateTimeArray((DateTime[])val); } else {
-		 * msWriter.WriteDateTime((DateTime)val); } break; case EntityType.BOOL: if
-		 * (isArray) { msWriter.WriteBoolArray((bool[])val); } else {
-		 * msWriter.WriteBool((bool)val); } break; case EntityType.ENUM: if (isArray) {
-		 * Array arr = (Array)val; string[] strarr = new string[arr.Length]; for (int i
-		 * = 0; i < arr.Length; i++) { strarr[i] = arr.GetValue(i).ToString(); }
-		 * msWriter.WriteStringArray(strarr); } else {
-		 * msWriter.WriteString(val.ToString()); } break; case EntityType.DICTIONARY: if
-		 * (isArray) { if (val == null) { msWriter.WriteInt32(-1); break; } var dicArray
-		 * = (Array)val; msWriter.WriteInt32(dicArray.Length); for (int i = 0; i <
-		 * dicArray.Length; i++) { Serialize(dicArray.GetValue(i), msWriter); } } else {
-		 * if (val == null) { msWriter.WriteInt32(-1); break; } // IDictionary idic =
-		 * (IDictionary)val; //写入长度 msWriter.WriteInt32(idic.Count); int i = 0; foreach
-		 * (var kv in idic) { object k=kv.Eval("Key"); object v = kv.Eval("Value");
+		 * case EntityType.DICTIONARY: if (isArray) { if (val == null) {
+		 * msWriter.WriteInt32(-1); break; } var dicArray = (Array)val;
+		 * msWriter.WriteInt32(dicArray.Length); for (int i = 0; i < dicArray.Length;
+		 * i++) { Serialize(dicArray.GetValue(i), msWriter); } } else { if (val == null)
+		 * { msWriter.WriteInt32(-1); break; } // IDictionary idic = (IDictionary)val;
+		 * //写入长度 msWriter.WriteInt32(idic.Count); int i = 0; foreach (var kv in idic) {
+		 * object k=kv.Eval("Key"); object v = kv.Eval("Value");
 		 * 
 		 * Serialize(k, msWriter); Serialize(v, msWriter); i++; } } break; case
 		 * EntityType.LIST: if (isArray) { if (val == null) { msWriter.WriteInt32(-1);

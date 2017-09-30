@@ -208,4 +208,11 @@ public class Person {
 			return newone;
 		}
 	}
+
+	public static void TestEnumArray() {
+		ArrayTypeFlag[] flags = new ArrayTypeFlag[] { ArrayTypeFlag.ShortLen, ArrayTypeFlag.ByteLen };
+		for (Object f : (Object[]) ((Object) flags)) {
+			System.out.println("aa " + f.toString());
+		}
+	}
 }

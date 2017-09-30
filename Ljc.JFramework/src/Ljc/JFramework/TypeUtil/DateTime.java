@@ -21,10 +21,14 @@ public class DateTime extends Date {
 	}
 
 	public double ToOadate() {
-		long days = (this.getTime() - OADateBegin.getTime()) / DayMills;
+		return ToOADate((Date) this);
+	}
+
+	public static double ToOADate(Date d) {
+		long days = (d.getTime() - OADateBegin.getTime()) / DayMills;
 		TimeZone tz = TimeZone.getDefault();
 
-		double daypart = (this.getTime() + tz.getRawOffset()) % DayMills * 1.0 / DayMills;
+		double daypart = (d.getTime() + tz.getRawOffset()) % DayMills * 1.0 / DayMills;
 		return days + daypart;
 	}
 
