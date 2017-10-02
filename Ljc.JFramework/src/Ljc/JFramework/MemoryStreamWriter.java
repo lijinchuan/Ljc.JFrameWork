@@ -194,7 +194,7 @@ public class MemoryStreamWriter {
 	}
 
 	public void WriteUInt16(UInt16 num) {
-		if (num.getVal() == 0) {
+		if (num == null || num.getVal() == 0) {
 			_ms.write((byte) UShrotTypeEnum.Zero.getVal());
 			return;
 		}
@@ -225,6 +225,23 @@ public class MemoryStreamWriter {
 		}
 	}
 
+	public void WriteChar(char num) throws IOException {
+		_ms.write(Ljc.JFramework.Utility.BitConverter.GetBytes(num));
+	}
+
+	public void WriteCharArray(char[] numArray) throws IOException {
+		if (numArray == null) {
+			_ms.write(bytesNull, 0, 4);
+			return;
+		}
+
+		int len = numArray.length;
+		WriteInt32(len);
+		for (char i : numArray) {
+			WriteChar(i);
+		}
+	}
+
 	public void WriteInt32Array(int[] numArray) {
 		if (numArray == null) {
 			_ms.write((byte) ArrayTypeFlag.NULL.getVal());
@@ -252,7 +269,7 @@ public class MemoryStreamWriter {
 	}
 
 	public void WriteDecimal(BigDecimal data) {
-		if (data == BigDecimal.ZERO) {
+		if (data == null || data == BigDecimal.ZERO) {
 			_ms.write((byte) DecimalTypeFlag.Zero.getVal());
 			return;
 		}
@@ -313,6 +330,24 @@ public class MemoryStreamWriter {
 		_ms.write(BitConverter.GetBytes(data.length), 0, 4);
 		for (BigDecimal d : data) {
 			WriteDecimal(d);
+		}
+	}
+
+	public void WriteFloat(float data) {
+		byte[] bytes = BitConverter.GetBytes(data);
+
+		_ms.write(bytes, 0, bytes.length);
+	}
+
+	public void WriteFloatArray(float[] data) {
+		if (data == null || data.length == 0) {
+			WriteInt32(-1);
+			// WriteInt32(bytesNull, 0, 4);
+			return;
+		}
+		WriteInt32(data.length);
+		for (float d : data) {
+			WriteFloat(d);
 		}
 	}
 
@@ -501,5 +536,9 @@ public class MemoryStreamWriter {
 
 		// byte[] bts = BitConverter.GetBytes(boo);
 		// _ms.Write(bts, 0, bts.Length);
+	}
+
+	public byte[] GetBytes() {
+		return this._ms.toByteArray();
 	}
 }

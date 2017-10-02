@@ -60,7 +60,7 @@ public class Person {
 	}
 
 	public UInt16 getUint16() {
-		return this.getUint16();
+		return this._uint16;
 	}
 
 	public void setUint16(UInt16 val) {

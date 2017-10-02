@@ -25,6 +25,10 @@ public class DateTime extends Date {
 	}
 
 	public static double ToOADate(Date d) {
+		if (d == null) {
+			return 0;
+		}
+
 		long days = (d.getTime() - OADateBegin.getTime()) / DayMills;
 		TimeZone tz = TimeZone.getDefault();
 

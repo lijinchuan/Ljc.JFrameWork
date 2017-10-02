@@ -1,39 +1,49 @@
 package Ljc.JFramework;
 
-import java.util.Properties;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 class PropertyInfoEx {
-	private Properties _propertyInfo;
-	private Boolean _isSetSetValueMethed = false;
+	private Field _propertyInfo;
+	private Boolean _isSetSetValueMethod = false;
 
-	public void setPropertyInfo(Properties prop) {
+	private Method _setValueMethod = null;
+	private Method _getValueMethod = null;
+
+	public void setPropertyInfo(Field prop) {
 		this._propertyInfo = prop;
 	}
 
-	public Properties getPropertyInfo() {
+	public Field getPropertyInfo() {
 		return _propertyInfo;
 
 	}
 
-	public PropertyInfoEx(Properties prop) {
+	public PropertyInfoEx(Field prop) {
 		_propertyInfo = prop;
 	}
 
 	private void setIsSetSetValueMethed(Boolean boo) {
-		this._isSetSetValueMethed = boo;
+		this._isSetSetValueMethod = boo;
 	}
 
-	public Boolean getIsSetSetValueMethed() {
-		return this._isSetSetValueMethed;
+	public Boolean getIsSetSetValueMethod() {
+		return this._isSetSetValueMethod;
 	}
 
-	/*
-	 * private Action<Object, Object> _setvaluemethed; public Action<object, object>
-	 * SetValueMethed { get { return _setvaluemethed; } internal set {
-	 * IsSetSetValueMethed = true; _setvaluemethed = value; } }
-	 * 
-	 * private Func<object, object> _getValueMethed; public Func<object, object>
-	 * GetValueMethed { get { return _getValueMethed; } internal set {
-	 * _getValueMethed = value; IsSetGetValueMethed = true; } }
-	 */
+	public void setSetValueMethod(Method m) {
+		this._setValueMethod = m;
+	}
+
+	public Method GetSetValueMethod() {
+		return this._setValueMethod;
+	}
+
+	public void setGetValueMethod(Method m) {
+		this._getValueMethod = m;
+	}
+
+	public Method getGetValueMethod() {
+		return this._getValueMethod;
+	}
 }

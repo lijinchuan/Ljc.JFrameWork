@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Ljc.JFramework.TypeUtil.DateTime"%>
@@ -22,6 +23,7 @@
 <body>
 <%
   PrintWriter pw=response.getWriter();
+
   //EntityBufCore.Serialize(new Person(), null);
   //EntityBufCore.TestSerialize((short)126);
   
@@ -30,7 +32,19 @@
 	  pw.write(String.valueOf(b&255)+" ");
   }
    */
-  Person.TestEnumArray();
+  
+   Person ps=new Person();
+   ps.setAge(120);
+   ps.setBigDecimal(BigDecimal.TEN);
+   ps.setDate(new Date(132324321));
+   ps.setName("中化人人人从一个孙");
+   
+   byte[] bytes= EntityBufCore.Serialize((Object)ps);
+   
+   for(byte bt:bytes){
+	   pw.write(String.valueOf(bt&255)+" ");
+   }
+   
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    
 /*   Person p=new Person();

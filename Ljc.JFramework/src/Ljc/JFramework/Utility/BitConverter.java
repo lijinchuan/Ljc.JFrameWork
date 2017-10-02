@@ -15,10 +15,22 @@ public class BitConverter {
 		return buffer.array();
 	}
 
+	public static long GetLong(byte[] value) {
+		ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.nativeOrder());
+		buffer.put(value);
+		return buffer.getLong();
+	}
+
 	public static byte[] GetBytes(int value) {
 		ByteBuffer buffer = ByteBuffer.allocate(4).order(ByteOrder.nativeOrder());
 		buffer.putInt(value);
 		return buffer.array();
+	}
+
+	public static int GetInt(byte[] value) {
+		ByteBuffer buffer = ByteBuffer.allocate(4).order(ByteOrder.nativeOrder());
+		buffer.put(value);
+		return buffer.getInt();
 	}
 
 	public static byte[] GetBytes(String value) throws UnsupportedEncodingException {
@@ -32,10 +44,20 @@ public class BitConverter {
 		return buffer.array();
 	}
 
+	public static String GetString(byte[] value) {
+		return new String(value);
+	}
+
 	public static byte[] GetBytes(double value) {
 		ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.nativeOrder());
 		buffer.putDouble(value);
 		return buffer.array();
+	}
+
+	public static double GetDouble(byte[] value) {
+		ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.nativeOrder());
+		buffer.put(value);
+		return buffer.getDouble();
 	}
 
 	public static byte[] GetBytes(float value) {
@@ -50,10 +72,22 @@ public class BitConverter {
 		return buffer.array();
 	}
 
+	public static short GetShort(byte[] value) {
+		ByteBuffer buffer = ByteBuffer.allocate(2).order(ByteOrder.nativeOrder());
+		buffer.put(value);
+		return buffer.getShort();
+	}
+
 	public static byte[] GetBytes(char value) {
 		ByteBuffer buffer = ByteBuffer.allocate(2).order(ByteOrder.nativeOrder());
 		buffer.putChar(value);
 		return buffer.array();
+	}
+
+	public static char GetChar(byte[] value) {
+		ByteBuffer buffer = ByteBuffer.allocate(2).order(ByteOrder.nativeOrder());
+		buffer.put(value);
+		return buffer.getChar();
 	}
 
 	public static byte[] GetBytes(Date value) throws Exception {
@@ -61,6 +95,14 @@ public class BitConverter {
 		ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.nativeOrder());
 		buffer.putLong(timelong);
 		return buffer.array();
+	}
+
+	public static Date GetDate(byte[] value) {
+		ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.nativeOrder());
+		buffer.put(value);
+		long timestamp = buffer.getLong();
+
+		return new Date(timestamp);
 	}
 
 	public static byte[] GetBytes(boolean value) {
