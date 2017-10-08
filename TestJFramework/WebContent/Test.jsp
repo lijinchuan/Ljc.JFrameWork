@@ -1,3 +1,7 @@
+<%@page import="java.lang.reflect.Parameter"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.lang.reflect.ParameterizedType"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -24,6 +28,29 @@
 <%
   PrintWriter pw=response.getWriter();
 
+Map<String,String> hm=new HashMap<String,String>();
+hm.put("s", "c");
+
+if (ParameterizedType.class.isAssignableFrom(hm.getClass().getGenericSuperclass().getClass())) {  
+    System.out.print("getActualTypeArguments:");  
+    for (java.lang.reflect.Type t1 : ((ParameterizedType) hm.getClass().getGenericSuperclass()).getActualTypeArguments()) {  
+        System.out.print(t1+ ",");  
+    }  
+    System.out.println();  
+    
+    
+}  
+
+for(Method m:hm.getClass().getMethods())
+{
+	if(m.getName()=="put"&&m.getParameterCount()==2){
+		for(Class<?> c:m.getParameterTypes()){
+			System.out.print(c.getSimpleName());
+		}
+		
+	}
+}
+  
   //EntityBufCore.Serialize(new Person(), null);
   //EntityBufCore.TestSerialize((short)126);
   
