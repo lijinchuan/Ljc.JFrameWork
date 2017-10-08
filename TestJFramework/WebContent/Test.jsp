@@ -41,14 +41,14 @@ if (ParameterizedType.class.isAssignableFrom(hm.getClass().getGenericSuperclass(
     
 }  
 
-for(Method m:hm.getClass().getMethods())
-{
-	if(m.getName()=="put"&&m.getParameterCount()==2){
-		for(Class<?> c:m.getParameterTypes()){
-			System.out.print(c.getSimpleName());
-		}
-		
-	}
+Method m = Person.class.getMethod("applyHashMap", HashMap.class);
+java.lang.reflect.Type[] type = m.getGenericParameterTypes();
+for(int i=0; i<type.length; i++) {
+    ParameterizedType pt =  (ParameterizedType)type[i];
+    java.lang.reflect.Type[] temp = pt.getActualTypeArguments();
+    for(int j=0; j<temp.length; j++) {
+        System.out.println(temp[j]);
+    }
 }
   
   //EntityBufCore.Serialize(new Person(), null);
