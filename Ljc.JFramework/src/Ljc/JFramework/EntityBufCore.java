@@ -562,7 +562,7 @@ public class EntityBufCore {
 			if (isArray) {
 				return msReader.ReadInt16Array();
 			} else {
-				return msReader.ReadRedirectInt16();
+				return msReader.ReadInt16();
 			}
 		case USHORT:
 			if (isArray) {
@@ -686,14 +686,14 @@ public class EntityBufCore {
 				return arr;
 			}
 		default:
-			throw new Exception("反序列化错误");
+			throw new Exception("反序列化错误:" + buftype.getEntityType().toString());
 		}
 	}
 
 	private static Object DeSerialize(Class DestType, MemoryStreamReader msReader) throws Exception {
 
-		EntityBufTypeFlag firstByte = EntityBufTypeFlag.values()[(int) msReader.ReadByte()];
-		if ((firstByte.getVal() & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
+		int firstByte = (int) msReader.ReadByte();
+		if ((firstByte & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
 			return null;
 		}
 
@@ -758,5 +758,20 @@ public class EntityBufCore {
 		}
 
 		return ret;
+	}
+
+	public static <T> T DeSerialize(Class<T> c, byte[] bytes, boolean compress) throws Exception {
+		java.io.ByteArrayInputStream bs = null;
+		try {
+
+			bs = new java.io.ByteArrayInputStream(bytes);
+			Ljc.JFramework.MemoryStreamReader reader = new Ljc.JFramework.MemoryStreamReader(bs);
+			Object obj = DeSerialize(c, reader);
+			return (T) obj;
+		} finally {
+			if (bs != null) {
+				bs.close();
+			}
+		}
 	}
 }

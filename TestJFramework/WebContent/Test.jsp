@@ -27,30 +27,6 @@
 <body>
 <%
   PrintWriter pw=response.getWriter();
-
-Map<String,String> hm=new HashMap<String,String>();
-hm.put("s", "c");
-
-if (ParameterizedType.class.isAssignableFrom(hm.getClass().getGenericSuperclass().getClass())) {  
-    System.out.print("getActualTypeArguments:");  
-    for (java.lang.reflect.Type t1 : ((ParameterizedType) hm.getClass().getGenericSuperclass()).getActualTypeArguments()) {  
-        System.out.print(t1+ ",");  
-    }  
-    System.out.println();  
-    
-    
-}  
-
-
-Method m = Person.class.getMethod("applyHashMap", HashMap.class);
-java.lang.reflect.Type[] type = m.getGenericParameterTypes();
-for(int i=0; i<type.length; i++) {
-    ParameterizedType pt =  (ParameterizedType)type[i];
-    java.lang.reflect.Type[] temp = pt.getActualTypeArguments();
-    for(int j=0; j<temp.length; j++) {
-        System.out.println(temp[j]);
-    }
-}
   
   //EntityBufCore.Serialize(new Person(), null);
   //EntityBufCore.TestSerialize((short)126);
@@ -63,6 +39,7 @@ for(int i=0; i<type.length; i++) {
   
    Person ps=new Person();
    ps.setAge(120);
+   ps.setShort((short)31055);
    ps.setBigDecimal(BigDecimal.TEN);
    ps.setDate(new Date(132324321));
    ps.setName("中化人人人从一个孙");
@@ -72,6 +49,8 @@ for(int i=0; i<type.length; i++) {
    for(byte bt:bytes){
 	   pw.write(String.valueOf(bt&255)+" ");
    }
+   
+   Person dcp=EntityBufCore.DeSerialize(Person.class, bytes, true);
    
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    
