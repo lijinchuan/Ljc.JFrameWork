@@ -487,30 +487,6 @@ public class EntityBufCore {
 			}
 		}
 
-		/*
-		 * Class<?> cls = o.getClass();
-		 * 
-		 * for (Field f : cls.getDeclaredFields()) { String fieldname = f.getName(); if
-		 * (fieldname.startsWith("_")) { fieldname = fieldname.substring(1); } fieldname
-		 * = StringUtil.captureName(fieldname);
-		 * 
-		 * Method getMethod = ReflectUtil.GetMethod(cls, "get" + fieldname, null);
-		 * Method setMethod = ReflectUtil.GetMethod(cls, "set" + fieldname,
-		 * ReflectUtil.GetFieldType(f));
-		 * 
-		 * if (getMethod == null || setMethod == null) { continue; }
-		 * System.out.println("----------------------------------");
-		 * System.out.println(fieldname); System.out.println("是否是基础类型：" +
-		 * f.getType().isPrimitive()); System.out.println("是否数组:" +
-		 * f.getType().isArray()); System.out.println("类型名称:" + f.getType().getName());
-		 * System.out.println("类型名称(getSimpleName):" + f.getType().getSimpleName());
-		 * System.out.println("类型名称(getTypeName):" + f.getType().getTypeName());
-		 * System.out.println("是否枚举:" + f.getType().isEnum());
-		 * 
-		 * if (f.getType().isArray()) { System.out.println("数组类型:" +
-		 * f.getType().getComponentType().getTypeName()); } }
-		 */
-
 	}
 
 	private static Tuple<Type, Type> GetDirctionaryKeyValueType(EntityBufType iDicType) {
@@ -746,7 +722,7 @@ public class EntityBufCore {
 								objs[i] = DeSerialize(buftype.GetItem1().getClassType(), msReader);
 							}
 						}
-						if (!objs.equals(buftype.GetItem1().getDefaultValue())) {
+						if (objs != null && !objs.equals(buftype.GetItem1().getDefaultValue())) {
 							// ret.SetValue(buftype.Item1.Property, objs);
 							buftype.GetItem1().getProperty().GetSetValueMethod().invoke(ret, objs);
 						}
@@ -759,14 +735,14 @@ public class EntityBufCore {
 						continue;
 					} else {
 						Object val = DeSerialize(buftype.GetItem1().getClassType(), msReader);
-						if (!val.equals(buftype.GetItem1().getDefaultValue())) {
+						if (val != null && !val.equals(buftype.GetItem1().getDefaultValue())) {
 							buftype.GetItem1().getProperty().GetSetValueMethod().invoke(ret, val);
 						}
 					}
 				}
 			} else {
 				Object val = DeserializeSimple(buftype.GetItem1(), isArray, msReader);
-				if (!val.equals(buftype.GetItem1().getDefaultValue())) {
+				if (val != null && !val.equals(buftype.GetItem1().getDefaultValue())) {
 					// ret.SetValue(buftype.Item1.Property, val);
 					buftype.GetItem1().getProperty().GetSetValueMethod().invoke(ret, val);
 				}
