@@ -43,14 +43,18 @@
    ps.setBigDecimal(BigDecimal.TEN);
    ps.setDate(new Date(132324321));
    ps.setName("中化人人人从一个孙");
+   HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
+   map.put(123, 9987);
+   ps.setDic(map);
    
    byte[] bytes= EntityBufCore.Serialize((Object)ps);
+   
+   Person dcp=EntityBufCore.DeSerialize(Person.class, bytes, true);
    
    for(byte bt:bytes){
 	   pw.write(String.valueOf(bt&255)+" ");
    }
-   
-   Person dcp=EntityBufCore.DeSerialize(Person.class, bytes, true);
+  
    
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    

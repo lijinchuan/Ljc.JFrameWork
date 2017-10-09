@@ -64,6 +64,7 @@ public class EntityBufCore {
 			ebtype.setDefaultValue(_defaultUShort);
 			break;
 		case "int":
+		case "java.lang.Integer":
 			ebtype.setEntityType(EntityType.INT32);
 			ebtype.setDefaultValue(_defaultInt);
 			break;
@@ -603,11 +604,18 @@ public class EntityBufCore {
 
 				Object[] arr = new Object[strarray.length];
 				for (int i = 0; i < strarray.length; i++) {
-					arr[i] = Enum.valueOf(buftype.getClassType(), strarray[i]);
+					if (!StringUtil.isNullOrEmpty(strarray[i])) {
+						arr[i] = Enum.valueOf(buftype.getClassType(), strarray[i]);
+					}
 				}
 				return arr;
 			} else {
-				return Enum.valueOf(buftype.getClassType(), msReader.ReadString());
+				String str = msReader.ReadString();
+				if (!StringUtil.isNullOrEmpty(str)) {
+					return Enum.valueOf(buftype.getClassType(), msReader.ReadString());
+				} else {
+					return null;
+				}
 			}
 		case DICTIONARY:
 			if (isArray) {
@@ -631,8 +639,8 @@ public class EntityBufCore {
 				Tuple<Type, Type> keyvaluetype = GetDirctionaryKeyValueType(buftype);
 
 				for (int i = 0; i < dicLen; i++) {
-					idic.put(DeSerialize(keyvaluetype.GetItem1().getClass(), msReader),
-							DeSerialize(keyvaluetype.GetItem2().getClass(), msReader));
+					idic.put(DeSerialize(Class.forName(keyvaluetype.GetItem1().getTypeName()), msReader),
+							DeSerialize(Class.forName(keyvaluetype.GetItem2().getTypeName()), msReader));
 				}
 
 				return idic;

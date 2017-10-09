@@ -9,4 +9,18 @@ public class StringUtil {
 		cs[0] -= 32;
 		return String.valueOf(cs);
 	}
+
+	public static boolean isNullOrEmpty(String str) {
+		if (str == null) {
+			return true;
+		}
+
+		for (char ch : str.toCharArray()) {
+			if (ch != ' ') {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
