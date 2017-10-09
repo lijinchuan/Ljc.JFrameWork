@@ -41,6 +41,7 @@ if (ParameterizedType.class.isAssignableFrom(hm.getClass().getGenericSuperclass(
     
 }  
 
+
 Method m = Person.class.getMethod("applyHashMap", HashMap.class);
 java.lang.reflect.Type[] type = m.getGenericParameterTypes();
 for(int i=0; i<type.length; i++) {

@@ -2,8 +2,11 @@ package Ljc.JFramework;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.HashMap;
@@ -510,6 +513,27 @@ public class EntityBufCore {
 
 	}
 
+	private static Tuple<Type, Type> GetDirctionaryKeyValueType(EntityBufType iDicType) {
+		PropertyInfoEx pop = iDicType.getProperty();
+		if (pop == null) {
+			return null;
+		}
+		Method method = pop.GetSetValueMethod();
+		if (method == null) {
+			return null;
+		}
+		Type[] types = method.getGenericParameterTypes();
+		if (types == null || types.length == 0) {
+			return null;
+		}
+		ParameterizedType pt = (ParameterizedType) types[0];
+		Type[] args = pt.getActualTypeArguments();
+		if (args == null || args.length != 2) {
+			return null;
+		}
+		return new Tuple<Type, Type>(args[0], args[1]);
+	}
+
 	private static Object DeserializeSimple(EntityBufType buftype, boolean isArray, MemoryStreamReader msReader)
 			throws Exception {
 		if (buftype.getEntityType() == EntityType.COMPLEX) {
@@ -610,43 +634,63 @@ public class EntityBufCore {
 				if (dicLen == -1) {
 					return null;
 				}
-				Map idic = new HashMap<Object, Object>();
-				// idic.keySet().getClass()
-				// var keyvaluetype = GetDirctionaryKeyValueType(buftype.ValueType);
+
+				Map idic = (Map) buftype.getClassType().newInstance();
+				Tuple<Type, Type> keyvaluetype = GetDirctionaryKeyValueType(buftype);
 
 				for (int i = 0; i < dicLen; i++) {
-					// idic.Add(DeSerialize(keyvaluetype[0], msReader), DeSerialize(keyvaluetype[1],
-					// msReader));
+					idic.put(DeSerialize(keyvaluetype.GetItem1().getClass(), msReader),
+							DeSerialize(keyvaluetype.GetItem2().getClass(), msReader));
 				}
 
 				return idic;
 			}
-			/*
-			 * case LIST: if (isArray) { int listarrlen = msReader.ReadInt32(); if
-			 * (listarrlen == -1) return null; var listArray = (Array)
-			 * Activator.CreateInstance(buftype.ValueType, listarrlen); for (int i = 0; i <
-			 * listarrlen; i++) { listArray.SetValue(DeSerialize(buftype.ClassType,
-			 * msReader), i); } return listArray; } else { var listlen =
-			 * msReader.ReadInt32(); if (listlen == -1) return null; var list = (IList)
-			 * Activator.CreateInstance(buftype.ValueType); var listvaluetype =
-			 * GetListValueType(buftype.ValueType); for (int i = 0; i < listlen; i++) {
-			 * list.Add(DeSerialize(listvaluetype, msReader)); } return list; } case ARRAY:
-			 * if (isArray) { var listarrlen = msReader.ReadInt32(); if (listarrlen == -1)
-			 * return null; var listArray = (Array)
-			 * Activator.CreateInstance(buftype.ValueType, listarrlen); for (int i = 0; i <
-			 * listarrlen; i++) { listArray.SetValue(DeSerialize(buftype.ClassType,
-			 * msReader), i); } return listArray; } else { var arrlen =
-			 * msReader.ReadInt32(); if (arrlen == -1) return null; var arr = (Array)
-			 * Activator.CreateInstance(buftype.ValueType, arrlen); var listvaluetype =
-			 * GetListValueType(buftype.ValueType); for (int i = 0; i < arrlen; i++) {
-			 * arr.SetValue(DeSerialize(listvaluetype, msReader), i); } return arr; }
-			 */
+		case LIST:
+			if (isArray) {
+				int listarrlen = msReader.ReadInt32();
+				if (listarrlen == -1)
+					return null;
+				List[] listArray = new LinkedList[listarrlen];
+				for (int i = 0; i < listarrlen; i++) {
+					listArray[i] = (List) DeSerialize(buftype.getValueType(), msReader);
+				}
+				return listArray;
+			} else {
+				int listlen = msReader.ReadInt32();
+				if (listlen == -1)
+					return null;
+				List list = new LinkedList();
+				for (int i = 0; i < listlen; i++) {
+					list.add(DeSerialize(buftype.getValueType(), msReader));
+				}
+				return list;
+			}
+		case ARRAY:
+			if (isArray) {
+				int listarrlen = msReader.ReadInt32();
+				if (listarrlen == -1)
+					return null;
+				Array listArray = (Array) Array.newInstance(buftype.getValueType(), listarrlen);
+				for (int i = 0; i < listarrlen; i++) {
+					Array.set(listArray, i, DeSerialize(buftype.getClassType(), msReader));
+				}
+				return listArray;
+			} else {
+				int arrlen = msReader.ReadInt32();
+				if (arrlen == -1)
+					return null;
+				Array arr = (Array) Array.newInstance(buftype.getValueType(), arrlen);
+				for (int i = 0; i < arrlen; i++) {
+					Array.set(arr, i, DeSerialize(buftype.getValueType(), msReader));
+				}
+				return arr;
+			}
 		default:
 			throw new Exception("反序列化错误");
 		}
 	}
 
-	private static Object DeSerialize(Class DestType, MemoryStreamReader msReader) {
+	private static Object DeSerialize(Class DestType, MemoryStreamReader msReader) throws Exception {
 
 		EntityBufTypeFlag firstByte = EntityBufTypeFlag.values()[(int) msReader.ReadByte()];
 		if ((firstByte.getVal() & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
@@ -656,47 +700,63 @@ public class EntityBufCore {
 		// EntityBufType destTypeBufType = MapBufType(DestType, out isArray);
 		Tuple<EntityBufType, Boolean> touple = GetTypeBufType(DestType);
 		if (touple.GetItem1().getEntityType() != EntityType.COMPLEX) {
-			// return DeserializeSimple(touple.GetItem1(), touple.GetItem2(), msReader);
+			return DeserializeSimple(touple.GetItem1(), touple.GetItem2(), msReader);
 		}
 
-		/*
-		 * bool isArray; object ret = System.Activator.CreateInstance(DestType);
-		 * //PropertyInfo[] props = DestType.GetProperties(); var buftypelist=
-		 * GetTypeEntityBufType(DestType); foreach (var buftype in buftypelist) {
-		 * //EntityBufType buftype = MapBufType(prop.PropertyType, out isArray);
-		 * isArray=buftype.Item2; if (buftype.Item1.EntityType == EntityType.COMPLEX) {
-		 * if (isArray) { int len = msReader.ReadInt32(); if (len == -1) {
-		 * //ret.SetValue(buftype.Item1.Property, null);
-		 * //ret.SetValueDrect(buftype.Item1.Property, null); continue; } else {
-		 * object[] objs =
-		 * (object[])System.Activator.CreateInstance(buftype.Item1.Property.PropertyInfo
-		 * .PropertyType, len);
-		 * 
-		 * for (int i = 0; i < len; i++) { //读下标志 EntityBufTypeFlag
-		 * flag=(EntityBufTypeFlag)msReader.ReadByte(); if ((flag &
-		 * EntityBufTypeFlag.VlaueNull) == EntityBufTypeFlag.VlaueNull) { objs[i] =
-		 * null; } else { //string typefullname = string.Format("{0}, {1}",
-		 * buftype.Item1.Property.PropertyType.FullName.Substring(0,
-		 * buftype.Item1.Property.PropertyType.FullName.LastIndexOf('[')),
-		 * //buftype.Item1.Property.PropertyType.Assembly.FullName); //objs[i] =
-		 * DeSerialize(Type.GetType(typefullname, false, true), msReader); objs[i] =
-		 * DeSerialize(buftype.Item1.ClassType , msReader); }
-		 * 
-		 * } if (!object.Equals(objs, buftype.Item1.DefaultValue)) {
-		 * ret.SetValue(buftype.Item1.Property, objs); } } } else { //读下标志
-		 * EntityBufTypeFlag flag=(EntityBufTypeFlag)msReader.ReadByte(); if ((flag &
-		 * EntityBufTypeFlag.VlaueNull)==EntityBufTypeFlag.VlaueNull) {
-		 * //ret.SetValue(buftype.Item1.Property, null); continue; } else { object val =
-		 * DeSerialize(buftype.Item1.Property.PropertyInfo.PropertyType, msReader); if
-		 * (!object.Equals(val, buftype.Item1.DefaultValue)) {
-		 * ret.SetValue(buftype.Item1.Property, val); } } } } else { object val =
-		 * DeserializeSimple(buftype.Item1, isArray, msReader); if
-		 * (!object.Equals(val,buftype.Item1.DefaultValue)) {
-		 * ret.SetValue(buftype.Item1.Property, val); } } }
-		 */
+		boolean isArray;
+		Object ret = DestType.newInstance();
+		// PropertyInfo[] props = DestType.GetProperties();
+		List<Tuple<EntityBufType, Boolean>> buftypelist = GetTypeEntityBufType(DestType);
+		for (Tuple<EntityBufType, Boolean> buftype : buftypelist) {
+			// EntityBufType buftype = MapBufType(prop.PropertyType, out isArray);
+			isArray = buftype.GetItem2();
+			if (buftype.GetItem1().getEntityType() == EntityType.COMPLEX) {
+				if (isArray) {
+					int len = msReader.ReadInt32();
+					if (len == -1) {
+						// ret.SetValue(buftype.Item1.Property, null);
+						// ret.SetValueDrect(buftype.Item1.Property, null);
+						continue;
+					} else {
+						Object[] objs = (Object[]) Array.newInstance(buftype.GetItem1().getClassType(), len);
 
-		// return ret;
+						for (int i = 0; i < len; i++) {
+							// 读下标志
+							int flag = msReader.ReadByte();
+							if ((flag & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
+								objs[i] = null;
+							} else {
 
-		return null;
+								objs[i] = DeSerialize(buftype.GetItem1().getClassType(), msReader);
+							}
+						}
+						if (!objs.equals(buftype.GetItem1().getDefaultValue())) {
+							// ret.SetValue(buftype.Item1.Property, objs);
+							buftype.GetItem1().getProperty().GetSetValueMethod().invoke(ret, objs);
+						}
+					}
+				} else { // 读下标志
+					int flag = msReader.ReadByte();
+					if ((flag & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
+						// ret.SetValue(buftype.Item1.Property, null);
+						buftype.GetItem1().getProperty().GetSetValueMethod().invoke(ret, null);
+						continue;
+					} else {
+						Object val = DeSerialize(buftype.GetItem1().getClassType(), msReader);
+						if (!val.equals(buftype.GetItem1().getDefaultValue())) {
+							buftype.GetItem1().getProperty().GetSetValueMethod().invoke(ret, val);
+						}
+					}
+				}
+			} else {
+				Object val = DeserializeSimple(buftype.GetItem1(), isArray, msReader);
+				if (!val.equals(buftype.GetItem1().getDefaultValue())) {
+					// ret.SetValue(buftype.Item1.Property, val);
+					buftype.GetItem1().getProperty().GetSetValueMethod().invoke(ret, val);
+				}
+			}
+		}
+
+		return ret;
 	}
 }
