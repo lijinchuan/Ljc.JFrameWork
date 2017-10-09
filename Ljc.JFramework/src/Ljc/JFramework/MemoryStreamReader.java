@@ -358,4 +358,72 @@ public class MemoryStreamReader {
 		return _reader.read() != 0;
 	}
 
+	public float ReadRedirectFloat() {
+		return BitConverter.GetFloat(this.ReadBytes(4));
+	}
+
+	public float[] ReadFloatArray() {
+		int len = this.ReadInt32();
+		if (len == -1)
+			return null;
+		float[] arr = new float[len];
+		for (int i = 0; i < len; i++) {
+			arr[i] = ReadRedirectFloat();
+		}
+		return arr;
+	}
+
+	public BigDecimal ReadDecimal() {
+		int flag = _reader.read();
+		if (flag == DecimalTypeFlag.Zero.getVal()) {
+			return _defaultDecimal;
+		}
+		boolean isMinus = (flag & DecimalTypeFlag.Minus.getVal()) == DecimalTypeFlag.Minus.getVal();
+
+		BigDecimal ret;
+		if ((flag & DecimalTypeFlag.ByteVal.getVal()) == DecimalTypeFlag.ByteVal.getVal()) {
+			ret = BigDecimal.valueOf(_reader.read());
+		} else if ((flag & DecimalTypeFlag.ShortVal.getVal()) == DecimalTypeFlag.ShortVal.getVal()) {
+			ret = BigDecimal.valueOf(this.ReadUInt16().getVal());
+		} else if ((flag & DecimalTypeFlag.IntVal.getVal()) == DecimalTypeFlag.IntVal.getVal()) {
+			ret = BigDecimal.valueOf(this.ReadRedirectUInt32());
+		} else if ((flag & DecimalTypeFlag.Int64Val.getVal()) == DecimalTypeFlag.Int64Val.getVal()) {
+			ret = BigDecimal.valueOf(this.ReadRedirectInt64());
+		} else if ((flag & DecimalTypeFlag.FloatVal.getVal()) == DecimalTypeFlag.FloatVal.getVal()) {
+			ret = BigDecimal.valueOf(ReadRedirectFloat());
+		} else {
+			ret = BigDecimal.valueOf(this.ReadRedirectDouble());
+		}
+		if (isMinus) {
+			ret = ret.multiply(BigDecimal.valueOf(-1));
+		}
+		return ret;
+	}
+
+	public BigDecimal[] ReadDeciamlArray() {
+		int len = this.ReadInt32();
+		if (len == -1)
+			return null;
+		BigDecimal[] arr = new BigDecimal[len];
+		for (int i = 0; i < len; i++) {
+			arr[i] = this.ReadDecimal();
+		}
+		return arr;
+	}
+
+	public char ReadRedirectChar() {
+		return BitConverter.GetChar(this.ReadBytes(2));
+	}
+
+	public char[] ReadCharArray() {
+		int len = this.ReadInt32();
+		if (len == -1)
+			return null;
+		char[] arr = new char[len];
+		for (int i = 0; i < len; i++) {
+			arr[i] = ReadRedirectChar();
+		}
+		return arr;
+	}
+
 }

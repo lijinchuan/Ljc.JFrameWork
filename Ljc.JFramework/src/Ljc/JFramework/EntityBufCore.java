@@ -557,6 +557,12 @@ public class EntityBufCore {
 			} else {
 				return msReader.ReadString();
 			}
+		case CHAR:
+			if (isArray) {
+				return msReader.ReadCharArray();
+			} else {
+				return msReader.ReadRedirectChar();
+			}
 		case SHORT:
 		case INT16:
 			if (isArray) {
@@ -589,10 +595,20 @@ public class EntityBufCore {
 			} else {
 				return msReader.ReadRedirectDouble();
 			}
-			/*
-			 * case DECIMAL: if (isArray) { return msReader.ReadDeciamlArray(); } else {
-			 * return msReader.ReadDecimal(); }
-			 */
+		case FLOAT:
+			if (isArray) {
+				return msReader.ReadFloatArray();
+			} else {
+				return msReader.ReadRedirectFloat();
+			}
+
+		case DECIMAL:
+			if (isArray) {
+				return msReader.ReadDeciamlArray();
+			} else {
+				return msReader.ReadDecimal();
+			}
+
 		case DATETIME:
 			if (isArray) {
 				return msReader.ReadDateTimeArray();

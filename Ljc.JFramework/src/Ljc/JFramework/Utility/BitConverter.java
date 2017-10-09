@@ -73,6 +73,13 @@ public class BitConverter {
 		return buffer.array();
 	}
 
+	public static float GetFloat(byte[] val) {
+		ByteBuffer buffer = ByteBuffer.allocate(4).order(ByteOrder.nativeOrder());
+		buffer.put(val);
+		buffer.position(0);
+		return buffer.getFloat();
+	}
+
 	public static byte[] GetBytes(short value) {
 		ByteBuffer buffer = ByteBuffer.allocate(2).order(ByteOrder.nativeOrder());
 		buffer.putShort(value);
