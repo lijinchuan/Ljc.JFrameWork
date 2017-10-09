@@ -38,18 +38,11 @@ public class BitConverter {
 	}
 
 	public static byte[] GetBytes(String value) throws UnsupportedEncodingException {
-		ByteBuffer buffer = ByteBuffer.allocate(value.toCharArray().length).order(ByteOrder.nativeOrder());
-
-		for (char ch : value.toCharArray()) {
-			// buffer.put((byte) ((ch >> 8) & 255));
-			buffer.put((byte) ch);
-		}
-		buffer.position(0);
-		return buffer.array();
+		return value.getBytes("utf-8");
 	}
 
-	public static String GetString(byte[] value) {
-		return new String(value);
+	public static String GetString(byte[] value) throws UnsupportedEncodingException {
+		return new String(value, "utf-8");
 	}
 
 	public static byte[] GetBytes(double value) {

@@ -16,12 +16,12 @@
 <%@page import="java.lang.reflect.Method"%>
 <%@page import="java.lang.reflect.Field"%>
 <%@page import="Ljc.JFramework.*"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -42,7 +42,7 @@
    ps.setShort((short)31055);
    ps.setBigDecimal(BigDecimal.TEN);
    ps.setDate(new Date(132324321));
-   ps.setName("中化人人人从一个孙");
+   ps.setName("不好600031.sz");
    HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
    map.put(123, 9987);
    ps.setDic(map);
@@ -50,6 +50,8 @@
    byte[] bytes= EntityBufCore.Serialize((Object)ps);
    
    Person dcp=EntityBufCore.DeSerialize(Person.class, bytes, true);
+   pw.write(dcp.getName());
+   pw.write("<br/>");
    
    for(byte bt:bytes){
 	   pw.write(String.valueOf(bt&255)+" ");

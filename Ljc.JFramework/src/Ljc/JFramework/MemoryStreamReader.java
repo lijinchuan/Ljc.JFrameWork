@@ -137,7 +137,9 @@ public class MemoryStreamReader {
 		// }
 
 		byte[] bytes = ReadBytes(readlen);
-		return new String(bytes);
+		// return new String(bytes);
+
+		return BitConverter.GetString(bytes);
 	}
 
 	public String[] ReadStringArray() throws Exception {
