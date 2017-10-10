@@ -1,0 +1,52 @@
+package Ljc.JFramework.Utility;
+
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class ProcessTraceUtil {
+	private static ConcurrentHashMap<Long, Queue<Tuple<String, Long>>> TraceDic = new ConcurrentHashMap<Long, Queue<Tuple<String, Long>>>();
+
+	public static void StartTrace() {
+		long threadid = Thread.currentThread().getId();
+		Queue<Tuple<String, Long>> queue = TraceDic.getOrDefault(threadid, null);
+		if (queue == null) {
+			queue = new LinkedBlockingQueue<Tuple<String, Long>>();
+			TraceDic.put(threadid, queue);
+		} else {
+			queue.clear();
+		}
+		Trace("start");
+	}
+
+	public static void Trace(String message) {
+		long threadid = Thread.currentThread().getId();
+		Queue<Tuple<String, Long>> queue = TraceDic.getOrDefault(threadid, null);
+		if (queue != null) {
+			queue.add(new Tuple<String, Long>(message, System.currentTimeMillis()));
+		}
+	}
+
+	public static String PrintTrace() {
+
+		long traceid = Thread.currentThread().getId();
+
+		Queue<Tuple<String, Long>> queue = TraceDic.getOrDefault(traceid, null);
+		if (queue == null) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+
+		long timeline = 0;
+		Tuple<String, Long> item = null;
+		while ((item = queue.poll()) != null) {
+			if (timeline == 0) {
+				timeline = item.GetItem2();
+			}
+
+			// sb.AppendLine(string.Format("{0}ms: {1}", tp.Item2 - timeline, tp.Item1));
+		}
+
+		return sb.ToString();
+	}
+}
