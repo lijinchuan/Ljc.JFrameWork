@@ -1,3 +1,4 @@
+<%@page import="Ljc.JFramework.Utility.ProcessTraceUtil"%>
 <%@page import="java.lang.reflect.Parameter"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.lang.reflect.ParameterizedType"%>
@@ -36,7 +37,10 @@
 	  pw.write(String.valueOf(b&255)+" ");
   }
    */
-  
+   int i=0;
+   while((i++)<5){
+   ProcessTraceUtil.StartTrace();
+   ProcessTraceUtil.Trace(String.format("%d <br/>", i));
    Person ps=new Person();
    ps.setAge(120);
    ps.setShort((short)31055);
@@ -53,10 +57,12 @@
    li.add(199700);
    ps.setList(li);
    ps.setDic(map);
-   
+   ProcessTraceUtil.Trace("开始序列化");
    byte[] bytes= EntityBufCore.Serialize((Object)ps);
-   
+   ProcessTraceUtil.Trace("序列化完成");
+   ProcessTraceUtil.Trace("开始反序列化");
    Person dcp=EntityBufCore.DeSerialize(Person.class, bytes, true);
+   ProcessTraceUtil.Trace("反序列化完成");
    pw.write(dcp.getName()+"<br/>");
    for(Integer it :dcp.getList()){
 	   pw.write(String.valueOf(it)+"<br/>");
@@ -67,6 +73,8 @@
 	   pw.write(String.valueOf(bt&255)+" ");
    }
   
+   pw.write(ProcessTraceUtil.PrintTrace());
+   }
    
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    

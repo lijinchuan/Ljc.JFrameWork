@@ -43,10 +43,9 @@ public class ProcessTraceUtil {
 			if (timeline == 0) {
 				timeline = item.GetItem2();
 			}
-
-			// sb.AppendLine(string.Format("{0}ms: {1}", tp.Item2 - timeline, tp.Item1));
+			sb.append(String.format("%dms:%s %n", item.GetItem2() - timeline, item.GetItem1()));
 		}
 
-		return sb.ToString();
+		return sb.toString();
 	}
 }
