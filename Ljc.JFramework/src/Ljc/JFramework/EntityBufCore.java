@@ -678,7 +678,7 @@ public class EntityBufCore {
 					return null;
 				List[] listArray = new LinkedList[listarrlen];
 				for (int i = 0; i < listarrlen; i++) {
-					listArray[i] = (List) DeSerialize(buftype.getValueType(), msReader);
+					listArray[i] = (List) DeSerialize(buftype.getClassType(), msReader);
 				}
 				return listArray;
 			} else {
