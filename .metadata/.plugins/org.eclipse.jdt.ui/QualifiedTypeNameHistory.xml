@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.apache.jasper.tagplugins.jstl.core.Out"/>
-<fullyQualifiedTypeName name="java.io.StringBufferInputStream"/>
-<fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
-<fullyQualifiedTypeName name="java.io.BufferedOutputStream"/>
-<fullyQualifiedTypeName name="java.io.PipedOutputStream"/>
-<fullyQualifiedTypeName name="java.io.PipedReader"/>
 <fullyQualifiedTypeName name="java.lang.Boolean"/>
 <fullyQualifiedTypeName name="javax.swing.Action"/>
-<fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
 <fullyQualifiedTypeName name="javax.rmi.CORBA.Util"/>
 <fullyQualifiedTypeName name="java.nio.ByteOrder"/>
 <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
@@ -47,16 +40,24 @@
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.ReflectUtil"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Field"/>
-<fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UShort"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UInt16"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UInt32"/>
 <fullyQualifiedTypeName name="java.lang.Long"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.StringTypeFlag"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.StringUtil"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitConverter"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.EntityBufCore"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.EntityType"/>
+<fullyQualifiedTypeName name="javax.xml.bind.JAXBContext"/>
+<fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.StringUtil"/>
+<fullyQualifiedTypeName name="java.nio.file.FileStore"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
 </qualifiedTypeNameHistroy>
