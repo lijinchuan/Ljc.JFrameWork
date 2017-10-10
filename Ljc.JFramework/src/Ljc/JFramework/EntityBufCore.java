@@ -48,6 +48,7 @@ public class EntityBufCore {
 		if (type.isArray()) {
 			isArray.setData(true);
 			ebtype.setClassType(type.getComponentType());
+			ebtype.setValueType(type.getComponentType());
 		} else {
 			isArray.setData(false);
 			ebtype.setClassType(type);
@@ -385,7 +386,7 @@ public class EntityBufCore {
 		}
 	}
 
-	public static List<Tuple<EntityBufType, Boolean>> GetTypeEntityBufType(Class<?> tp) {
+	public static List<Tuple<EntityBufType, Boolean>> GetTypeEntityBufType(Class<?> tp) throws ClassNotFoundException {
 		if (tp == null)
 			return null;
 
@@ -425,6 +426,9 @@ public class EntityBufCore {
 					prop.setGetValueMethod(getMethod);
 					prop.setSetValueMethod(setMethod);
 					buftype.setProperty(prop);
+					if (buftype.getEntityType() == EntityType.LIST) {
+						buftype.setValueType(EntityBufCore.GetListValueType(buftype));
+					}
 					list.add(new Tuple<EntityBufType, Boolean>(buftype, bool.getData()));
 				}
 
@@ -490,7 +494,29 @@ public class EntityBufCore {
 
 	}
 
-	private static Tuple<Type, Type> GetDirctionaryKeyValueType(EntityBufType iDicType) {
+	private static Class GetListValueType(EntityBufType listype) throws ClassNotFoundException {
+		PropertyInfoEx pop = listype.getProperty();
+		if (pop == null) {
+			return null;
+		}
+		Method method = pop.GetSetValueMethod();
+		if (method == null) {
+			return null;
+		}
+		Type[] types = method.getGenericParameterTypes();
+		if (types == null || types.length == 0) {
+			return null;
+		}
+		ParameterizedType pt = (ParameterizedType) types[0];
+		Type[] args = pt.getActualTypeArguments();
+		if (args == null || args.length != 1) {
+			return null;
+		}
+		return Class.forName(args[0].getTypeName());
+	}
+
+	private static Tuple<Class, Class> GetDirctionaryKeyValueType(EntityBufType iDicType)
+			throws ClassNotFoundException {
 		PropertyInfoEx pop = iDicType.getProperty();
 		if (pop == null) {
 			return null;
@@ -508,7 +534,7 @@ public class EntityBufCore {
 		if (args == null || args.length != 2) {
 			return null;
 		}
-		return new Tuple<Type, Type>(args[0], args[1]);
+		return new Tuple<Class, Class>(Class.forName(args[0].getTypeName()), Class.forName(args[1].getTypeName()));
 	}
 
 	private static Object DeserializeSimple(EntityBufType buftype, boolean isArray, MemoryStreamReader msReader)
@@ -636,11 +662,11 @@ public class EntityBufCore {
 				}
 
 				Map idic = (Map) buftype.getClassType().newInstance();
-				Tuple<Type, Type> keyvaluetype = GetDirctionaryKeyValueType(buftype);
+				Tuple<Class, Class> keyvaluetype = GetDirctionaryKeyValueType(buftype);
 
 				for (int i = 0; i < dicLen; i++) {
-					idic.put(DeSerialize(Class.forName(keyvaluetype.GetItem1().getTypeName()), msReader),
-							DeSerialize(Class.forName(keyvaluetype.GetItem2().getTypeName()), msReader));
+					idic.put(DeSerialize(keyvaluetype.GetItem1(), msReader),
+							DeSerialize(keyvaluetype.GetItem2(), msReader));
 				}
 
 				return idic;

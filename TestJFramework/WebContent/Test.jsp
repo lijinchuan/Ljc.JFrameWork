@@ -45,12 +45,22 @@
    ps.setName("不好600031.sz");
    HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
    map.put(123, 9987);
+   map.put(12345,9985423);
+   java.util.List<Integer> li=new java.util.LinkedList<Integer>();
+   li.add(100);
+   li.add(50);
+   li.add(1997);
+   li.add(199700);
+   ps.setList(li);
    ps.setDic(map);
    
    byte[] bytes= EntityBufCore.Serialize((Object)ps);
    
    Person dcp=EntityBufCore.DeSerialize(Person.class, bytes, true);
-   pw.write(dcp.getName());
+   pw.write(dcp.getName()+"<br/>");
+   for(Integer it :dcp.getList()){
+	   pw.write(String.valueOf(it)+"<br/>");
+   }
    pw.write("<br/>");
    
    for(byte bt:bytes){
