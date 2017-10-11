@@ -1,3 +1,4 @@
+<%@page import="Ljc.JFramework.Utility.EventHandler"%>
 <%@page import="Ljc.JFramework.Utility.ProcessTraceUtil"%>
 <%@page import="java.lang.reflect.Parameter"%>
 <%@page import="java.util.Map"%>
@@ -28,7 +29,7 @@
 <body>
 <%
   PrintWriter pw=response.getWriter();
-  
+  EventHandler eh=new EventHandler();
   //EntityBufCore.Serialize(new Person(), null);
   //EntityBufCore.TestSerialize((short)126);
   
@@ -46,7 +47,10 @@
    ps.setShort((short)31055);
    ps.setBigDecimal(BigDecimal.TEN);
    ps.setDate(new Date(132324321));
-   ps.setName("不好600031.sz");
+   ps.setName("不好600031.sz "+i);
+   
+   eh.addEvent(ps, "print", String.class);
+   
    HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
    map.put(123, 9987);
    map.put(12345,9985423);
@@ -75,6 +79,8 @@
   
    pw.write(ProcessTraceUtil.PrintTrace());
    }
+   
+   eh.notifyX("sss");
    
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    

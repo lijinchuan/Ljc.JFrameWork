@@ -219,4 +219,8 @@ public class Person {
 	public static void applyHashMap(HashMap<String, Integer> map) {
 		// 该方法可以为空
 	}
+
+	public void print(String s) {
+		System.out.println(s);
+	}
 }
