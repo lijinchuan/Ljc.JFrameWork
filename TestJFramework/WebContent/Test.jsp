@@ -38,18 +38,20 @@
 	  pw.write(String.valueOf(b&255)+" ");
   }
    */
-   int i=0;
-   while((i++)<5){
-   ProcessTraceUtil.StartTrace();
-   ProcessTraceUtil.Trace(String.format("%d <br/>", i));
    Person ps=new Person();
    ps.setAge(120);
    ps.setShort((short)31055);
    ps.setBigDecimal(BigDecimal.TEN);
    ps.setDate(new Date(132324321));
+   
+   int i=0;
+   while((i++)<5){
+   ProcessTraceUtil.StartTrace();
+   ProcessTraceUtil.Trace(String.format("%d <br/>", i));
+ 
    ps.setName("不好600031.sz "+i);
    
-   eh.addEvent(ps, "print", String.class);
+   eh.addEvent((Object)ps, "print", String.class);
    
    HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
    map.put(123, 9987);

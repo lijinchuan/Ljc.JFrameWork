@@ -29,6 +29,10 @@ public class Event {
 		return object;
 	}
 
+	public Class[] getParamTypes() {
+		return this.paramTypes;
+	}
+
 	// 执行该 对象的该方法
 	public void invoke(Object... params) throws Exception {
 		if (this.method == null) {
