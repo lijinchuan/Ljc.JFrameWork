@@ -29,7 +29,7 @@
 <body>
 <%
   PrintWriter pw=response.getWriter();
-  EventHandler eh=new EventHandler();
+  Ljc.JFramework.Utility.Action<String> eh=new Ljc.JFramework.Utility.Action<String>();
   //EntityBufCore.Serialize(new Person(), null);
   //EntityBufCore.TestSerialize((short)126);
   
@@ -51,7 +51,7 @@
  
    ps.setName("不好600031.sz "+i);
    
-   eh.addEvent((Object)ps, "print", String.class);
+   eh.addEvent((Object)ps, "print",String.class);
    
    HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
    map.put(123, 9987);
