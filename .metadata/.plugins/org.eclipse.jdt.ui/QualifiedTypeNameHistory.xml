@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.lang.Boolean"/>
-<fullyQualifiedTypeName name="javax.swing.Action"/>
-<fullyQualifiedTypeName name="javax.rmi.CORBA.Util"/>
-<fullyQualifiedTypeName name="java.nio.ByteOrder"/>
 <fullyQualifiedTypeName name="java.nio.charset.Charset"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Person"/>
 <fullyQualifiedTypeName name="java.lang.Object"/>
@@ -47,7 +43,6 @@
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.StringTypeFlag"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitConverter"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.EntityBufCore"/>
@@ -60,4 +55,9 @@
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitConverter"/>
+<fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.ThreadPoolUtil"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.Action"/>
 </qualifiedTypeNameHistroy>

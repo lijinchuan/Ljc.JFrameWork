@@ -18,6 +18,18 @@ public class ThreadPoolUtil {
 		_threadPool = new ThreadPoolExecutor(minPoolSize, maxPoolSize, keepAliveTime, TimeUnit.SECONDS, _poolqueues);
 	}
 
+	public static void SetMaxPoolSize(int value) {
+		if (value > 0) {
+			_threadPool.setMaximumPoolSize(value);
+		}
+	}
+
+	public static void SetCorePoolSize(int value) {
+		if (value > 0) {
+			_threadPool.setCorePoolSize(value);
+		}
+	}
+
 	public static Boolean QueueUserWorkItem(Action run, Object param) throws InterruptedException {
 		if (run == null) {
 			return false;
