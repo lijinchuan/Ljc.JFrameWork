@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.MemoryStreamWriter;
+import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.SocketBase;
 import Ljc.JFramework.Utility.Action;
 import Ljc.JFramework.Utility.BitConverter;
@@ -169,10 +171,14 @@ public class ClientBase extends SocketBase {
 	private void ProcessMessage(byte[] data) {
 		try {
 
-			// Message message = EntityBufCore.DeSerialize < Message > (data);
-			// OnMessage(message);
+			Message message = EntityBufCore.DeSerialize(Message.class, data, true);
+			OnMessage(message);
 		} catch (Exception e) {
 			OnError(e);
 		}
+	}
+
+	protected void OnMessage(Message message) {
+
 	}
 }

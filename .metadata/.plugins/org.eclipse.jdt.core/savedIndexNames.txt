@@ -1,5 +1,4 @@
-INDEX VERSION 1.130+E:\Work\learn\Git\Ljc.JFrameWork\.metadata\.plugins\org.eclipse.jdt.core
-2708912523.index
-1560116978.index
+INDEX VERSION 1.130+D:\GitHub\Ljc.JFrameWork\.metadata\.plugins\org.eclipse.jdt.core
 3640451088.index
 3094340033.index
+1560116978.index
