@@ -1,7 +1,12 @@
 package Ljc.JFramework.Utility;
 
-public class Action<T1> {
-	EventHandler handler = null;
+public class Action<T1> implements Runnable {
+	private EventHandler handler = null;
+	private T1 params = null;
+
+	public void setParams(T1 param) {
+		this.params = param;
+	}
 
 	public Action() {
 		handler = new EventHandler();
@@ -17,5 +22,17 @@ public class Action<T1> {
 
 	public void notifyX(T1 param) throws Exception {
 		this.handler.notifyX(param);
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			this.notifyX(params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

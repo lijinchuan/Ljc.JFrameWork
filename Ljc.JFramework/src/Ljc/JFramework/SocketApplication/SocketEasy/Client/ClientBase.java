@@ -1,12 +1,16 @@
 package Ljc.JFramework.SocketApplication.SocketEasy.Client;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import Ljc.JFramework.SocketApplication.ClientReceiving;
+import Ljc.JFramework.MemoryStreamWriter;
 import Ljc.JFramework.SocketApplication.SocketBase;
 import Ljc.JFramework.Utility.Action;
+import Ljc.JFramework.Utility.BitConverter;
+import Ljc.JFramework.Utility.ThreadPoolUtil;
 
 public class ClientBase extends SocketBase {
 	protected Socket socketClient;
@@ -20,6 +24,7 @@ public class ClientBase extends SocketBase {
 	/// 断线重连时间间隔
 	/// </summary>
 	private int reConnectClientTimeInterval = 5000;
+	private byte[] _reciveBuffer = new byte[1024];
 
 	/// <summary>
 	/// 对象清理之前的事件
@@ -45,8 +50,6 @@ public class ClientBase extends SocketBase {
 		_maxPackageLength = value;
 	}
 	// endregion
-
-	private ClientReceiving receiving;
 
 	/// <summary>
 	///
@@ -91,6 +94,7 @@ public class ClientBase extends SocketBase {
 				socketClient.setReceiveBufferSize(32000);
 				socketClient.setSendBufferSize(32000);
 				socketClient.setTcpNoDelay(true);
+
 			} catch (UnknownHostException e) {
 				Exception ne = new Exception(
 						String.format("连接到远程服务器%s失败，端口:%d，原因:%s", serverIp, ipPort, e.getMessage()));
@@ -103,7 +107,9 @@ public class ClientBase extends SocketBase {
 			}
 
 			if (!isStartClient) {
-				Thread threadClient = new Thread(receiving);
+				Action act = new Action();
+				act.addEvent(this, "Receiving", null);
+				Thread threadClient = new Thread(act);
 				threadClient.start();
 			}
 
@@ -112,6 +118,61 @@ public class ClientBase extends SocketBase {
 		} catch (Exception e) {
 			// OnError(e);
 			return false;
+		}
+	}
+
+	private void Receiving() {
+		while (!stop/* && socketClient.Connected */) {
+			try {
+				byte[] buff4 = new byte[4];
+				InputStream inputstream = socketClient.getInputStream();
+				int count = inputstream.read(buff4);
+				if (count != 4)
+					break;
+				int dataLen = BitConverter.GetInt(buff4);
+
+				if (dataLen > this._maxPackageLength) {
+					throw new Exception("超过了最大字节数：" + this._maxPackageLength);
+				}
+
+				ByteArrayOutputStream bs = new ByteArrayOutputStream();
+				MemoryStreamWriter ms = new MemoryStreamWriter(bs);
+
+				int readLen = 0;
+
+				while (readLen < dataLen) {
+					count = inputstream.read(_reciveBuffer, 0, Math.min(dataLen - readLen, _reciveBuffer.length));
+					readLen += count;
+					ms.write(_reciveBuffer, 0, count);
+				}
+				byte[] buffer = ms.GetBytes();
+				ms.Close();
+				Action<byte[]> act = new Action<byte[]>();
+				act.addEvent(this, "ProcessMessage", byte[].class);
+				act.setParams(buffer);
+				ThreadPoolUtil.QueueUserWorkItem(act, buffer);
+			} catch (IOException e) {
+				break;
+			} catch (Exception e) {
+				OnError(e);
+			}
+		}
+
+		try {
+			socketClient.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void ProcessMessage(byte[] data) {
+		try {
+
+			// Message message = EntityBufCore.DeSerialize < Message > (data);
+			// OnMessage(message);
+		} catch (Exception e) {
+			OnError(e);
 		}
 	}
 }

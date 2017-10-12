@@ -40,6 +40,10 @@ public class MemoryStreamWriter {
 		this._ms.write(b);
 	}
 
+	public void write(byte[] b, int offset, int len) throws IOException {
+		this._ms.write(b, offset, len);
+	}
+
 	@Deprecated
 	public void write(int b) {
 		this._ms.write(b);
@@ -540,5 +544,16 @@ public class MemoryStreamWriter {
 
 	public byte[] GetBytes() {
 		return this._ms.toByteArray();
+	}
+
+	public void Close() {
+		try {
+			if (_ms != null) {
+				this._ms.close();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

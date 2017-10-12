@@ -82,7 +82,9 @@
    pw.write(ProcessTraceUtil.PrintTrace());
    }
    
-   eh.notifyX("sss");
+   //eh.notifyX("sss");
+   
+   ps.TestThreadPool();
    
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    

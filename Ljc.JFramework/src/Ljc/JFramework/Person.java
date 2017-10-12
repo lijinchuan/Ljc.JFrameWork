@@ -10,8 +10,10 @@ import java.util.List;
 
 import Ljc.JFramework.TypeUtil.DateTime;
 import Ljc.JFramework.TypeUtil.UInt16;
+import Ljc.JFramework.Utility.Action;
 import Ljc.JFramework.Utility.ReflectUtil;
 import Ljc.JFramework.Utility.StringUtil;
+import Ljc.JFramework.Utility.ThreadPoolUtil;
 
 public class Person {
 	private String _name = null;
@@ -218,6 +220,13 @@ public class Person {
 
 	public static void applyHashMap(HashMap<String, Integer> map) {
 		// 该方法可以为空
+	}
+
+	public void TestThreadPool() throws InterruptedException {
+		Action act = new Action();
+		act.addEvent(this, "print", String.class);
+		act.setParams("asdfasdfasdfasdf");
+		ThreadPoolUtil.QueueUserWorkItem(act, "李鑫");
 	}
 
 	public void print(String s) {
