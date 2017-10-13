@@ -12,7 +12,7 @@ public class SocketBase {
 
 		if (Error != null) {
 			try {
-				Error.notifyX(e);
+				Error.notifyEvent(e);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

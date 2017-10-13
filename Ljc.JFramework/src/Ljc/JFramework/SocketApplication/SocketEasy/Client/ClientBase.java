@@ -36,6 +36,8 @@ public class ClientBase extends SocketBase {
 	// region 设置包最大大小
 	private int _maxPackageLength = 10 * 1024 * 1024 * 8;
 
+	public Action OnClientReset = new Action();
+
 	/// <summary>
 	/// 每次最大接收的字节数byte
 	/// </summary>
@@ -122,6 +124,11 @@ public class ClientBase extends SocketBase {
 			}
 
 			isStartClient = true;
+
+			if (isResetClient && OnClientReset != null) {
+				OnClientReset.notifyEvent(null);
+			}
+
 			return true;
 		} catch (Exception e) {
 			// OnError(e);

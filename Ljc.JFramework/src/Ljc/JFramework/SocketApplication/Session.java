@@ -77,7 +77,7 @@ public class Session {
 		return _lastSessionTime;
 	}
 
-	void setLastSessionTime(long value) {
+	public void setLastSessionTime(long value) {
 		this._lastSessionTime = value;
 	}
 
