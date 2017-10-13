@@ -88,6 +88,12 @@ public class ClientBase extends SocketBase {
 			if (System.currentTimeMillis() - lastReStartClientTime <= reConnectClientTimeInterval)
 				return false;
 
+			boolean isResetClient = false;
+			if (socketClient != null) {
+				socketClient.close();
+				isResetClient = true;
+			}
+
 			if (socketClient != null) {
 				socketClient.close();
 			}

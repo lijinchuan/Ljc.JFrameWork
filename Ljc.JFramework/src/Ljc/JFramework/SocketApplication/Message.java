@@ -60,9 +60,8 @@ public class Message {
 			return EntityBufCore.DeSerialize(classt, _messageBuffer, true);
 		} catch (Exception ex) {
 			SocketApplicationException e = new SocketApplicationException("ÏûÏ¢½âÎöÊ§°Ü", ex);
-			// e.Data.Add("this.MessageHeader.TransactionID",
-			// this.MessageHeader.TransactionID);
-			// e.Data.Add("this.MessageHeader.MessageType", this.MessageHeader.MessageType);
+			e.Data.put("this.MessageHeader.TransactionID", this.getMessageHeader().getTransactionID());
+			e.Data.put("this.MessageHeader.MessageType", this.getMessageHeader().getMessageType());
 			throw e;
 		}
 	}
