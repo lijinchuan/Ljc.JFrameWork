@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.nio.charset.Charset"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Person"/>
-<fullyQualifiedTypeName name="java.lang.Object"/>
 <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="java.text.Format"/>
@@ -40,7 +37,6 @@
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UInt16"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UInt32"/>
 <fullyQualifiedTypeName name="java.lang.Long"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.StringTypeFlag"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
@@ -49,7 +45,6 @@
 <fullyQualifiedTypeName name="Ljc.JFramework.EntityType"/>
 <fullyQualifiedTypeName name="javax.xml.bind.JAXBContext"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.StringUtil"/>
 <fullyQualifiedTypeName name="java.nio.file.FileStore"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
@@ -57,7 +52,12 @@
 <fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitConverter"/>
-<fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.ThreadPoolUtil"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.Action"/>
+<fullyQualifiedTypeName name="java.util.concurrent.Executors"/>
+<fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.StringUtil"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.AutoReSetEventResult"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.CoreException"/>
 </qualifiedTypeNameHistroy>

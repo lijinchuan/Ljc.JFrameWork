@@ -41,4 +41,8 @@ public class DateTime extends Date {
 		TimeZone tz = TimeZone.getDefault();
 		return new DateTime(OADateBegin.getTime() + tz.getRawOffset() + (long) (oadate * DayMills));
 	}
+
+	public static Date Now() {
+		return new Date();
+	}
 }

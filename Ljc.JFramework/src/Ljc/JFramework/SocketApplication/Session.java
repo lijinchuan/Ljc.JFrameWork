@@ -40,7 +40,7 @@ public class Session {
 		return this._isLogin;
 	}
 
-	void setIsLogin(boolean value) {
+	public void setIsLogin(boolean value) {
 		this._isLogin = value;
 	}
 
@@ -113,7 +113,7 @@ public class Session {
 		return this._headBeatInterVal;
 	}
 
-	void setHeadBeatInterVal(int value) {
+	public void setHeadBeatInterVal(int value) {
 		this._headBeatInterVal = value;
 	}
 
@@ -146,7 +146,7 @@ public class Session {
 		return this._sessionTimeOut;
 	}
 
-	void setSessionTimeOut(int value) {
+	public void setSessionTimeOut(int value) {
 		this._sessionTimeOut = value;
 	}
 
@@ -170,7 +170,7 @@ public class Session {
 		this._bytesSend = value;
 	}
 
-	Session() {
+	public Session() {
 		_headBeatInterVal = 10000;
 		_sessionTimeOut = 30000;
 	}

@@ -1,7 +1,14 @@
 package Ljc.JFramework.SocketApplication.SocketEasy.Client;
 
+import java.util.HashMap;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import Ljc.JFramework.AutoReSetEventResult;
+import Ljc.JFramework.CoreException;
+import Ljc.JFramework.EntityBufCore;
+import Ljc.JFramework.TimeOutException;
 import Ljc.JFramework.SocketApplication.LoginRequestMessage;
 import Ljc.JFramework.SocketApplication.LoginResponseMessage;
 import Ljc.JFramework.SocketApplication.Message;
@@ -9,7 +16,10 @@ import Ljc.JFramework.SocketApplication.MessageType;
 import Ljc.JFramework.SocketApplication.Session;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketApplicationException;
+import Ljc.JFramework.TypeUtil.DateTime;
 import Ljc.JFramework.Utility.Action;
+import Ljc.JFramework.Utility.Converter;
+import Ljc.JFramework.Utility.StringUtil;
 
 public class SessionClient extends ClientBase {
 	ScheduledExecutorService timer;
@@ -31,6 +41,8 @@ public class SessionClient extends ClientBase {
 	private String pwd;
 
 	protected SocketApplicationException BuzException = null;
+
+	private HashMap<String, AutoReSetEventResult> watingEvents = new HashMap<String, AutoReSetEventResult>();
 
 	private int sendMessageTryCountLimit = 3;
 
@@ -56,6 +68,18 @@ public class SessionClient extends ClientBase {
 	}
 
 	protected void OnLoginFail(String failMsg) {
+
+	}
+
+	protected void OnSessionTimeOut() {
+
+	}
+
+	protected void OnLoginSuccess() {
+
+	}
+
+	protected void OnSessionResume() {
 
 	}
 
@@ -93,6 +117,89 @@ public class SessionClient extends ClientBase {
 		SendMessage(msg);
 	}
 
+	private void StartHearteBeat(LoginResponseMessage message) {
+		SessionContext = new Session();
+		SessionContext.setUserName(message.getLoginID());
+		SessionContext.setConnectTime(DateTime.Now());
+		SessionContext.setSessionID(message.getSessionID());
+		SessionContext.setSessionTimeOut(message.getSessionTimeOut());
+		SessionContext.setHeadBeatInterVal(message.getHeadBeatInterVal());
+		SessionContext.setIsLogin(true);
+		SessionContext.setIsValid(true);
+
+		if (timer == null) {
+			timer = Executors.newScheduledThreadPool(1);
+			timer.schedule(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					HeartBeat_Elapsed();
+				}
+
+			}, SessionContext.getHeadBeatInterVal(), TimeUnit.MILLISECONDS);
+		}
+	}
+
+	void HeartBeat_Elapsed() {
+		try {
+			if (System.currentTimeMillis() - SessionContext.getLastSessionTime() < 10000)
+				return;
+
+			if (SessionContext.IsTimeOut() && isFirstTimeOut) {
+				isFirstTimeOut = false;
+				SessionContext.setIsLogin(false);
+
+				OnSessionTimeOut();
+
+				if (SessionTimeOut != null) {
+					SessionTimeOut.notifyEvent(null);
+				}
+			}
+
+			Message msg = new Message(MessageType.HEARTBEAT.getVal());
+
+			SendMessage(msg);
+		} catch (Exception exp) {
+			OnError(exp);
+		}
+	}
+
+	private void ReciveHeartBeat(Message message) {
+		if (SessionContext.IsTimeOut() || !isFirstTimeOut) {
+			isFirstTimeOut = true;
+			SessionContext.setIsLogin(true);
+
+			OnSessionResume();
+
+			if (SessionResume != null) {
+				try {
+					SessionResume.notifyEvent(null);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		// SessionContext.LastSessionTime = message.MessageHeader.MessageTime;
+		SessionContext.setLastSessionTime(System.currentTimeMillis());
+	}
+
+	protected void ReciveMessage(Message message) throws Exception {
+		if (!StringUtil.isNullOrEmpty(message.getMessageHeader().getTransactionID())) {
+			AutoReSetEventResult autoEvent = watingEvents.getOrDefault(message.getMessageHeader().getTransactionID(),
+					null);
+
+			if (autoEvent != null) {
+				autoEvent.setWaitResult(message.getMessageBuffer());
+				autoEvent.setIsTimeOut(false);
+				autoEvent.set();
+				return;
+			}
+		}
+
+	}
+
 	@Override
 	protected final void OnMessage(Message message) {
 		super.OnMessage(message);
@@ -101,37 +208,87 @@ public class SessionClient extends ClientBase {
 			SessionContext.setLastSessionTime(System.currentTimeMillis());
 		}
 
-		if (message.IsMessage(MessageType.LOGIN.getVal())) {
-			LoginResponseMessage loginMsg = message.GetMessageBody(LoginResponseMessage.class);
-			if (loginMsg.getLoginResult()) {
-				StartHearteBeat(loginMsg);
-				OnLoginSuccess();
+		try {
+			if (message.IsMessage(MessageType.LOGIN.getVal())) {
+				LoginResponseMessage loginMsg = message.GetMessageBody(LoginResponseMessage.class);
+				if (loginMsg.getLoginResult()) {
+					StartHearteBeat(loginMsg);
+					OnLoginSuccess();
 
-				if (LoginSuccess != null) {
-					LoginSuccess();
+					if (LoginSuccess != null) {
+						LoginSuccess.notifyEvent(null);
+					}
+				} else {
+					OnLoginFail(loginMsg.getLoginFailReson());
+					if (LoginFail != null) {
+						LoginFail.notifyEvent(null);
+					}
 				}
+			} else if (message.IsMessage(MessageType.HEARTBEAT.getVal())) {
+				ReciveHeartBeat(message);
+			} else if (message.IsMessage(MessageType.LOGOUT.getVal())) {
+				SessionContext.setIsLogin(false);
+				SessionContext.setIsValid(false);
+				stop = true;
+				isStartClient = false;
+				this.timer.shutdown();
+			} else if (message.IsMessage(MessageType.RELOGIN.getVal())) {
+				if (SessionContext == null) {
+					throw new Exception("请先调用login方法。");
+				}
+				SessionContext.setIsLogin(false);
+				Login(uid, pwd);
 			} else {
-				OnLoginFail(loginMsg.LoginFailReson);
-				if (LoginFail != null) {
-					LoginFail();
-				}
+				ReciveMessage(message);
 			}
-		} else if (message.IsMessage(MessageType.HEARTBEAT)) {
-			ReciveHeartBeat(message);
-		} else if (message.IsMessage(MessageType.LOGOUT)) {
-			SessionContext.IsLogin = false;
-			SessionContext.IsValid = false;
-			stop = true;
-			isStartClient = false;
-			this.timer.Stop();
-		} else if (message.IsMessage(MessageType.RELOGIN)) {
-			if (SessionContext == null) {
-				throw new Exception("请先调用login方法。");
+		} catch (Exception ex) {
+			OnError(ex);
+		}
+	}
+
+	public <T> T SendMessageAnsy(Class<T> classt, Message message, int timeOut/* = 30000 */) throws Exception {
+		String reqID = message.getMessageHeader().getTransactionID();
+
+		if (StringUtil.isNullOrEmpty(reqID))
+			throw new CoreException("消息没有设置唯一的序号。无法进行同步。");
+		AutoReSetEventResult autoResetEvent = new AutoReSetEventResult(reqID);
+		watingEvents.put(reqID, autoResetEvent);
+		BuzException = null;
+
+		SendMessage(message);
+		// ThreadPool.QueueUserWorkItem(new WaitCallback(o => { SendMessage((Message)o);
+		// }), message);
+		// new Func<Message, bool>(SendMessage).BeginInvoke(message, null, null);
+
+		autoResetEvent.waitOne(timeOut);
+		// WaitHandle.WaitAny(new WaitHandle[] { autoResetEvent }, timeOut);
+
+		watingEvents.remove(reqID);
+
+		if (BuzException != null) {
+			BuzException.Data.put("MessageType", message.getMessageHeader().getMessageType());
+			BuzException.Data.put("TransactionID", reqID);
+			throw BuzException;
+		}
+
+		if (autoResetEvent.getIsTimeOut()) {
+			TimeOutException ex = new TimeOutException();
+			ex.Data.put("errorsender", "LJC.JFrameWork.SocketEasy.Client.SesseionClient");
+			ex.Data.put("MessageType", message.getMessageHeader().getMessageType());
+			ex.Data.put("TransactionID", message.getMessageHeader().getTransactionID());
+			ex.Data.put("serverIp", this.serverIp);
+			ex.Data.put("ipPort", this.ipPort);
+			if (message.getMessageBuffer() != null) {
+
+				ex.Data.put("MessageBuffer", Converter.GetBase64(message.getMessageBuffer()));
 			}
-			SessionContext.IsLogin = false;
-			Login(uid, pwd);
+			ex.Data.put("resulttype", classt.getName());
+			// LogManager.LogHelper.Instance.Error("SendMessageAnsy", ex);
+
+			throw ex;
 		} else {
-			ReciveMessage(message);
+			T result = EntityBufCore.DeSerialize(classt, (byte[]) autoResetEvent.getWaitResult(), true);
+			return result;
 		}
 	}
 
