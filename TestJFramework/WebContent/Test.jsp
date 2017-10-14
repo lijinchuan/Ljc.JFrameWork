@@ -28,6 +28,8 @@
 </head>
 <body>
 <%
+  LogManager.Info("test hello");
+
   PrintWriter pw=response.getWriter();
   Ljc.JFramework.Utility.Action<String> eh=new Ljc.JFramework.Utility.Action<String>();
   //EntityBufCore.Serialize(new Person(), null);
