@@ -10,41 +10,76 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class LogManager {
-	private static Logger logger;
+	private static Logger debuglogger;
+	private static Logger infologger;
+	private static Logger warnlogger;
+	private static Logger errorlogger;
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	private static Date LogNameDate;
 	private static final String LOG_FOLDER_NAME = "log";
 
 	private static final String LOG_FILE_SUFFIX = ".log";
-	private static FileHandler LogHandler = null;
+
+	private static FileHandler DebugLogHandler = null;
+	private static FileHandler InfoLogHandler = null;
+	private static FileHandler WarnLogHandler = null;
+	private static FileHandler ErrorLogHandler = null;
 
 	static {
-		logger = Logger.getLogger("Logger");
-		logger.setLevel(Level.ALL);
-		// 文件日志内容标记为可追加
+		debuglogger = Logger.getLogger("DebugLogger");
+		debuglogger.setLevel(Level.ALL);
+
+		infologger = Logger.getLogger("InfoLogger");
+		infologger.setLevel(Level.ALL);
+
+		warnlogger = Logger.getLogger("WarnLogger");
+		warnlogger.setLevel(Level.ALL);
+
+		errorlogger = Logger.getLogger("ErrorLogger");
+		errorlogger.setLevel(Level.ALL);
+
 		try {
-			LogHandler = new FileHandler(getLogFilePath(), true);
-			LogHandler.setEncoding("utf-8");
-			// 以文本的形式输出
-			LogHandler.setFormatter(new SimpleFormatter());
-			logger.addHandler(LogHandler);
-		} catch (SecurityException | IOException e) {
+			DebugLogHandler = GetLogHandler(Level.FINEST);
+			InfoLogHandler = GetLogHandler(Level.INFO);
+			WarnLogHandler = GetLogHandler(Level.WARNING);
+			ErrorLogHandler = GetLogHandler(Level.SEVERE);
+
+			debuglogger.addHandler(DebugLogHandler);
+			infologger.addHandler(InfoLogHandler);
+			warnlogger.addHandler(WarnLogHandler);
+			errorlogger.addHandler(ErrorLogHandler);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		debuglogger.addHandler(InfoLogHandler);
 	}
 
-	private synchronized static String getLogFilePath() {
+	static FileHandler GetLogHandler(Level level) throws SecurityException, IOException {
+		FileHandler handler = new FileHandler(getLogFilePath(level), true);
+		handler.setEncoding("utf-8");
+		handler.setLevel(level);
+		handler.setFormatter(new SimpleFormatter());
+		return handler;
+	}
+
+	private synchronized static String getLogFilePath(Level loglevel) {
 		StringBuffer logFilePath = new StringBuffer();
 		logFilePath.append("D:\\GitHub\\Ljc.JFrameWork\\Ljc.JFramework\\");
 		// logFilePath.append(System.getProperty("user.home"));
 		// logFilePath.append(File.separatorChar);
 		logFilePath.append(LOG_FOLDER_NAME);
 
+		logFilePath.append(File.separatorChar);
+		logFilePath.append(loglevel.toString());
 		File file = new File(logFilePath.toString());
-		if (!file.exists())
-			file.mkdir();
+		if (!file.exists()) {
+			file.mkdirs();
+		}
 
 		logFilePath.append(File.separatorChar);
 		LogNameDate = new Date();
@@ -55,21 +90,38 @@ public class LogManager {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void CheckHandler() {
+	private static void CheckHandler(Level level) {
 		Date now = new Date();
 
 		if (now.getYear() == LogNameDate.getYear() && now.getMonth() == LogNameDate.getMonth()
 				&& now.getDate() == LogNameDate.getDate()) {
 			return;
 		}
-		FileHandler oldhandler = LogHandler;
-		try {
-			LogHandler = new FileHandler(getLogFilePath(), true);
 
-			LogHandler.setEncoding("utf-8");
-			// 以文本的形式输出
-			LogHandler.setFormatter(new SimpleFormatter());
-			logger.addHandler(LogHandler);
+		Logger logger = null;
+		FileHandler oldhandler = null;
+		FileHandler nowhandler = null;
+		if (level == Level.FINEST) {
+			logger = debuglogger;
+			oldhandler = nowhandler = DebugLogHandler;
+		} else if (level == Level.INFO) {
+			oldhandler = nowhandler = InfoLogHandler;
+			logger = infologger;
+		} else if (level == Level.WARNING) {
+			oldhandler = nowhandler = WarnLogHandler;
+			logger = warnlogger;
+		} else if (level == Level.SEVERE) {
+			oldhandler = nowhandler = ErrorLogHandler;
+			logger = errorlogger;
+		} else {
+			oldhandler = nowhandler = DebugLogHandler;
+			logger = debuglogger;
+		}
+
+		try {
+			nowhandler = GetLogHandler(level);
+
+			logger.addHandler(nowhandler);
 
 			logger.removeHandler(oldhandler);
 			oldhandler.flush();
@@ -85,28 +137,29 @@ public class LogManager {
 		if (msg != null) {
 			return;
 		}
-		CheckHandler();
-		logger.log(Level.FINEST, msg.toString());
+		CheckHandler(Level.FINEST);
+		debuglogger.log(Level.FINEST, msg.toString());
 	}
 
 	public static void Info(Object message) {
 		if (message == null) {
 			return;
 		}
-		CheckHandler();
-		logger.info(message.toString());
+		CheckHandler(Level.INFO);
+		infologger.info(message.toString());
 	}
 
 	public static void Warn(Object message) {
 		if (message == null) {
 			return;
 		}
-		CheckHandler();
-		logger.warning(message.toString());
+		CheckHandler(Level.WARNING);
+		warnlogger.warning(message.toString());
 	}
 
 	public static void Error(Object message, Exception exception) {
-		CheckHandler();
-		logger.log(Level.SEVERE, message.toString(), LoggerException.GetException(exception));
+		CheckHandler(Level.SEVERE);
+
+		errorlogger.log(Level.SEVERE, message.toString(), LoggerException.GetException(exception));
 	}
 }

@@ -229,6 +229,22 @@ public class Person {
 		ThreadPoolUtil.QueueUserWorkItem(act, "¿ÓˆŒ");
 	}
 
+	private void TestException1() throws CoreException {
+		CoreException ce = new CoreException();
+		ce.Data.put("ccc", "xccce");
+		ce.Data.put("sadfs", "xcae");
+		throw ce;
+	}
+
+	public void TestException() throws CoreException {
+		try {
+			TestException1();
+		} catch (CoreException ex) {
+			ex.Data.put("funanme", "TestException");
+			throw ex;
+		}
+	}
+
 	public void print(String s) {
 		System.out.println(s);
 	}

@@ -46,6 +46,12 @@
    ps.setBigDecimal(BigDecimal.TEN);
    ps.setDate(new Date(132324321));
    
+   try{
+	   ps.TestException();
+   }catch(Exception ex){
+	   LogManager.Error("捕捉到异常", ex);
+   }
+   
    int i=0;
    while((i++)<5){
    ProcessTraceUtil.StartTrace();
