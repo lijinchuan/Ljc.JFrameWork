@@ -8,6 +8,7 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="debu"/>
 			<item value="login"/>
 			<item value="thread"/>
 			<item value="GetDirctionaryKeyValueType"/>
@@ -22,7 +23,6 @@
 			<item value="writestring"/>
 			<item value="string"/>
 			<item value="char"/>
-			<item value="WriteDecimal"/>
 		</list>
 		<list key="replacehistory">
 		</list>
