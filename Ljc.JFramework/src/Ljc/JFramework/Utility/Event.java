@@ -34,14 +34,14 @@ public class Event {
 	}
 
 	// 执行该 对象的该方法
-	public void invoke(Object... params) throws Exception {
+	public Object invoke(Object... params) throws Exception {
 		if (this.method == null) {
 			method = this.paramTypes == null ? object.getClass().getMethod(this.getMethodName())
 					: object.getClass().getMethod(this.getMethodName(), this.paramTypes);
 		}
 		if (null == method) {
-			return;
+			return null;
 		}
-		method.invoke(this.getObject(), params);
+		return method.invoke(this.getObject(), params);
 	}
 }

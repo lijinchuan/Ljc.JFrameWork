@@ -59,9 +59,17 @@ public class EventHandler {
 	}
 
 	// 通知所有的对象执行指定的事件
-	public void notifyX(Object... params) throws Exception {
-		for (Event e : objects) {
-			e.invoke(params);
+	public Object[] notifyX(Object... params) throws Exception {
+		if (objects == null || objects.size() == 0) {
+			return null;
 		}
+
+		Object[] results = new Object[objects.size()];
+		int i = 0;
+		for (Event e : objects) {
+			results[i++] = e.invoke(params);
+		}
+
+		return results;
 	}
 }

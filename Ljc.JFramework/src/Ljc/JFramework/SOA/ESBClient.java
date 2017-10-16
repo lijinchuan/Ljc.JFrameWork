@@ -3,9 +3,20 @@ package Ljc.JFramework.SOA;
 import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
+import Ljc.JFramework.SocketApplication.SocketApplicationException;
 import Ljc.JFramework.SocketApplication.SocketEasy.Client.SessionClient;
 
 public class ESBClient extends SessionClient {
+	private static ESBClientPoolManager _clientmanager;
+
+	static {
+		try {
+			ESBClientPoolManager _clientmanager = new ESBClientPoolManager(0, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public ESBClient(String serverip, int serverport, boolean startSession) {
 		super(serverip, serverport, startSession);
@@ -57,6 +68,43 @@ public class ESBClient extends SessionClient {
 		msg.setMessageBuffer(EntityBufCore.Serialize(request));
 
 		T result = SendMessageAnsy(classt, msg, 30000);
+		return result;
+	}
+
+	@Override
+	protected byte[] DoMessage(Message message) throws Exception {
+		if (message.IsMessage(SOAMessageType.DoSOAResponse.getVal())) {
+			SOAResponse resp = message.GetMessageBody(SOAResponse.class);
+			if (!resp.getIsSuccess()) {
+				BuzException = new SocketApplicationException(resp.getErrMsg());
+				// 这里最好抛出错误来
+				throw BuzException;
+			}
+			return resp.getResult();
+		} else if (message.IsMessage(SOAMessageType.DoSOARedirectResponse.getVal())) {
+			SOARedirectResponse resp = message.GetMessageBody(SOARedirectResponse.class);
+			if (!resp.getIsSuccess()) {
+				BuzException = new SocketApplicationException(resp.getErrMsg());
+				// 这里最好抛出错误来
+				throw BuzException;
+			}
+			return resp.getResult();
+		}
+		return super.DoMessage(message);
+	}
+
+	public static <T> T DoSOARequest(Class<T> classt, int serviceId, int functionId, Object param) throws Exception {
+		// using (var client = new ESBClient())
+		// {
+		// client.StartClient();
+		// client.Error += client_Error;
+		// var result = client.DoRequest<T>(serviceId, functionId, param);
+
+		// return result;
+		// }
+
+		T result = _clientmanager.RandClient().DoRequest(classt, serviceId, functionId, param);
+
 		return result;
 	}
 

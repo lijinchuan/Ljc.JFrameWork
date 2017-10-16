@@ -314,4 +314,13 @@ public class SessionClient extends ClientBase {
 			throw e;
 		}
 	}
+
+	/// <summary>
+	/// 处理自定义消息
+	/// </summary>
+	/// <param name="message"></param>
+	/// <returns></returns>
+	protected byte[] DoMessage(Message message) throws Exception {
+		return message.getMessageBuffer();
+	}
 }
