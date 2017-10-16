@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Stack;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import Ljc.JFramework.TypeUtil.UInt16;
@@ -407,29 +408,43 @@ public class EntityBufCore {
 
 				List<Tuple<EntityBufType, Boolean>> list = new LinkedList<Tuple<EntityBufType, Boolean>>();
 
-				for (Field f : tp.getDeclaredFields()) {
-					String fieldname = f.getName();
-					if (fieldname.startsWith("_")) {
-						fieldname = fieldname.substring(1);
+				Stack<Class<?>> parents = new Stack<Class<?>>();
+				parents.add(tp);
+				Class temptp = tp;
+				while (true) {
+					temptp = temptp.getSuperclass();
+					if (temptp == null || temptp == Object.class) {
+						break;
 					}
-					fieldname = StringUtil.captureName(fieldname);
+					parents.add(temptp);
+				}
 
-					Method getMethod = ReflectUtil.GetMethod(tp, "get" + fieldname, null);
-					Method setMethod = ReflectUtil.GetMethod(tp, "set" + fieldname, ReflectUtil.GetFieldType(f));
+				while (!parents.isEmpty() && (temptp = parents.pop()) != null) {
+					for (Field f : temptp.getDeclaredFields()) {
+						String fieldname = f.getName();
+						if (fieldname.startsWith("_")) {
+							fieldname = fieldname.substring(1);
+						}
+						fieldname = StringUtil.captureName(fieldname);
 
-					if (getMethod == null || setMethod == null) {
-						continue;
+						Method getMethod = ReflectUtil.GetMethod(temptp, "get" + fieldname, null);
+						Method setMethod = ReflectUtil.GetMethod(temptp, "set" + fieldname,
+								ReflectUtil.GetFieldType(f));
+
+						if (getMethod == null || setMethod == null) {
+							continue;
+						}
+						Box<Boolean> bool = new Box<Boolean>();
+						EntityBufType buftype = MapBufType(f.getType(), bool);
+						PropertyInfoEx prop = new PropertyInfoEx(f);
+						prop.setGetValueMethod(getMethod);
+						prop.setSetValueMethod(setMethod);
+						buftype.setProperty(prop);
+						if (buftype.getEntityType() == EntityType.LIST) {
+							buftype.setValueType(EntityBufCore.GetListValueType(buftype));
+						}
+						list.add(new Tuple<EntityBufType, Boolean>(buftype, bool.getData()));
 					}
-					Box<Boolean> bool = new Box<Boolean>();
-					EntityBufType buftype = MapBufType(f.getType(), bool);
-					PropertyInfoEx prop = new PropertyInfoEx(f);
-					prop.setGetValueMethod(getMethod);
-					prop.setSetValueMethod(setMethod);
-					buftype.setProperty(prop);
-					if (buftype.getEntityType() == EntityType.LIST) {
-						buftype.setValueType(EntityBufCore.GetListValueType(buftype));
-					}
-					list.add(new Tuple<EntityBufType, Boolean>(buftype, bool.getData()));
 				}
 
 				EntityBufTypeDic.put(key, list);

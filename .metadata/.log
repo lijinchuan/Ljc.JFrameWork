@@ -548,3 +548,39 @@ org.eclipse.recommenders.utils.Logs$LogTraceException
 	at org.eclipse.recommenders.internal.calls.rcp.RcpCallModelProvider.acquireModel(RcpCallModelProvider.java:1)
 	at org.eclipse.recommenders.internal.models.rcp.PrefetchModelArchiveJob.run(PrefetchModelArchiveJob.java:43)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+
+!ENTRY org.eclipse.core.jobs 4 2 2017-10-16 17:30:49.279
+!MESSAGE An internal error occurred during: "Launching _Test.jsp (2)".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wst.server.ui.internal.actions.RunOnServerActionDelegate.openOptionsDialog(RunOnServerActionDelegate.java:650)
+	at org.eclipse.wst.server.ui.internal.actions.RunOnServerLaunchConfigurationDelegate.launch(RunOnServerLaunchConfigurationDelegate.java:177)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:885)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:739)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1039)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1256)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+
+!ENTRY org.eclipse.core.jobs 4 2 2017-10-16 17:37:43.637
+!MESSAGE An internal error occurred during: "Launching _Test.jsp (2)".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wst.server.ui.internal.actions.RunOnServerActionDelegate.openOptionsDialog(RunOnServerActionDelegate.java:650)
+	at org.eclipse.wst.server.ui.internal.actions.RunOnServerLaunchConfigurationDelegate.launch(RunOnServerLaunchConfigurationDelegate.java:177)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:885)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:739)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1039)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1256)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+
+!ENTRY org.eclipse.core.jobs 4 2 2017-10-16 17:58:27.506
+!MESSAGE An internal error occurred during: "Launching _Test.jsp (2)".
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.wst.server.ui.internal.actions.RunOnServerActionDelegate.openOptionsDialog(RunOnServerActionDelegate.java:650)
+	at org.eclipse.wst.server.ui.internal.actions.RunOnServerLaunchConfigurationDelegate.launch(RunOnServerLaunchConfigurationDelegate.java:177)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:885)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:739)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1039)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1256)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)

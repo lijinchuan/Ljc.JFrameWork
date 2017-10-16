@@ -1,3 +1,5 @@
+<%@page import="Ljc.JFramework.SOA.SOARedirectRequest"%>
+<%@page import="Ljc.JFramework.SOA.SOARequest"%>
 <%@page import="Ljc.JFramework.SOA.ESBConfig"%>
 <%@page import="Ljc.JFramework.Utility.EventHandler"%>
 <%@page import="Ljc.JFramework.Utility.ProcessTraceUtil"%>
@@ -29,12 +31,26 @@
 </head>
 <body>
 <%
+PrintWriter pw=response.getWriter();
+
+  SOARedirectRequest req=new SOARedirectRequest();
+  req.setFuncId(100);
+  req.setRequestTime(new Date());
+  req.setServiceNo(150);
+  
+  byte[] bytes= EntityBufCore.Serialize(req);
+  for(byte b:bytes){
+	  pw.print(String.valueOf(b));
+  }
+  
+  pw.print("<br/>");
+
 
   ESBConfig cfg= ESBConfig.ReadConfig();
 
   //LogManager.Info("test hello");
 
-  PrintWriter pw=response.getWriter();
+  
   pw.print("<br/>");
   pw.print(cfg.getESBServer());
   pw.print("<br/>");

@@ -3,6 +3,8 @@ package Ljc.JFramework.SocketApplication;
 import java.io.DataOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
 
 import Ljc.JFramework.CoreException;
 import Ljc.JFramework.EntityBufCore;
@@ -10,6 +12,9 @@ import Ljc.JFramework.Utility.BitConverter;
 import Ljc.JFramework.Utility.HashEncryptUtil;
 
 public class SocketApplicationComm {
+	private static AtomicLong seqNum;
+	private static String _seqperfix = UUID.randomUUID().toString().replace("-", "");
+
 	public static int SendMessage(Socket s, Message message) throws CoreException {
 		try {
 			if (s == null) {
@@ -55,5 +60,10 @@ public class SocketApplicationComm {
 			cex.Data.put("TransactionID", message.getMessageHeader().getTransactionID());
 			throw cex;
 		}
+	}
+
+	public static String GetSeqNum() {
+		long seqNumMiro = seqNum.incrementAndGet();
+		return String.format("%s_%d", _seqperfix, seqNumMiro);
 	}
 }

@@ -1,5 +1,8 @@
 package Ljc.JFramework.SOA;
 
+import Ljc.JFramework.EntityBufCore;
+import Ljc.JFramework.SocketApplication.Message;
+import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketEasy.Client.SessionClient;
 
 public class ESBClient extends SessionClient {
@@ -7,6 +10,54 @@ public class ESBClient extends SessionClient {
 	public ESBClient(String serverip, int serverport, boolean startSession) {
 		super(serverip, serverport, startSession);
 		// TODO Auto-generated constructor stub
+	}
+
+	public ESBClient() throws Exception {
+		super(ESBConfig.ReadConfig().getESBServer(), ESBConfig.ReadConfig().getESBPort(),
+				ESBConfig.ReadConfig().getAutoStart());
+	}
+
+	public String GetESBServer() {
+		return this.serverIp;
+	}
+
+	public int GetESBPort() {
+		return this.ipPort;
+	}
+
+	public <T> T DoRequest(Class<T> classt, int serviceno, int funcid, Object param) throws Exception {
+		SOARequest request = new SOARequest();
+		request.setServiceNo(serviceno);
+		request.setFuncId(funcid);
+		if (param == null) {
+			request.setParam(null);
+		} else {
+			request.setParam(EntityBufCore.Serialize(param));
+		}
+
+		Message msg = new Message(SOAMessageType.DoSOARequest.getVal());
+		msg.getMessageHeader().setTransactionID(SocketApplicationComm.GetSeqNum());
+		msg.setMessageBuffer(EntityBufCore.Serialize(request));
+
+		T result = SendMessageAnsy(classt, msg, 30000);
+		return result;
+	}
+
+	public <T> T DoRequest(Class<T> classt, int funcid, Object param) throws Exception {
+		SOARedirectRequest request = new SOARedirectRequest();
+		request.setFuncId(funcid);
+		if (param == null) {
+			request.setParam(null);
+		} else {
+			request.setParam(EntityBufCore.Serialize(param));
+		}
+
+		Message msg = new Message(SOAMessageType.DoSOARedirectRequest.getVal());
+		msg.getMessageHeader().setTransactionID(SocketApplicationComm.GetSeqNum());
+		msg.setMessageBuffer(EntityBufCore.Serialize(request));
+
+		T result = SendMessageAnsy(classt, msg, 30000);
+		return result;
 	}
 
 }
