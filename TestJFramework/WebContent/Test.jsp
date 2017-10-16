@@ -1,3 +1,4 @@
+<%@page import="Ljc.JFramework.SOA.ESBConfig"%>
 <%@page import="Ljc.JFramework.Utility.EventHandler"%>
 <%@page import="Ljc.JFramework.Utility.ProcessTraceUtil"%>
 <%@page import="java.lang.reflect.Parameter"%>
@@ -28,71 +29,17 @@
 </head>
 <body>
 <%
-  LogManager.Info("test hello");
+
+  ESBConfig cfg= ESBConfig.ReadConfig();
+
+  //LogManager.Info("test hello");
 
   PrintWriter pw=response.getWriter();
-  Ljc.JFramework.Utility.Action<String> eh=new Ljc.JFramework.Utility.Action<String>();
-  //EntityBufCore.Serialize(new Person(), null);
-  //EntityBufCore.TestSerialize((short)126);
-  
-/*   byte[] strbytes=BitConverter.GetBytes("中岽华人民共c和ab国");
-  for(byte b :strbytes){
-	  pw.write(String.valueOf(b&255)+" ");
-  }
-   */
-   Person ps=new Person();
-   ps.setAge(120);
-   ps.setShort((short)31055);
-   ps.setBigDecimal(BigDecimal.TEN);
-   ps.setDate(new Date(132324321));
-   
-   try{
-	   ps.TestException();
-   }catch(Exception ex){
-	   LogManager.Error("捕捉到异常", ex);
-   }
-   
-   int i=0;
-   while((i++)<5){
-   ProcessTraceUtil.StartTrace();
-   ProcessTraceUtil.Trace(String.format("%d <br/>", i));
- 
-   ps.setName("不好600031.sz "+i);
-   
-   eh.addEvent((Object)ps, "print",String.class);
-   
-   HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
-   map.put(123, 9987);
-   map.put(12345,9985423);
-   java.util.List<Integer> li=new java.util.LinkedList<Integer>();
-   li.add(100);
-   li.add(50);
-   li.add(1997);
-   li.add(199700);
-   ps.setList(li);
-   ps.setDic(map);
-   ProcessTraceUtil.Trace("开始序列化");
-   byte[] bytes= EntityBufCore.Serialize((Object)ps);
-   ProcessTraceUtil.Trace("序列化完成");
-   ProcessTraceUtil.Trace("开始反序列化");
-   Person dcp=EntityBufCore.DeSerialize(Person.class, bytes, true);
-   ProcessTraceUtil.Trace("反序列化完成");
-   pw.write(dcp.getName()+"<br/>");
-   for(Integer it :dcp.getList()){
-	   pw.write(String.valueOf(it)+"<br/>");
-   }
-   pw.write("<br/>");
-   
-   for(byte bt:bytes){
-	   pw.write(String.valueOf(bt&255)+" ");
-   }
-  
-   pw.write(ProcessTraceUtil.PrintTrace());
-   }
-   
-   //eh.notifyX("sss");
-   
-   ps.TestThreadPool();
+  pw.print("<br/>");
+  pw.print(cfg.getESBServer());
+  pw.print("<br/>");
+  pw.print(cfg.getESBPort());
+  pw.print("<br/>");
    
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    
