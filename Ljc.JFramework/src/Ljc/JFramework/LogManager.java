@@ -69,10 +69,13 @@ public class LogManager {
 
 	private synchronized static String getLogFilePath(Level loglevel) {
 		StringBuffer logFilePath = new StringBuffer();
-		logFilePath.append("D:\\GitHub\\Ljc.JFrameWork\\Ljc.JFramework\\");
-		// logFilePath.append(System.getProperty("user.home"));
-		// logFilePath.append(File.separatorChar);
+		// logFilePath.append("D:\\GitHub\\Ljc.JFrameWork\\Ljc.JFramework\\");
+		// logFilePath.append(LogManager.class.getResource("").getPath());
+		logFilePath.append(System.getProperty("user.home"));
+		logFilePath.append(File.separatorChar);
 		logFilePath.append(LOG_FOLDER_NAME);
+
+		System.out.println(logFilePath.toString());
 
 		logFilePath.append(File.separatorChar);
 		logFilePath.append(loglevel.toString());
