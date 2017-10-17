@@ -24,19 +24,25 @@ public class SocketApplicationComm {
 			byte[] data = null;
 			int bufferindex = -1;
 			long size = 0;
-			EntityBufCore.Serialize(message);
+			data = EntityBufCore.Serialize(message, true);
 
-			byte[] dataLen = BitConverter.GetBytes(data.length - 4);
+			byte[] dataLen = BitConverter.GetBytes(data.length);
 
+			byte[] data2 = new byte[data.length + 8];
 			for (int i = 0; i < 4; i++) {
-				data[i] = dataLen[i];
+				data2[i] = dataLen[i];
 			}
 
-			long crc32 = HashEncryptUtil.GetCRC32(data, 8);
+			int crc32 = (int) HashEncryptUtil.GetCRC32(data, 8);
 			byte[] crc32bytes = BitConverter.GetBytes(crc32);
 			for (int i = 4; i < 8; i++) {
-				data[i] = crc32bytes[i - 4];
+				data2[i] = crc32bytes[i - 4];
 			}
+
+			for (int i = 0; i < data.length; i++) {
+				data2[i + 8] = data[i];
+			}
+			data = data2;
 
 			synchronized (s) {
 				DataOutputStream dos = null;

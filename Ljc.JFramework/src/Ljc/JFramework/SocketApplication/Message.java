@@ -45,7 +45,7 @@ public class Message {
 			if (_msgBody == null) {
 				_messageBuffer = new byte[0];
 			} else {
-				_messageBuffer = EntityBufCore.Serialize(_msgBody);
+				_messageBuffer = EntityBufCore.Serialize(_msgBody, true);
 			}
 		}
 		return _messageBuffer;

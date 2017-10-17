@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>Ljc.JFramework</project>
+		<project>TestCore</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

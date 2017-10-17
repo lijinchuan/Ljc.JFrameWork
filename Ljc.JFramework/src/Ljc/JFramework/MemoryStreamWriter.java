@@ -21,6 +21,10 @@ public class MemoryStreamWriter {
 		this._ms = ms;
 	}
 
+	public void SetPosition(int offset) {
+		this._ms.write(new byte[offset], 0, offset);
+	}
+
 	private byte[] CompressInt32(int num) {
 		byte[] byts = null;
 

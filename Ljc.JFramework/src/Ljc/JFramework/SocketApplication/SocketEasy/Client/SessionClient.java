@@ -30,12 +30,12 @@ public class SessionClient extends ClientBase {
 	/// </summary>
 	private boolean isFirstTimeOut = true;
 
-	public Action SessionTimeOut;
-	public Action SessionResume;
-	public Action LoginFail;
-	public Action LoginSuccess;
+	public Action SessionTimeOut = new Action();
+	public Action SessionResume = new Action();
+	public Action<String> LoginFail = new Action<String>();
+	public Action LoginSuccess = new Action();
 
-	public Action BeferLogout;
+	public Action BeferLogout = new Action();
 
 	private String uid;
 	private String pwd;
@@ -96,7 +96,7 @@ public class SessionClient extends ClientBase {
 		if (!SendMessage(message)) {
 			OnLoginFail("∑¢ÀÕ«Î«Û ß∞‹");
 			if (LoginFail != null) {
-				LoginFail.notifyEvent(null);
+				LoginFail.notifyEvent("∑¢ÀÕ«Î«Û ß∞‹");
 			}
 		}
 	}
@@ -221,7 +221,7 @@ public class SessionClient extends ClientBase {
 				} else {
 					OnLoginFail(loginMsg.getLoginFailReson());
 					if (LoginFail != null) {
-						LoginFail.notifyEvent(null);
+						LoginFail.notifyEvent(loginMsg.getLoginFailReson());
 					}
 				}
 			} else if (message.IsMessage(MessageType.HEARTBEAT.getVal())) {

@@ -15,5 +15,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFramework"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/TestCore"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

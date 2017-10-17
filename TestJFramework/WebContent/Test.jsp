@@ -1,3 +1,4 @@
+<%@page import="Ljc.JFramework.SOA.ESBClient"%>
 <%@page import="Ljc.JFramework.SOA.SOARedirectRequest"%>
 <%@page import="Ljc.JFramework.SOA.SOARequest"%>
 <%@page import="Ljc.JFramework.SOA.ESBConfig"%>
@@ -33,22 +34,21 @@
 <%
 PrintWriter pw=response.getWriter();
 
-  SOARedirectRequest req=new SOARedirectRequest();
-  req.setFuncId(100);
-  req.setRequestTime(new Date());
-  req.setServiceNo(150);
-  
-  byte[] bytes= EntityBufCore.Serialize(req);
-  for(byte b:bytes){
-	  pw.print(String.valueOf(b));
-  }
+ 
   
   pw.print("<br/>");
 
 
   ESBConfig cfg= ESBConfig.ReadConfig();
 
-  //LogManager.Info("test hello");
+  ESBClient ec=new ESBClient();
+  Core.CallBackTest callback=new Core.CallBackTest();
+  ec.LoginSuccess.addEvent(callback, "AfterLoginSuccess", null);
+  ec.LoginFail.addEvent(callback, "AfterLoginFail", String.class);
+  ec.StartClient();
+  ec.Login("", "");
+  
+  Thread.sleep(1000);
 
   
   pw.print("<br/>");
