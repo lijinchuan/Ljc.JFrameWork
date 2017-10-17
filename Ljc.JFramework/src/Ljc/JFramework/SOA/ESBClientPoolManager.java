@@ -1,6 +1,7 @@
 package Ljc.JFramework.SOA;
 
 import java.util.Random;
+import java.util.function.Function;
 
 import Ljc.JFramework.Utility.Func;
 
@@ -15,6 +16,20 @@ public class ESBClientPoolManager {
 		Clients = new ESBClient[clientcount];
 		for (int i = 0; i < clientcount; i++) {
 			ESBClient client = getClient == null ? new ESBClient() : getClient.notifyEvent(i);
+			client.Error.addEvent(this, "client_Error", Exception.class);
+			client.Login(null, null);
+			Clients[i] = client;
+		}
+	}
+
+	public ESBClientPoolManager(Integer clientcount, Function<Integer, ESBClient> getClient) throws Exception {
+		if (clientcount == 0) {
+			clientcount = 5;
+		}
+
+		Clients = new ESBClient[clientcount];
+		for (int i = 0; i < clientcount; i++) {
+			ESBClient client = getClient == null ? new ESBClient() : getClient.apply(i);
 			client.Error.addEvent(this, "client_Error", Exception.class);
 			client.Login(null, null);
 			Clients[i] = client;

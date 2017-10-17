@@ -53,7 +53,7 @@ public class SessionClient extends ClientBase {
 		}
 	}
 
-	private final boolean StartSession() {
+	public final boolean StartSession() {
 		// TODO Auto-generated method stub
 		try {
 			if (!isStartClient && !StartClient())
