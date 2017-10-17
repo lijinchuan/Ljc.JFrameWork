@@ -26,14 +26,15 @@ public class SocketApplicationComm {
 			long size = 0;
 			data = EntityBufCore.Serialize(message, true);
 
-			byte[] dataLen = BitConverter.GetBytes(data.length);
+			byte[] dataLen = BitConverter.GetBytes(data.length + 4);
 
 			byte[] data2 = new byte[data.length + 8];
 			for (int i = 0; i < 4; i++) {
 				data2[i] = dataLen[i];
 			}
 
-			int crc32 = (int) HashEncryptUtil.GetCRC32(data, 8);
+			int crc32 = (int) HashEncryptUtil.GetCRC32(data, 0);
+			System.out.println("ะฃั้:" + String.valueOf(crc32));
 			byte[] crc32bytes = BitConverter.GetBytes(crc32);
 			for (int i = 4; i < 8; i++) {
 				data2[i] = crc32bytes[i - 4];

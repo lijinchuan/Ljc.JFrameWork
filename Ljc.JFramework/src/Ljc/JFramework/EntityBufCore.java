@@ -98,6 +98,7 @@ public class EntityBufCore {
 			ebtype.setDefaultValue(_defaultString);
 			break;
 		case "Ljc.JFramework.TypeUtil.DateTime":
+		case "java.util.Date":
 			ebtype.setEntityType(EntityType.DATETIME);
 			break;
 		case "java.math.BigDecimal":
