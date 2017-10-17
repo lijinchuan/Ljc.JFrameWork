@@ -58,7 +58,7 @@ public class EntityBufCore {
 			ebtype.setClassType(type);
 		}
 
-		switch (type.getTypeName()) {
+		switch (ebtype.getClassType().getTypeName()) {
 		case "short":
 			ebtype.setEntityType(EntityType.SHORT);
 			ebtype.setDefaultValue(_defaultShort);
@@ -78,6 +78,7 @@ public class EntityBufCore {
 			ebtype.setDefaultValue(_defaultLong);
 			break;
 		case "byte":
+		case "java.lang.Byte":
 			ebtype.setEntityType(EntityType.BYTE);
 			ebtype.setDefaultValue(_defaultByte);
 			break;

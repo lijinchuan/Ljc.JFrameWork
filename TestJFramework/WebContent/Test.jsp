@@ -48,7 +48,7 @@ PrintWriter pw=response.getWriter();
   ec.StartClient();
   ec.Login("", "");
   
-  Thread.sleep(1000);
+  Thread.sleep(60000);
 
   
   pw.print("<br/>");

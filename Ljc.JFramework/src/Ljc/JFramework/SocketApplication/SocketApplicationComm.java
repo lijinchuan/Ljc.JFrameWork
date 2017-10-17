@@ -56,7 +56,7 @@ public class SocketApplicationComm {
 
 				} finally {
 					if (dos != null) {
-						dos.close();
+						// dos.close();
 					}
 				}
 
