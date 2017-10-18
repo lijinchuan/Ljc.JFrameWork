@@ -10,7 +10,7 @@ import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketApplicationException;
 import Ljc.JFramework.SocketApplication.SocketEasy.Client.SessionClient;
-import Ljc.JFramework.Utility.Action;
+import Ljc.JFramework.Utility.StringUtil;
 
 public class ESBClient extends SessionClient {
 	private static ESBClientPoolManager _clientmanager;
@@ -25,9 +25,15 @@ public class ESBClient extends SessionClient {
 		}
 	}
 
+	private int _serviceNo = -1;
+
 	public ESBClient(String serverip, int serverport, boolean startSession) {
 		super(serverip, serverport, startSession);
 		// TODO Auto-generated constructor stub
+	}
+
+	public void SetServiceNo(int value) {
+		this._serviceNo = value;
 	}
 
 	public ESBClient() throws Exception {
@@ -116,34 +122,48 @@ public class ESBClient extends SessionClient {
 	}
 
 	private static String[] OrderIp(String[] ips) {
-		String[] orderips = new String[6];
+
+		String[] temporderips = new String[6 + ips.length];
+		int offset = 6;
 		for (String ip : ips) {
+			int pos = 5;
 			if (ip.startsWith("192.168.0.")) {
-				orderips[0] = ip;
+				pos = 0;
 			}
 
 			else if (ip.startsWith("192.168.1.")) {
-				orderips[1] = ip;
+				pos = 1;
 			}
 
 			else if (ip.startsWith("192.168.")) {
-				orderips[2] = ip;
+				pos = 2;
 			}
 
 			else if (ip.startsWith("172.")) {
-				orderips[3] = ip;
+				pos = 3;
 			}
 
 			else if (ip.startsWith("10.")) {
-				orderips[4] = ip;
+				pos = 4;
 			} else {
-				orderips[5] = ip;
+				pos = 5;
+			}
+			if (!StringUtil.isNullOrEmpty(temporderips[pos])) {
+				temporderips[offset++] = ip;
+			} else {
+				temporderips[pos] = ip;
 			}
 		}
 
-		// return orderips;
+		String[] orderips = new String[ips.length];
+		int index = 0;
+		for (String ip : temporderips) {
+			if (!StringUtil.isNullOrEmpty(ip)) {
+				orderips[index++] = ip;
+			}
+		}
 
-		return ips;
+		return orderips;
 	}
 
 	public static <T> T DoSOARequest2(Class<T> classt, int serviceId, int functionId, Object param) throws Exception {
@@ -160,57 +180,69 @@ public class ESBClient extends SessionClient {
 			}
 
 			if (takecleint) {
-				Action action = new Action();
-				Ljc.JFramework.Utility.ThreadPoolUtil.QueueUserWorkItem(action, null);
+				Runnable act = new Runnable() {
 
-				GetRegisterServiceInfoResponse respserviceinfo = DoSOARequest(GetRegisterServiceInfoResponse.class,
-						Consts.ESBServerServiceNo, Consts.FunNo_GetRegisterServiceInfo,
-						new GetRegisterServiceInfoRequest(serviceId));
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						GetRegisterServiceInfoResponse respserviceinfo;
+						try {
+							respserviceinfo = DoSOARequest(GetRegisterServiceInfoResponse.class,
+									Consts.ESBServerServiceNo, Consts.FunNo_GetRegisterServiceInfo,
+									new GetRegisterServiceInfoRequest(serviceId));
 
-				if (respserviceinfo.getInfos() != null && respserviceinfo.getInfos().length > 0) {
-					List<ESBClientPoolManager> poollist = new ArrayList<ESBClientPoolManager>();
-					for (RegisterServiceInfo info : respserviceinfo.getInfos()) {
-						if (info.getRedirectTcpIps() != null) {
+							if (respserviceinfo.getInfos() != null && respserviceinfo.getInfos().length > 0) {
+								List<ESBClientPoolManager> poollist = new ArrayList<ESBClientPoolManager>();
+								for (RegisterServiceInfo info : respserviceinfo.getInfos()) {
+									if (info.getRedirectTcpIps() != null) {
 
-							for (String ip : OrderIp(info.getRedirectTcpIps())) {
-								try {
-									ESBClient client = new ESBClient(ip, info.getRedirectTcpPort(), false);
-									/*
-									 * client.Error.addEvent(object, methodName, tClass) { if (ex is
-									 * System.Net.WebException) { client.CloseClient(); client.Dispose(); lock
-									 * (_esbClientDicManager) { _esbClientDicManager.remove(serviceId); } } };
-									 */
-									if (client.StartSession()) {
-										poollist.add(new ESBClientPoolManager(5, idx -> {
-											if (idx == 0) {
-												return client;
+										for (String ip : OrderIp(info.getRedirectTcpIps())) {
+											try {
+												ESBClient client = new ESBClient(ip, info.getRedirectTcpPort(), false);
+												client.SetServiceNo(info.getServiceNo());
+
+												client.Error.addEvent(client, "Clent_Error", Exception.class);
+
+												if (client.StartSession()) {
+													poollist.add(new ESBClientPoolManager(5, idx -> {
+														if (idx == 0) {
+															return client;
+														}
+														ESBClient newclient = new ESBClient(ip,
+																info.getRedirectTcpPort(), false);
+														newclient.SetServiceNo(info.getServiceNo());
+														newclient.StartSession();
+
+														newclient.Error.addEvent(client, "Clent_Error",
+																Exception.class);
+														return newclient;
+													}));
+													// LogHelper.Instance.Debug(string.Format("创建tcp客户端成功:{0},端口{1}",
+													// ip,
+													// info.RedirectTcpPort));
+													break;
+												}
+											} catch (Exception ex) {
+												// LogHelper.Instance.Debug(string.Format("创建tcp客户端失败:{0},端口{1}", ip,
+												// info.RedirectTcpPort));
 											}
-											ESBClient newclient = new ESBClient(ip, info.getRedirectTcpPort(), false);
-											newclient.StartSession();
-											/*
-											 * newclient.Error += (ex) => { if (ex is System.Net.WebException) {
-											 * client.CloseClient(); client.Dispose(); lock (_esbClientDicManager) {
-											 * _esbClientDicManager.Remove(serviceId); } } };
-											 */
-											return newclient;
-										}));
-										// LogHelper.Instance.Debug(string.Format("创建tcp客户端成功:{0},端口{1}", ip,
-										// info.RedirectTcpPort));
-										break;
+										}
 									}
-								} catch (Exception ex) {
-									// LogHelper.Instance.Debug(string.Format("创建tcp客户端失败:{0},端口{1}", ip,
-									// info.RedirectTcpPort));
+								}
+								if (poollist.size() > 0) {
+									synchronized (_esbClientDicManager) {
+										_esbClientDicManager.put(serviceId, poollist);
+									}
 								}
 							}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
-					if (poollist.size() > 0) {
-						synchronized (_esbClientDicManager) {
-							_esbClientDicManager.put(serviceId, poollist);
-						}
-					}
-				}
+
+				};
+				Ljc.JFramework.Utility.ThreadPoolUtil.QueueUserWorkItem(act);
 			}
 		}
 
@@ -226,6 +258,15 @@ public class ESBClient extends SessionClient {
 			return client.DoRequest(classt, functionId, param);
 		} else {
 			return DoSOARequest(classt, serviceId, functionId, param);
+		}
+	}
+
+	private void Clent_Error(Exception ex) {
+
+		this.CloseClient();
+		// client.Dispose();
+		synchronized (_esbClientDicManager) {
+			_esbClientDicManager.remove(this._serviceNo);
 		}
 	}
 

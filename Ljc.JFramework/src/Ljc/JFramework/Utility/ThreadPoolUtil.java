@@ -40,6 +40,15 @@ public class ThreadPoolUtil {
 		return true;
 	}
 
+	public static Boolean QueueUserWorkItem(Runnable run) throws InterruptedException {
+		if (run == null) {
+			return false;
+		}
+		// _poolqueues.put(run);
+		_threadPool.execute(run);
+		return true;
+	}
+
 	public static long GetTaskCount() {
 		return _threadPool.getTaskCount();
 	}
