@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="Ljc.JFramework.MemoryStreamWriter"/>
-<fullyQualifiedTypeName name="java.lang.reflect.Type"/>
-<fullyQualifiedTypeName name="java.lang.reflect.ParameterizedType"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
-<fullyQualifiedTypeName name="java.lang.Short"/>
-<fullyQualifiedTypeName name="java.lang.Math"/>
-<fullyQualifiedTypeName name="org.apache.tomcat.util.modeler.modules.ModelerSource"/>
-<fullyQualifiedTypeName name="java.math.BigDecimal"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitArray"/>
@@ -20,7 +12,6 @@
 <fullyQualifiedTypeName name="java.util.concurrent.locks.StampedLock"/>
 <fullyQualifiedTypeName name="java.util.concurrent.locks.ReentrantReadWriteLock"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ListIterator"/>
 <fullyQualifiedTypeName name="java.security.KeyRep.Type"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
@@ -60,4 +51,13 @@
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.util.Map.Entry"/>
+<fullyQualifiedTypeName name="org.bson.BSONObject"/>
+<fullyQualifiedTypeName name="org.bson.conversions.Bson"/>
+<fullyQualifiedTypeName name="com.mongodb.client.model.Updates"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.mongodb.client.model.PushOptions"/>
+<fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndUpdateOptions"/>
+<fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndDeleteOptions"/>
+<fullyQualifiedTypeName name="com.mongodb.client.model.CountOptions"/>
 </qualifiedTypeNameHistroy>

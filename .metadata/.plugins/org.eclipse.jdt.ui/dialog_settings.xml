@@ -3,7 +3,7 @@
 	<item value="false" key="TypeHierarchyViewPart.qualifiednames"/>
 	<item value="3" key="TypeHierarchyViewPart.orientation"/>
 	<item value="false" key="TypeHierarchyViewPart.linkeditors"/>
-	<item value="C:\Program Files\Java\jetty-distribution-9.4.1.v20170120\jetty-distribution-9.4.1.v20170120\lib\apache-jsp" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="D:\GitHub\Ljc.JFrameWork\lib" key="org.eclipse.jdt.ui.lastextjar"/>
 	<item value="2" key="TypeHierarchyViewPart.hierarchyview"/>
 	<item value="filter_imports;" key="filters_last_used"/>
 	<section name="ProblemSeveritiesConfigurationBlock">
@@ -83,7 +83,7 @@
 		<item value="32" key="DIALOG_Y_ORIGIN"/>
 	</section>
 	<section name="BuildPathsPropertyPage">
-		<item value="0" key="pageIndex"/>
+		<item value="2" key="pageIndex"/>
 	</section>
 	<section name="NewPackageWizardPage">
 		<item value="false" key="create_package_info_java"/>

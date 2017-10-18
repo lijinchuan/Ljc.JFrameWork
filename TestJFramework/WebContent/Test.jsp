@@ -34,7 +34,19 @@
 <%
 PrintWriter pw=response.getWriter();
 
- 
+String path=this.getClass().getClassLoader().getResource("").getPath();
+System.out.println(path);
+java.io.InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("config.properties");  
+System.out.println("begin!!!");  
+java.util.Properties properties = new java.util.Properties();  
+try{  
+	properties.load(inputStream);  
+}catch (java.io.IOException ioE){  
+    ioE.printStackTrace();  
+}finally{  
+    inputStream.close();  
+}  
+System.out.println("name:"+properties.getProperty("name"));  
   
   pw.print("<br/>");
 
