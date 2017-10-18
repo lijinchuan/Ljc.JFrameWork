@@ -2,11 +2,11 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFramework"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

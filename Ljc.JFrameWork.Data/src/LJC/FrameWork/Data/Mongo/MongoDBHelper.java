@@ -12,6 +12,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.FindOneAndDeleteOptions;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
 
 import Ljc.JFramework.Box;
 import Ljc.JFramework.Utility.StringUtil;
@@ -200,35 +202,72 @@ public class MongoDBHelper {
 		return list.get(0);
 	}
 
-	public static <T> boolean Update(Class<T> classt,
-	String connectionName, String database,
-	String collection, MongoQueryWarpper querys,
-	MongoUpdateWarpper updates, MongoUpdateFlagsWarpper flgs=null)
-	{
-        if (updates == null || updates.IsEmpty)
-        {
-            return false;
-        }
+	public static <T> boolean Update(Class<T> classt, String connectionName, String database, String collection,
+			MongoQueryWarpper querys, MongoUpdateWarpper updates, MongoUpdateFlagsWarpper flgs) throws Exception {
+		if (updates == null || updates.getIsEmpty()) {
+			return false;
+		}
 
-        IMongoQuery mongoquery = querys == null ? Query.Null : querys.MongoQuery;
+		BasicDBObject mongoquery = querys == null ? null : querys.MongoQuery;
 
-        MD.Builders.UpdateBuilder updateBuilder = updates.MongoUpdateBuilder;
-        if (updateBuilder != null)
-        {
-            var mongocollection = GetCollecion<T>(connectionName, database, collection);
+		Bson updateBuilder = updates.MongoUpdateBuilder;
+		if (updateBuilder != null) {
+			MongoCollection<T> mongocollection = GetCollecion(classt, connectionName, database, collection);
 
-            if (flgs == null)
-            {
-                mongocollection.Update(mongoquery, updateBuilder);
-            }
-            else
-            {
-                mongocollection.Update(mongoquery, updateBuilder, flgs.MongoUpdateFlags);
-            }
-            return true;
-        }
+			if (flgs == null) {
+				mongocollection.updateMany(mongoquery, updateBuilder);
+			} else {
+				if (flgs.getIsMulti()) {
+					mongocollection.updateMany(mongoquery, updateBuilder, flgs.MongoUpdateFlags);
+				} else {
+					mongocollection.updateOne(mongoquery, updateBuilder, flgs.MongoUpdateFlags);
+				}
+			}
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
+
+	public static <T> T FindAndModify(Class<T> classt, String connectionName, String database, String collection,
+			MongoQueryWarpper querys, MongoUpdateWarpper updates, MongoSortWarpper sorts, boolean returnNew,
+			boolean upsert) throws Exception {
+		BasicDBObject mongoquery = querys == null ? null : querys.MongoQuery;
+		Bson mongosort = (sorts == null || sorts.MongoSortBy == null) ? null : sorts.MongoSortBy;
+		MongoCollection<T> mongocollection = GetCollecion(classt, connectionName, database, collection);
+		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions();
+		if (mongosort != null) {
+			options.sort(mongosort);
+		}
+
+		options.upsert(upsert);
+		T retresult = mongocollection.findOneAndUpdate(mongoquery, updates.MongoUpdateBuilder, options);
+
+		return retresult;
+
+	}
+
+	public static <T> T FindAndRemove(Class<T> classt, String connectionName, String database, String collection,
+			MongoQueryWarpper querys, MongoSortWarpper sorts) throws Exception {
+		BasicDBObject mongoquery = querys == null ? null : querys.MongoQuery;
+		Bson mongosort = (sorts == null || sorts.MongoSortBy == null) ? null : sorts.MongoSortBy;
+		MongoCollection<T> mongocollection = GetCollecion(classt, connectionName, database, collection);
+		FindOneAndDeleteOptions options = new FindOneAndDeleteOptions();
+		if (mongosort != null) {
+			options.sort(mongosort);
+		}
+		T retresult = mongocollection.findOneAndDelete(mongoquery, options);
+
+		return retresult;
+	}
+
+	public static <T> long Count(Class<T> classt, String connectionName, String database, String collection,
+			MongoQueryWarpper querys) throws Exception {
+		BasicDBObject mongoquery = querys == null ? null : querys.MongoQuery;
+		MongoCollection<T> mongocollection = GetCollecion(classt, connectionName, database, collection);
+		long count = mongocollection.count(mongoquery);
+
+		return count;
+	}
 
 }

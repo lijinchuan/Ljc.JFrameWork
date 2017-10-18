@@ -1,17 +1,17 @@
 package LJC.FrameWork.Data.Mongo;
 
-import org.bson.BsonArray;
-import org.bson.BsonValue;
+import java.util.List;
 
-import com.mongodb.BasicDBObject;
+import org.bson.conversions.Bson;
+
+import com.mongodb.client.model.Updates;
 
 public class MongoUpdateWarpper {
-	BasicDBObject MongoUpdateBuilder = new BasicDBObject();
+	Bson MongoUpdateBuilder = null;
 
 	private boolean _isempty = true;
 
 	public boolean getIsEmpty() {
-
 		return _isempty;
 	}
 
@@ -19,7 +19,12 @@ public class MongoUpdateWarpper {
 	}
 
 	public MongoUpdateWarpper Set(String name, Object val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.append("$set", new BasicDBObject().put(name, val));
+		Bson newupdate = Updates.set(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
@@ -27,100 +32,155 @@ public class MongoUpdateWarpper {
 	}
 
 	public MongoUpdateWarpper AddToSet(String name, Object val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.append("$addToSet ", new BasicDBObject().put(name, val));
+		Bson newupdate = Updates.addToSet(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper AddToSetEach(string name, object[] val) {
-		var bsonval = BsonArray.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.AddToSetEach(name, bsonval);
+	public MongoUpdateWarpper AddToSetEach(String name, List<Object> val) {
+		Bson newupdate = Updates.addEachToSet(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper BitwiseAnd(string name, long val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.BitwiseAnd(name, val);
+	public MongoUpdateWarpper BitwiseAnd(String name, long val) {
+		Bson newupdate = Updates.bitwiseAnd(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper BitwiseOr(string name, long val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.BitwiseOr(name, val);
+	public MongoUpdateWarpper BitwiseOr(String name, long val) {
+		Bson newupdate = Updates.bitwiseOr(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper BitwiseXor(string name, long val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.BitwiseXor(name, val);
+	public MongoUpdateWarpper BitwiseXor(String name, long val) {
+		Bson newupdate = Updates.bitwiseOr(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper Max(string name, object val) {
-		var bsonval = BsonValue.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.Max(name, bsonval);
+	public MongoUpdateWarpper Max(String name, Object val) {
+		Bson newupdate = Updates.max(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper Min(string name, object val) {
-		var bsonval = BsonValue.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.Min(name, bsonval);
+	public MongoUpdateWarpper Min(String name, Object val) {
+		Bson newupdate = Updates.min(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper Mul(string name, double val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.Mul(name, val);
+	public MongoUpdateWarpper Mul(String name, double val) {
+		Bson newupdate = Updates.mul(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper Mul(string name, long val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.Mul(name, val);
+	public MongoUpdateWarpper Mul(String name, long val) {
+		Bson newupdate = Updates.mul(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper SetOnInsert(string name, object val) {
-		var bsonval = BsonValue.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.SetOnInsert(name, bsonval);
-		if (_isempty) {
-			_isempty = false;
+	public MongoUpdateWarpper SetOnInsert(String name, Object val) {
+		Bson newupdate = Updates.setOnInsert(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
 		}
-
-		return this;
-	}
-
-	public MongoUpdateWarpper PopFirst(string name) {
-		MongoUpdateBuilder = MongoUpdateBuilder.PopFirst(name);
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper PopLast(string name) {
-		MongoUpdateBuilder = MongoUpdateBuilder.PopLast(name);
+	public MongoUpdateWarpper PopFirst(String name) {
+		Bson newupdate = Updates.popFirst(name);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
+		if (_isempty) {
+			_isempty = false;
+		}
+		return this;
+	}
+
+	public MongoUpdateWarpper PopLast(String name) {
+		Bson newupdate = Updates.popLast(name);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
@@ -128,7 +188,12 @@ public class MongoUpdateWarpper {
 	}
 
 	public MongoUpdateWarpper UnSet(String name) {
-		MongoUpdateBuilder = MongoUpdateBuilder.append("$unset", new BasicDBObject().put(name, Integer.valueOf(1)));
+		Bson newupdate = Updates.unset(name);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
@@ -136,7 +201,12 @@ public class MongoUpdateWarpper {
 	}
 
 	public MongoUpdateWarpper Incr(String name, long val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.append("$inc", new BasicDBObject().put(name, val));
+		Bson newupdate = Updates.inc(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
@@ -144,68 +214,104 @@ public class MongoUpdateWarpper {
 	}
 
 	public MongoUpdateWarpper Incr(String name, double val) {
-		MongoUpdateBuilder = MongoUpdateBuilder.append("$inc", new BasicDBObject().put(name, val));
+		Bson newupdate = Updates.inc(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper Pull(string name, object val) {
-		var bsonval = BsonValue.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.Pull(name, bsonval);
+	public MongoUpdateWarpper Pull(String name, Object val) {
+		Bson newupdate = Updates.pull(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper PullAll(string name, object[] val) {
-		var bsonval = BsonArray.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.PullAll(name, bsonval);
+	public MongoUpdateWarpper PullAll(String name, List<Object> val) {
+		Bson newupdate = Updates.pullAll(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper Push(string name, object val) {
-		var bsonval = BsonValue.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.Push(name, bsonval);
+	public MongoUpdateWarpper Push(String name, Object val) {
+		Bson newupdate = Updates.push(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper PushAll(string name, object[] val) {
-		var bsonval = BsonArray.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.PushAll(name, bsonval);
+	public MongoUpdateWarpper PushEach(String name, List<Object> val) {
+		// new PushOptions()
+		Bson newupdate = Updates.pushEach(name, val);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper PushEach(string name, object[] val) {
-		var bsonval = BsonArray.Create(val);
-		MongoUpdateBuilder = MongoUpdateBuilder.PushEach(name, bsonval);
+	public MongoUpdateWarpper Rename(String oldname, String newname) {
+		Bson newupdate = Updates.rename(oldname, newname);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper Rename(string oldname, string newname) {
-		MongoUpdateBuilder = MongoUpdateBuilder.Rename(oldname, newname);
+	public MongoUpdateWarpper CurrentDate(String name) {
+		Bson newupdate = Updates.currentDate(name);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
 		return this;
 	}
 
-	public MongoUpdateWarpper CurrentDate(string name) {
-		MongoUpdateBuilder = MongoUpdateBuilder.CurrentDate(name);
+	public MongoUpdateWarpper CurrentTimestamp(String name) {
+		Bson newupdate = Updates.currentTimestamp(name);
+		if (MongoUpdateBuilder != null) {
+			MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, newupdate);
+		} else {
+			MongoUpdateBuilder = newupdate;
+		}
 		if (_isempty) {
 			_isempty = false;
 		}
@@ -213,9 +319,15 @@ public class MongoUpdateWarpper {
 	}
 
 	public MongoUpdateWarpper Combine(MongoUpdateWarpper other) {
-		MongoUpdateBuilder = MongoUpdateBuilder.Combine(other.MongoUpdateBuilder);
+		if (other != null) {
+			if (MongoUpdateBuilder != null) {
+				MongoUpdateBuilder = Updates.combine(MongoUpdateBuilder, other.MongoUpdateBuilder);
+			} else {
+				MongoUpdateBuilder = other.MongoUpdateBuilder;
+			}
+		}
 		if (_isempty) {
-			_isempty = other.IsEmpty;
+			_isempty = other != null && other.getIsEmpty();
 		}
 		return this;
 	}
