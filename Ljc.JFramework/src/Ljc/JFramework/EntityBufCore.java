@@ -60,6 +60,7 @@ public class EntityBufCore {
 
 		switch (ebtype.getClassType().getTypeName()) {
 		case "short":
+		case "java.lang.Short":
 			ebtype.setEntityType(EntityType.SHORT);
 			ebtype.setDefaultValue(_defaultShort);
 			break;
@@ -74,6 +75,7 @@ public class EntityBufCore {
 			ebtype.setDefaultValue(_defaultInt);
 			break;
 		case "long":
+		case "java.lang.Long":
 			ebtype.setEntityType(EntityType.INT64);
 			ebtype.setDefaultValue(_defaultLong);
 			break;
@@ -83,14 +85,17 @@ public class EntityBufCore {
 			ebtype.setDefaultValue(_defaultByte);
 			break;
 		case "char":
+		case "java.lang.Character":
 			ebtype.setEntityType(EntityType.CHAR);
 			ebtype.setDefaultValue(_defaultChar);
 			break;
 		case "double":
+		case "java.lang.Double":
 			ebtype.setEntityType(EntityType.DOUBLE);
 			ebtype.setDefaultValue(_defaultDouble);
 			break;
 		case "float":
+		case "java.lang.Float":
 			ebtype.setEntityType(EntityType.FLOAT);
 			ebtype.setDefaultValue(_defaultFloat);
 			break;
@@ -107,6 +112,7 @@ public class EntityBufCore {
 			ebtype.setDefaultValue(_defaultDecimal);
 			break;
 		case "java.lang.Boolean":
+		case "boolean":
 			ebtype.setEntityType(EntityType.BOOL);
 			ebtype.setDefaultValue(_defaultBool);
 			break;
@@ -745,7 +751,7 @@ public class EntityBufCore {
 
 	private static Object DeSerialize(Class DestType, MemoryStreamReader msReader) throws Exception {
 
-		int firstByte = (int) msReader.ReadByte();
+		int firstByte = msReader.ReadUByte();
 		if ((firstByte & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
 			return null;
 		}
@@ -775,7 +781,7 @@ public class EntityBufCore {
 
 						for (int i = 0; i < len; i++) {
 							// 读下标志
-							int flag = msReader.ReadByte();
+							int flag = msReader.ReadUByte();
 							if ((flag & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
 								objs[i] = null;
 							} else {
@@ -789,7 +795,7 @@ public class EntityBufCore {
 						}
 					}
 				} else { // 读下标志
-					int flag = msReader.ReadByte();
+					int flag = msReader.ReadUByte();
 					if ((flag & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
 						// ret.SetValue(buftype.Item1.Property, null);
 						buftype.GetItem1().getProperty().GetSetValueMethod().invoke(ret, null);

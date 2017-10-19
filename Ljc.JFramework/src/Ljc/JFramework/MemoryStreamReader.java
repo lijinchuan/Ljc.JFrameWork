@@ -23,6 +23,7 @@ public class MemoryStreamReader {
 	private final static String _defaultString = "";
 	private final static BigDecimal _defaultDecimal = BigDecimal.ZERO;
 	private final static Boolean _defaultBool = Boolean.FALSE;
+	private final static int UByteMax = 255;
 
 	public MemoryStreamReader(ByteArrayInputStream reader) {
 		_reader = reader;
@@ -31,6 +32,10 @@ public class MemoryStreamReader {
 	public byte ReadByte() {
 		// TODO Auto-generated method stub
 		return (byte) _reader.read();
+	}
+
+	public int ReadUByte() {
+		return ReadByte() & UByteMax;
 	}
 
 	private UShort ReadRedirectUInt16() {

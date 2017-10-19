@@ -1,9 +1,8 @@
 package Ljc.JFramework.SocketApplication.SocketEasy.Client;
 
 import java.util.HashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Ljc.JFramework.AutoReSetEventResult;
 import Ljc.JFramework.CoreException;
@@ -22,7 +21,7 @@ import Ljc.JFramework.Utility.Converter;
 import Ljc.JFramework.Utility.StringUtil;
 
 public class SessionClient extends ClientBase {
-	ScheduledExecutorService timer;
+	private Timer timer;
 
 	private Session SessionContext;
 	/// <summary>
@@ -128,16 +127,16 @@ public class SessionClient extends ClientBase {
 		SessionContext.setIsValid(true);
 
 		if (timer == null) {
-			timer = Executors.newScheduledThreadPool(1);
-			timer.schedule(new Runnable() {
+			timer = new Timer();
+			timer.schedule(new TimerTask() {
 
-				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					HeartBeat_Elapsed();
 				}
 
-			}, SessionContext.getHeadBeatInterVal(), TimeUnit.MILLISECONDS);
+			}, Math.max(SessionContext.getHeadBeatInterVal(), 5000),
+					Math.max(SessionContext.getHeadBeatInterVal(), 5000));
 		}
 	}
 
@@ -231,7 +230,7 @@ public class SessionClient extends ClientBase {
 				SessionContext.setIsValid(false);
 				stop = true;
 				isStartClient = false;
-				this.timer.shutdown();
+				this.timer.cancel();
 			} else if (message.IsMessage(MessageType.RELOGIN.getVal())) {
 				if (SessionContext == null) {
 					throw new Exception("请先调用login方法。");

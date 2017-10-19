@@ -15,7 +15,10 @@ public class ESBClientPoolManager {
 
 		Clients = new ESBClient[clientcount];
 		for (int i = 0; i < clientcount; i++) {
-			ESBClient client = getClient == null ? new ESBClient() : getClient.notifyEvent(i);
+			ESBClient client = getClient.notifyEvent(i);
+			if (client == null) {
+				client = new ESBClient();
+			}
 			client.Error.addEvent(this, "client_Error", Exception.class);
 			client.Login(null, null);
 			Clients[i] = client;
@@ -29,8 +32,12 @@ public class ESBClientPoolManager {
 
 		Clients = new ESBClient[clientcount];
 		for (int i = 0; i < clientcount; i++) {
-			ESBClient client = getClient == null ? new ESBClient() : getClient.apply(i);
+			ESBClient client = getClient.apply(i);
+			if (client == null) {
+				client = new ESBClient();
+			}
 			client.Error.addEvent(this, "client_Error", Exception.class);
+			client.StartSession();
 			client.Login(null, null);
 			Clients[i] = client;
 		}

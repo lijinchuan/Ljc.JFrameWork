@@ -16,6 +16,7 @@ import com.mongodb.client.model.FindOneAndDeleteOptions;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 
 import Ljc.JFramework.Box;
+import Ljc.JFramework.Utility.ConfigUtil;
 import Ljc.JFramework.Utility.StringUtil;
 
 //下载最新驱动 http://mongodb.github.io/mongo-java-driver/
@@ -25,7 +26,6 @@ public class MongoDBHelper {
 	/// </summary>
 	private static HashMap<String, MongoClient> mongClientPoolDict = new HashMap<String, MongoClient>();
 	private static HashMap<String, MongoCollectionWarpper> CollectionDic = new HashMap<String, MongoCollectionWarpper>();
-	private static Object lockObj = new Object();
 
 	public static MongoClient CreateInstance(String path) {
 		MongoClient result = null;
@@ -48,7 +48,7 @@ public class MongoDBHelper {
 	}
 
 	public static MongoClient CreateInstanceUseConfig(String configname) throws Exception {
-		String connstr = System.getProperty(configname);
+		String connstr = ConfigUtil.GetConfigPropertiy(configname);
 		if (StringUtil.isNullOrEmpty(connstr)) {
 			throw new Exception(String.format("mongo配置不存在或者为空值：%s", configname));
 		}

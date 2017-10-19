@@ -150,8 +150,18 @@ public class ClientBase extends SocketBase {
 					throw new Exception("超过了最大字节数：" + this._maxPackageLength);
 				}
 
+				if (dataLen < 4) {
+					throw new Exception("最小是4位数：" + this._maxPackageLength);
+				}
+
 				ByteArrayOutputStream bs = new ByteArrayOutputStream();
 				MemoryStreamWriter ms = new MemoryStreamWriter(bs);
+
+				// 校验
+				if (inputstream.read(buff4) != 4) {
+					throw new Exception("最取四位校验数失败：" + this._maxPackageLength);
+				}
+				dataLen -= 4;
 
 				int readLen = 0;
 
