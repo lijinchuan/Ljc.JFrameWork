@@ -1,6 +1,7 @@
 package Ljc.JFramework.SocketApplication;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.UUID;
@@ -54,10 +55,12 @@ public class SocketApplicationComm {
 
 					dos.flush();
 
-				} finally {
+				} catch (IOException ex) {
 					if (dos != null) {
-						// dos.close();
+						dos.close();
 					}
+					s.close();
+					throw ex;
 				}
 
 				return data.length;

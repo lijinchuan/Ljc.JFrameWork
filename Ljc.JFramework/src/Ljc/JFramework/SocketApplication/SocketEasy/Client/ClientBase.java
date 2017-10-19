@@ -74,7 +74,7 @@ public class ClientBase extends SocketBase {
 
 	public void CloseClient() {
 		try {
-			if (socketClient != null && socketClient.isConnected()) {
+			if (socketClient != null && !socketClient.isClosed()) {
 				socketClient.close();
 			}
 			isStartClient = false;
@@ -83,9 +83,13 @@ public class ClientBase extends SocketBase {
 		}
 	}
 
+	private boolean IsConnected() {
+		return this.socketClient != null && this.socketClient.isConnected() && !this.socketClient.isClosed();
+	}
+
 	public Boolean StartClient() {
 		try {
-			if (socketClient != null && socketClient.isConnected())
+			if (this.IsConnected())
 				return true;
 
 			if (System.currentTimeMillis() - lastReStartClientTime <= reConnectClientTimeInterval)
@@ -213,7 +217,8 @@ public class ClientBase extends SocketBase {
 		if (!this.stop) {
 			ClientBase client = this;
 			SocketApplicationException ex = new SocketApplicationException("client出错", e);
-			if (socketClient != null && errorResume && !socketClient.isConnected()) {
+
+			if (socketClient != null && errorResume && (socketClient.isClosed() || !socketClient.isConnected())) {
 				ex.Data.put("checksocket", "需要发起重连");
 
 				try {

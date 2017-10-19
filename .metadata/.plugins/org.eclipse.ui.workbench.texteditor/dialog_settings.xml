@@ -2,12 +2,16 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Error" key="selection"/>
+		<item value="Conn" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="conn"/>
+			<item value="send"/>
+			<item value="OnError"/>
+			<item value="this.stop"/>
 			<item value="error"/>
 			<item value="start"/>
 			<item value="java.lang.boolean"/>
@@ -19,10 +23,6 @@
 			<item value="ProcessMessage"/>
 			<item value="post"/>
 			<item value="DeSerialize"/>
-			<item value="des"/>
-			<item value="StartHearteBeat"/>
-			<item value="HeartBeat_Elapsed"/>
-			<item value="debu"/>
 		</list>
 		<list key="replacehistory">
 		</list>
