@@ -40,8 +40,8 @@ public class ESBService extends SessionClient {
 		return super.DoMessage(message);
 	}
 
-	public Object DoResponse(int funcId, byte[] Param) {
-		return null;
+	public Object DoResponse(int funcId, byte[] Param) throws Exception {
+		throw new Exception(String.format("未知的功能号:%d", funcId));
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class ESBService extends SessionClient {
 		super.ReciveMessage(message);
 	}
 
-	public boolean RegisterService() throws Exception {
+	public final boolean RegisterService() throws Exception {
 		if (this.getServiceNo() < 0)
 			throw new Exception("注册服务失败：服务号不能为负数");
 

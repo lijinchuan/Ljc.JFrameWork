@@ -33,7 +33,7 @@
 <body>
 <%
 PrintWriter pw=response.getWriter();
-
+//Core.CallBackTest ct=new Core.CallBackTest();
 String path=this.getClass().getClassLoader().getResource("").getPath();
 System.out.println(path);
 java.io.InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("config.properties");  
@@ -52,15 +52,11 @@ System.out.println("name:"+properties.getProperty("name"));
 
 
   ESBConfig cfg= ESBConfig.ReadConfig();
-
-  ESBClient ec=new ESBClient();
-  Core.CallBackTest callback=new Core.CallBackTest();
-  ec.LoginSuccess.addEvent(callback, "AfterLoginSuccess", null);
-  ec.LoginFail.addEvent(callback, "AfterLoginFail", String.class);
-  ec.StartClient();
-  ec.Login("", "");
   
-  Thread.sleep(60000);
+  Core.PersionService service=new Core.PersionService();
+  service.Login(null, null);
+  
+  //Thread.sleep(60000);
 
   
   pw.print("<br/>");

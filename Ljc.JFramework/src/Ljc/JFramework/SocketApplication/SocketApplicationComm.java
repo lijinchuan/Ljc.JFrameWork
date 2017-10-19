@@ -13,7 +13,7 @@ import Ljc.JFramework.Utility.BitConverter;
 import Ljc.JFramework.Utility.HashEncryptUtil;
 
 public class SocketApplicationComm {
-	private static AtomicLong seqNum;
+	private static AtomicLong seqNum = new AtomicLong();
 	private static String _seqperfix = UUID.randomUUID().toString().replace("-", "");
 
 	public static int SendMessage(Socket s, Message message) throws CoreException {

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.ListIterator"/>
-<fullyQualifiedTypeName name="java.security.KeyRep.Type"/>
 <fullyQualifiedTypeName name="java.util.LinkedList"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.ReflectUtil"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
@@ -13,7 +11,6 @@
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.EntityBufCore"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.EntityType"/>
 <fullyQualifiedTypeName name="javax.xml.bind.JAXBContext"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
@@ -35,8 +32,6 @@
 <fullyQualifiedTypeName name="java.util.logging.Level"/>
 <fullyQualifiedTypeName name="java.util.logging.SimpleFormatter"/>
 <fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.util.Map.Entry"/>
 <fullyQualifiedTypeName name="org.bson.BSONObject"/>
 <fullyQualifiedTypeName name="org.bson.conversions.Bson"/>
@@ -60,4 +55,9 @@
 <fullyQualifiedTypeName name="java.util.function.Function"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.ThreadPoolUtil"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.SOA.ESBService"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.EntityBufCore"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
 </qualifiedTypeNameHistroy>

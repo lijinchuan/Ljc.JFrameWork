@@ -5,6 +5,7 @@
 	<projects>
 		<project>Ljc.JFramework</project>
 		<project>TestCore</project>
+		<project>Ljc.JFrameWork.Data</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

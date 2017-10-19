@@ -1,5 +1,7 @@
 package Ljc.JFramework.TypeUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -7,14 +9,16 @@ public class DateTime extends Date {
 	private static Date OADateBegin = new Date(-2209190400000L);
 	private static long DayMills = 24 * 60 * 60 * 1000;
 
-	/*
-	 * static { SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	 * 
-	 * try { OADateBegin = sf.parse("1899-12-30 00:00:00"); } catch (ParseException
-	 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
-	 * 
-	 * }
-	 */
+	private static SimpleDateFormat sfdatetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static SimpleDateFormat sfdate = new SimpleDateFormat("yyyy-MM-dd");
+
+	public static Date ParseDateTime(String str) throws ParseException {
+		return sfdatetime.parse(str);
+	}
+
+	public static Date ParseDate(String str) throws ParseException {
+		return sfdate.parse(str);
+	}
 
 	public DateTime(long time) {
 		super(time);

@@ -12,5 +12,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFramework"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFrameWork.Data"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

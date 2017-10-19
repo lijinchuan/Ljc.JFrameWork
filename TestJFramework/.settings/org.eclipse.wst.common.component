@@ -9,6 +9,9 @@
         <dependent-module archiveName="TestCore.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/TestCore/TestCore">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="Ljc.JFrameWork.Data.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Ljc.JFrameWork.Data/Ljc.JFrameWork.Data">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="TestJFramework"/>
         <property name="java-output-path" value="/TestJFramework/build/classes"/>
     </wb-module>

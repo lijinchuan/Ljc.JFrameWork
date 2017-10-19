@@ -18,7 +18,7 @@ public class ESBClient extends SessionClient {
 
 	static {
 		try {
-			ESBClientPoolManager _clientmanager = new ESBClientPoolManager(0, (i) -> null);
+			ESBClientPoolManager _clientmanager = new ESBClientPoolManager(4, (i) -> null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

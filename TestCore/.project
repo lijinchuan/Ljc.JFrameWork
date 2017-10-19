@@ -3,6 +3,7 @@
 	<name>TestCore</name>
 	<comment></comment>
 	<projects>
+		<project>Ljc.JFramework</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
