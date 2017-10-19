@@ -7,9 +7,6 @@ public class SocketBase {
 	public Action<Exception> Error = new Action<Exception>();
 
 	protected void OnError(Exception e) {
-		if (stop)
-			return;
-
 		if (Error != null) {
 			try {
 				Error.notifyEvent(e);

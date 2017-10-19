@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
-<fullyQualifiedTypeName name="java.sql.Date"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitArray"/>
-<fullyQualifiedTypeName name="java.lang.Byte"/>
-<fullyQualifiedTypeName name="java.lang.reflect.Array"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.Tuple"/>
-<fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.ReadWriteLock"/>
-<fullyQualifiedTypeName name="java.util.concurrent.locks.ReadWriteLock"/>
-<fullyQualifiedTypeName name="java.util.concurrent.locks.StampedLock"/>
-<fullyQualifiedTypeName name="java.util.concurrent.locks.ReentrantReadWriteLock"/>
 <fullyQualifiedTypeName name="java.util.Iterator"/>
 <fullyQualifiedTypeName name="java.util.ListIterator"/>
 <fullyQualifiedTypeName name="java.security.KeyRep.Type"/>
@@ -21,7 +10,6 @@
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UShort"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UInt16"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UInt32"/>
-<fullyQualifiedTypeName name="java.lang.Long"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.StringTypeFlag"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
@@ -36,7 +24,6 @@
 <fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.BitConverter"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.ThreadPoolUtil"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.Action"/>
 <fullyQualifiedTypeName name="java.util.concurrent.Executors"/>
 <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
@@ -60,4 +47,17 @@
 <fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndUpdateOptions"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndDeleteOptions"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.CountOptions"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="LJC.FrameWork.Data.Mongo.MongoDBHelper"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.ConfigUtil"/>
+<fullyQualifiedTypeName name="java.lang.Long"/>
+<fullyQualifiedTypeName name="java.lang.Character"/>
+<fullyQualifiedTypeName name="java.lang.Double"/>
+<fullyQualifiedTypeName name="java.lang.Float"/>
+<fullyQualifiedTypeName name="java.lang.Short"/>
+<fullyQualifiedTypeName name="java.util.TimerTask"/>
+<fullyQualifiedTypeName name="java.util.Timer"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.SocketApplicationException"/>
+<fullyQualifiedTypeName name="java.util.function.Function"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.ThreadPoolUtil"/>
 </qualifiedTypeNameHistroy>

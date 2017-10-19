@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.MemoryStreamWriter;
 import Ljc.JFramework.SocketApplication.Message;
+import Ljc.JFramework.SocketApplication.SocketApplicationException;
 import Ljc.JFramework.SocketApplication.SocketBase;
 import Ljc.JFramework.Utility.Action;
 import Ljc.JFramework.Utility.BitConverter;
@@ -203,5 +204,38 @@ public class ClientBase extends SocketBase {
 
 	protected void OnMessage(Message message) {
 
+	}
+
+	@Override
+	protected void OnError(Exception e) {
+		super.OnError(e);
+
+		if (!this.stop) {
+			ClientBase client = this;
+			SocketApplicationException ex = new SocketApplicationException("client出错", e);
+			if (socketClient != null && errorResume && !socketClient.isConnected()) {
+				ex.Data.put("checksocket", "需要发起重连");
+
+				try {
+					Ljc.JFramework.Utility.ThreadPoolUtil.QueueUserWorkItem(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							client.StartClient();
+						}
+
+					});
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				// new Action(() => StartClient()).BeginInvoke(null, null);
+			} else {
+				ex.Data.put("errorResume", errorResume);
+				ex.Data.put("socketClient.Connected", socketClient.isConnected());
+				ex.Data.put("checksocket", "不需要发起重连");
+			}
+		}
 	}
 }

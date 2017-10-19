@@ -3919,3 +3919,62 @@ java.nio.file.AccessDeniedException: E:\Work\learn\Git\Ljc.JFrameWork\Ljc.JFrame
 	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:399)
 	at org.eclipse.ui.actions.GlobalBuildAction$1.run(GlobalBuildAction.java:177)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+!SESSION 2017-10-19 17:33:22.050 -----------------------------------------------
+eclipse.buildId=4.7.0.I20170612-0950
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=zh_CN
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.emf.ecore 2 0 2017-10-19 17:33:49.475
+!MESSAGE Both 'org.eclipse.m2e.model.edit' and 'org.maven.ide.eclipse.maven_model_edit' register a package for 'http://maven.apache.org/POM/4.0.0'
+
+!ENTRY org.eclipse.emf.ecore 2 0 2017-10-19 17:33:49.490
+!MESSAGE Both 'org.eclipse.m2e.model.edit' and 'org.maven.ide.eclipse.maven_model_edit' register an extension parser for 'pom'
+
+!ENTRY org.eclipse.jface 2 0 2017-10-19 17:34:07.853
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2017-10-19 17:34:07.853
+!MESSAGE A conflict occurred for CTRL+F4:
+Binding(CTRL+F4,
+	ParameterizedCommand(Command(org.eclipse.ui.file.close,Close,
+		Close the active editor,
+		Category(org.eclipse.ui.category.file,File,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@61b990ee,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+F4,
+	ParameterizedCommand(Command(org.scala.tools.eclipse.search.commands.OpenTypeHierarchy,Open Type Hierarchy,
+		Open Type Hierarchy,
+		Category(org.scala.tools.eclipse.search.commands,Search - Scala,Search - Scala,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@7df9fcae,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.egit.ui 2 0 2017-10-19 17:34:25.106
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\Administrator'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-10-19 17:42:41.957
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Program Files\java-oxygen\eclipse\dropins\maven\eclipse\features\org.maven.ide.eclipse.feature_0.12.1.20110112-1712.jar.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-10-19 17:42:41.988
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Program Files\java-oxygen\eclipse\dropins\maven\eclipse\features\org.maven.ide.eclipse.sdk.feature_0.12.1.20110112-1712.jar.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-10-19 17:42:42.004
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Program Files\java-oxygen\eclipse\dropins\maven\eclipse\features\org.maven.ide.eclipse.site_0.12.1.20110112-1712.jar.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-10-19 17:42:46.543
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Program Files\java-oxygen\eclipse\dropins\maven\eclipse\features\org.maven.ide.eclipse.feature_0.12.1.20110112-1712.jar.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-10-19 17:42:46.543
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Program Files\java-oxygen\eclipse\dropins\maven\eclipse\features\org.maven.ide.eclipse.sdk.feature_0.12.1.20110112-1712.jar.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2017-10-19 17:42:46.543
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Program Files\java-oxygen\eclipse\dropins\maven\eclipse\features\org.maven.ide.eclipse.site_0.12.1.20110112-1712.jar.
