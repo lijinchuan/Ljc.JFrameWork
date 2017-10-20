@@ -33,7 +33,12 @@ public class MongoDBHelper {
 		if (!mongClientPoolDict.containsKey(path)) {
 			synchronized (mongClientPoolDict) {
 				if (!mongClientPoolDict.containsKey(path)) {
-					result = new MongoClient(path);
+					String[] hostandport = path.split(":");
+					if (hostandport.length == 1) {
+						result = new MongoClient(path, 27017);
+					} else {
+						result = new MongoClient(hostandport[0], Integer.valueOf(hostandport[1]));
+					}
 					mongClientPoolDict.put(path, result);
 				} else {
 					result = mongClientPoolDict.get(path);
@@ -119,14 +124,14 @@ public class MongoDBHelper {
 			Box<Long> total) throws Exception {
 		BasicDBObject mongoquery = querys == null ? null : querys.MongoQuery;
 		MongoCollection<T> mongocollection = GetCollecion(classt, connectionName, database, collection);
-		Bson mongosortby = sorts.MongoSortBy;
+		Bson mongosortby = sorts == null ? null : sorts.MongoSortBy;
 		int skip = (pageindex - 1) * pagesize;
 
 		FindIterable<T> finditer = null;
 		if (mongoquery != null) {
 			finditer = mongocollection.find(mongoquery, classt);
 		} else {
-			mongocollection.find(classt);
+			finditer = mongocollection.find(classt);
 		}
 		if (mongosortby != null) {
 			finditer = finditer.skip(skip).limit(pagesize).sort(mongosortby);
@@ -156,14 +161,14 @@ public class MongoDBHelper {
 			throws Exception {
 		BasicDBObject mongoquery = querys == null ? null : querys.MongoQuery;
 		MongoCollection<T> mongocollection = GetCollecion(classt, connectionName, database, collection);
-		Bson mongosortby = sorts.MongoSortBy;
+		Bson mongosortby = sorts == null ? null : sorts.MongoSortBy;
 		int skip = (pageindex - 1) * pagesize;
 
 		FindIterable<T> finditer = null;
 		if (mongoquery != null) {
 			finditer = mongocollection.find(mongoquery, classt);
 		} else {
-			mongocollection.find(classt);
+			finditer = mongocollection.find(classt);
 		}
 		if (mongosortby != null) {
 			finditer = finditer.skip(skip).limit(pagesize).sort(mongosortby);

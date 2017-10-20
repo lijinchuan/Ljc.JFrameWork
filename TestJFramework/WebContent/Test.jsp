@@ -1,3 +1,4 @@
+<%@page import="Core.MongoTestCore"%>
 <%@page import="Ljc.JFramework.SOA.ESBClient"%>
 <%@page import="Ljc.JFramework.SOA.SOARedirectRequest"%>
 <%@page import="Ljc.JFramework.SOA.SOARequest"%>
@@ -33,6 +34,10 @@
 <body>
 <%
 PrintWriter pw=response.getWriter();
+
+java.util.List<Entity.BlogType> list=new MongoTestCore().GetBlogTypes();
+pw.write(String.valueOf(list.size()));
+
 //Core.CallBackTest ct=new Core.CallBackTest();
 String path=this.getClass().getClassLoader().getResource("").getPath();
 System.out.println(path);
@@ -51,8 +56,8 @@ System.out.println("name:"+properties.getProperty("name"));
   pw.print("<br/>");
 
 
-  String helloMsg= ESBClient.DoSOARequest(String.class, 100, 1, "hello,李金川");
-  pw.print("hellosg:"+helloMsg);
+  //String helloMsg= ESBClient.DoSOARequest(String.class, 100, 1, "hello,李金川");
+  //pw.print("hellosg:"+helloMsg);
   
   ESBConfig cfg= ESBConfig.ReadConfig();
   
