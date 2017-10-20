@@ -5,7 +5,7 @@ import java.util.Date;
 public class SOARequest {
 	private int _serviceNo;
 	private int _funcId;
-	private Date _reqestTime;
+	private Date _requestTime;
 	private byte[] _param;
 
 	public int getServiceNo() {
@@ -24,12 +24,12 @@ public class SOARequest {
 		this._funcId = value;
 	}
 
-	public Date getReqestTime() {
-		return this._reqestTime;
+	public Date getRequestTime() {
+		return this._requestTime;
 	}
 
 	public void setRequestTime(Date value) {
-		this._reqestTime = value;
+		this._requestTime = value;
 	}
 
 	public byte[] getParam() {

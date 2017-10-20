@@ -190,7 +190,7 @@ public class SessionClient extends ClientBase {
 					null);
 
 			if (autoEvent != null) {
-				autoEvent.setWaitResult(message.getMessageBuffer());
+				autoEvent.setWaitResult(DoMessage(message));
 				autoEvent.setIsTimeOut(false);
 				autoEvent.set();
 				return;

@@ -80,13 +80,13 @@ public class MemoryStreamReader {
 	}
 
 	public int ReadInt32() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == IntTypeFlag.Zero.getVal()) {
 			return _defaultInt;
 		}
 		int ret;
 		if ((flag & IntTypeFlag.BYTE.getVal()) == IntTypeFlag.BYTE.getVal()) {
-			ret = _reader.read();
+			ret = ReadUByte();
 		} else if ((flag & IntTypeFlag.SHORT.getVal()) == IntTypeFlag.SHORT.getVal()) {
 			ret = this.ReadRedirectUInt16().getVal();
 		} else {
@@ -116,7 +116,7 @@ public class MemoryStreamReader {
 	}
 
 	public String ReadString() throws Exception {
-		int flag = _reader.read();
+		int flag = this.ReadUByte();
 
 		if (flag == StringTypeFlag.NULL.getVal())
 			return null;
@@ -125,7 +125,7 @@ public class MemoryStreamReader {
 
 		int readlen;
 		if ((flag & StringTypeFlag.ByteLen.getVal()) == StringTypeFlag.ByteLen.getVal()) {
-			readlen = _reader.read();
+			readlen = ReadUByte();
 		} else if ((flag & StringTypeFlag.ShortLen.getVal()) == StringTypeFlag.ShortLen.getVal()) {
 			readlen = this.ReadRedirectInt16();
 		} else if ((flag & StringTypeFlag.IntLen.getVal()) == StringTypeFlag.IntLen.getVal()) {
@@ -148,13 +148,13 @@ public class MemoryStreamReader {
 	}
 
 	public String[] ReadStringArray() throws Exception {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == StringTypeFlag.NULL.getVal()) {
 			return null;
 		}
 		int len;
 		if (flag == StringTypeFlag.ByteLen.getVal()) {
-			len = _reader.read();
+			len = ReadUByte();
 		} else if (flag == StringTypeFlag.ShortLen.getVal()) {
 			len = this.ReadRedirectInt16();
 		} else {
@@ -170,13 +170,13 @@ public class MemoryStreamReader {
 	}
 
 	public short ReadInt16() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == ShortTypeEnum.Zero.getVal()) {
 			return _defaultShort;
 		}
 		short ret;
 		if ((flag & ShortTypeEnum.ByteVal.getVal()) == ShortTypeEnum.ByteVal.getVal()) {
-			ret = (short) _reader.read();
+			ret = (short) ReadUByte();
 		} else {
 			ret = this.ReadRedirectInt16();
 		}
@@ -211,13 +211,13 @@ public class MemoryStreamReader {
 	}
 
 	public UInt16 ReadUInt16() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == UShrotTypeEnum.Zero.getVal()) {
 			return new UInt16(0);
 		}
 		UInt16 ret;
 		if ((flag & UShrotTypeEnum.ByteVal.getVal()) == UShrotTypeEnum.ByteVal.getVal()) {
-			ret = new UInt16(_reader.read());
+			ret = new UInt16(ReadUByte());
 		} else {
 			ret = new UInt16(this.ReadRedirectUInt16().getVal());
 		}
@@ -226,14 +226,14 @@ public class MemoryStreamReader {
 	}
 
 	public int[] ReadInt32Array() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == ArrayTypeFlag.NULL.getVal()) {
 			return null;
 		}
 		// 取长度
 		int len;
 		if ((flag & ArrayTypeFlag.ByteLen.getVal()) == ArrayTypeFlag.ByteLen.getVal()) {
-			len = _reader.read();
+			len = ReadUByte();
 		} else if ((flag & ArrayTypeFlag.ShortLen.getVal()) == ArrayTypeFlag.ShortLen.getVal()) {
 			len = this.ReadRedirectInt16();
 		} else {
@@ -251,14 +251,14 @@ public class MemoryStreamReader {
 	}
 
 	public long ReadInt64() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == LongTypeEnum.Zero.getVal()) {
 			return 0L;
 		}
 
 		long ret;
 		if ((flag & LongTypeEnum.ByteVal.getVal()) == LongTypeEnum.ByteVal.getVal()) {
-			ret = _reader.read();
+			ret = ReadUByte();
 		} else if ((flag & LongTypeEnum.ShortVal.getVal()) == LongTypeEnum.ShortVal.getVal()) {
 			ret = this.ReadRedirectUInt16().getVal();
 		} else if ((flag & LongTypeEnum.IntVal.getVal()) == LongTypeEnum.IntVal.getVal()) {
@@ -273,7 +273,7 @@ public class MemoryStreamReader {
 	}
 
 	public long[] ReadInt64Array() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == ArrayTypeFlag.NULL.getVal()) {
 			return null;
 		} else if (flag == ArrayTypeFlag.Empty.getVal()) {
@@ -282,7 +282,7 @@ public class MemoryStreamReader {
 		// 取长度
 		int len;
 		if ((flag & ArrayTypeFlag.ByteLen.getVal()) == ArrayTypeFlag.ByteLen.getVal()) {
-			len = _reader.read();
+			len = ReadUByte();
 		} else if ((flag & ArrayTypeFlag.ShortLen.getVal()) == ArrayTypeFlag.ShortLen.getVal()) {
 			len = this.ReadRedirectUInt16().getVal();
 		} else {
@@ -314,7 +314,7 @@ public class MemoryStreamReader {
 	}
 
 	public DateTime[] ReadDateTimeArray() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == ArrayTypeFlag.NULL.getVal()) {
 			return null;
 		} else if (flag == ArrayTypeFlag.Empty.getVal()) {
@@ -323,7 +323,7 @@ public class MemoryStreamReader {
 
 		int len;
 		if ((flag & ArrayTypeFlag.ByteLen.getVal()) == ArrayTypeFlag.ByteLen.getVal()) {
-			len = _reader.read();
+			len = ReadUByte();
 		} else if ((flag & ArrayTypeFlag.ShortLen.getVal()) == ArrayTypeFlag.ShortLen.getVal()) {
 			len = this.ReadRedirectUInt16().getVal();
 		} else {
@@ -339,7 +339,7 @@ public class MemoryStreamReader {
 	}
 
 	public boolean[] ReadBoolArray() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == ArrayTypeFlag.NULL.getVal()) {
 			return null;
 		} else if (flag == ArrayTypeFlag.Empty.getVal()) {
@@ -348,7 +348,7 @@ public class MemoryStreamReader {
 		// 取长度
 		int len;
 		if ((flag & ArrayTypeFlag.ByteLen.getVal()) == ArrayTypeFlag.ByteLen.getVal()) {
-			len = _reader.read();
+			len = ReadUByte();
 		} else if ((flag & ArrayTypeFlag.ShortLen.getVal()) == ArrayTypeFlag.ShortLen.getVal()) {
 			len = this.ReadRedirectUInt16().getVal();
 		} else {
@@ -362,7 +362,7 @@ public class MemoryStreamReader {
 	}
 
 	public boolean ReadBool() {
-		return _reader.read() != 0;
+		return this.ReadUByte() != 0;
 	}
 
 	public float ReadRedirectFloat() {
@@ -381,7 +381,7 @@ public class MemoryStreamReader {
 	}
 
 	public BigDecimal ReadDecimal() {
-		int flag = _reader.read();
+		int flag = ReadUByte();
 		if (flag == DecimalTypeFlag.Zero.getVal()) {
 			return _defaultDecimal;
 		}
@@ -389,7 +389,7 @@ public class MemoryStreamReader {
 
 		BigDecimal ret;
 		if ((flag & DecimalTypeFlag.ByteVal.getVal()) == DecimalTypeFlag.ByteVal.getVal()) {
-			ret = BigDecimal.valueOf(_reader.read());
+			ret = BigDecimal.valueOf(ReadUByte());
 		} else if ((flag & DecimalTypeFlag.ShortVal.getVal()) == DecimalTypeFlag.ShortVal.getVal()) {
 			ret = BigDecimal.valueOf(this.ReadUInt16().getVal());
 		} else if ((flag & DecimalTypeFlag.IntVal.getVal()) == DecimalTypeFlag.IntVal.getVal()) {

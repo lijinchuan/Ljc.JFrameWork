@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.LinkedList"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.ReflectUtil"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Method"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Field"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.UShort"/>
@@ -36,7 +34,6 @@
 <fullyQualifiedTypeName name="org.bson.BSONObject"/>
 <fullyQualifiedTypeName name="org.bson.conversions.Bson"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.Updates"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.PushOptions"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndUpdateOptions"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndDeleteOptions"/>
@@ -60,4 +57,7 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

@@ -51,10 +51,13 @@ System.out.println("name:"+properties.getProperty("name"));
   pw.print("<br/>");
 
 
+  String helloMsg= ESBClient.DoSOARequest(String.class, 100, 1, "hello,李金川");
+  pw.print("hellosg:"+helloMsg);
+  
   ESBConfig cfg= ESBConfig.ReadConfig();
   
-  Core.PersionService service=new Core.PersionService();
-  service.Login(null, null);
+  //Core.PersionService service=new Core.PersionService();
+  //service.Login(null, null);
   
   //Thread.sleep(60000);
 

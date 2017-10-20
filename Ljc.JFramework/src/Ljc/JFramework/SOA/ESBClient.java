@@ -18,7 +18,7 @@ public class ESBClient extends SessionClient {
 
 	static {
 		try {
-			ESBClientPoolManager _clientmanager = new ESBClientPoolManager(4, (i) -> null);
+			_clientmanager = new ESBClientPoolManager(5, (i) -> null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -27,29 +27,29 @@ public class ESBClient extends SessionClient {
 
 	private int _serviceNo = -1;
 
-	public ESBClient(String serverip, int serverport, boolean startSession) {
+	ESBClient(String serverip, int serverport, boolean startSession) {
 		super(serverip, serverport, startSession);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void SetServiceNo(int value) {
+	void SetServiceNo(int value) {
 		this._serviceNo = value;
 	}
 
-	public ESBClient() throws Exception {
+	ESBClient() throws Exception {
 		super(ESBConfig.ReadConfig().getESBServer(), ESBConfig.ReadConfig().getESBPort(),
 				ESBConfig.ReadConfig().getAutoStart());
 	}
 
-	public String GetESBServer() {
+	String GetESBServer() {
 		return this.serverIp;
 	}
 
-	public int GetESBPort() {
+	int GetESBPort() {
 		return this.ipPort;
 	}
 
-	public <T> T DoRequest(Class<T> classt, int serviceno, int funcid, Object param) throws Exception {
+	<T> T DoRequest(Class<T> classt, int serviceno, int funcid, Object param) throws Exception {
 		SOARequest request = new SOARequest();
 		request.setServiceNo(serviceno);
 		request.setFuncId(funcid);
@@ -67,7 +67,7 @@ public class ESBClient extends SessionClient {
 		return result;
 	}
 
-	public <T> T DoRequest(Class<T> classt, int funcid, Object param) throws Exception {
+	<T> T DoRequest(Class<T> classt, int funcid, Object param) throws Exception {
 		SOARedirectRequest request = new SOARedirectRequest();
 		request.setFuncId(funcid);
 		if (param == null) {
