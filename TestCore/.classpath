@@ -14,5 +14,10 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFramework"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFrameWork.Data"/>
+	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
+	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
+	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
+	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

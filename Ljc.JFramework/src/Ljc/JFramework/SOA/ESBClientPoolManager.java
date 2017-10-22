@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import Ljc.JFramework.Utility.Func;
 
-public class ESBClientPoolManager {
+class ESBClientPoolManager {
 	private ESBClient[] Clients;
 
 	public ESBClientPoolManager(Integer clientcount, Func<Integer, ESBClient> getClient) throws Exception {
@@ -20,6 +20,7 @@ public class ESBClientPoolManager {
 				client = new ESBClient();
 			}
 			client.Error.addEvent(this, "client_Error", Exception.class);
+			client.StartSession();
 			client.Login(null, null);
 			Clients[i] = client;
 		}

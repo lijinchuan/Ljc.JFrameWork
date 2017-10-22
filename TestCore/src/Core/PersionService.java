@@ -1,6 +1,9 @@
 package Core;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import Ljc.JFramework.TypeUtil.DateTime;
 
@@ -23,7 +26,7 @@ public class PersionService extends Ljc.JFramework.SOA.ESBService {
 				NewPersonInfo info = new NewPersonInfo() {
 					@SuppressWarnings("deprecation")
 					@Override
-					public void Fill() {
+					public NewPersonInfo Fill() {
 						setAge(30);
 						try {
 							setBirth(DateTime.ParseDateTime("1986-12-30 16:30:12"));
@@ -32,9 +35,33 @@ public class PersionService extends Ljc.JFramework.SOA.ESBService {
 							e.printStackTrace();
 						}
 						setName("李金川");
+						this.setFriends(new String[] { "张三", "李四", "angilar baby", "陈距" });
+
+						HashMap<String, NewPersonInfo> finfos = new HashMap<String, NewPersonInfo>();
+						finfos.put("张三", new NewPersonInfo() {
+							@Override
+							public NewPersonInfo Fill() {
+								this.setAge(20);
+								try {
+									this.setBirth(DateTime.ParseDate("1982-10-10"));
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								this.setName("张三");
+								this.setFriends(new String[] { "李世民", "刘邦" });
+								List<String> list = new LinkedList<String>();
+								list.add("东方小学");
+								list.add("汉口中学");
+								list.add("深圳大学");
+								this.setSchools(list);
+								return this;
+							}
+						}.Fill());
+						this.setFriendsInfo(finfos);
+						return this;
 					}
-				};
-				info.Fill();
+				}.Fill();
 				resp.setInfo(info);
 				return resp;
 			} else {
