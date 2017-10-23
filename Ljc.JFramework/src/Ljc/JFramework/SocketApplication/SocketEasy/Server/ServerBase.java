@@ -94,7 +94,7 @@ public class ServerBase extends SocketBase {
 				throw new Exception("超过了最大字节数：" + this._maxPackageLength);
 			}
 
-			buf.reset();
+			buf.position(0);
 			bytesRead = clntChan.read(buf);
 			if (bytesRead == -1) {
 				throw new SocketApplicationException("读取长度为-1");
@@ -140,7 +140,7 @@ public class ServerBase extends SocketBase {
 			});
 
 		} catch (Exception ex) {
-			key.cancel();
+			// key.cancel();
 			clntChan.close();
 			this._connectSocketDic.remove(session.getSessionID());
 		}
@@ -164,38 +164,51 @@ public class ServerBase extends SocketBase {
 	}
 
 	private void Listening(Selector selector) {
-		try {
-			while (selector.select() > 0) {
-				// 基于事件驱动的channel，当执行到这里会阻塞，直到至少有一个就绪的channel
-				// 获取就绪事件列表，循环迭代，注意，一个selectionKey携带了一个channel，但是一个channel可能有多种事件
-				// 就绪，所以分别判断，由于在进入循环之前，只注册了一个serversocketchannel的accept事件，所以满足key.isAcceptable()一定是serversocketchannel
+		while (!this.stop) {
+			try {
+				selector.select(1000);
 				Set<SelectionKey> selectionKeys = selector.selectedKeys();
-				for (SelectionKey key : selectionKeys) {
-					if (key.isAcceptable()) {
-						SocketChannel socket = socketServer.accept();
-						socket.configureBlocking(false);
-						Session session = new Session();
-						session.setIPAddress(socket.getRemoteAddress().toString());
-						session.setIsValid(true);
-						session.setSessionID(SocketApplicationComm.GetSeqNum());
-						session.setSocketChannel(socket);
-						// session.setPort(socket.);
-						session.setConnectTime(new Date());
-						socket.register(selector, SelectionKey.OP_READ, session);
-						this._connectSocketDic.put(session.getSessionID(), session);
-						continue;
-					}
-					if (key.isReadable()) {
-						handleRead(key);
-					}
-					if (key.isWritable()) {
-						// write(key.channel(), "这是我写出的消息");
-						handleWrite(key);
+				java.util.Iterator<SelectionKey> it = selectionKeys.iterator();
+				SelectionKey key = null;
+				while (it.hasNext()) {
+					key = it.next();
+					it.remove();
+					try {
+						if (key.isAcceptable()) {
+							SocketChannel socket = ((ServerSocketChannel) key.channel()).accept();
+							socket.configureBlocking(false);
+							Session session = new Session();
+							session.setIPAddress(socket.getRemoteAddress().toString());
+							session.setIsValid(true);
+							session.setSessionID(SocketApplicationComm.GetSeqNum());
+							session.setSocketChannel(socket);
+							// session.setPort(socket.);
+							session.setConnectTime(new Date());
+							socket.register(selector, SelectionKey.OP_READ, session);
+							this._connectSocketDic.put(session.getSessionID(), session);
+							continue;
+						}
+						if (key.isReadable()) {
+							handleRead(key);
+						}
+						if (key.isWritable()) {
+							// write(key.channel(), "这是我写出的消息");
+							handleWrite(key);
+						}
+						// handleInput(key);
+					} catch (IOException e) {
+						if (key != null) {
+							key.cancel();
+							if (key.channel() != null) {
+								key.channel().close();
+							}
+						}
 					}
 				}
+
+			} catch (Exception ex) {
+				this.OnError(ex);
 			}
-		} catch (Exception ex) {
-			this.OnError(ex);
 		}
 	}
 

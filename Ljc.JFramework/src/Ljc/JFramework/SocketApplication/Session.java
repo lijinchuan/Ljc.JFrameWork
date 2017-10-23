@@ -60,8 +60,8 @@ public class Session {
 
 	private SocketChannel _socketChannel;
 
-	public Socket getSocketChanel() {
-		return this._socket;
+	public SocketChannel getSocketChanel() {
+		return this._socketChannel;
 	}
 
 	public void setSocketChannel(SocketChannel value) {
@@ -215,10 +215,12 @@ public class Session {
 		if (this._socket == null && this._socketChannel == null)
 			throw new Exception("ÎÞÌ×½Ó×Ö");
 
-		if (this._socket == null) {
-			this._socket = this._socketChannel.socket();
+		int sendcount = 0;
+		if (this._socket != null) {
+			sendcount = SocketApplicationComm.SendMessage(this._socket, msg);
+		} else {
+			sendcount = SocketApplicationComm.SendMessage(this, msg);
 		}
-		int sendcount = SocketApplicationComm.SendMessage(this._socket, msg);
 
 		if (sendcount > 0) {
 			this._lastSessionTime = System.currentTimeMillis();

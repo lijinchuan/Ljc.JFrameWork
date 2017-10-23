@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -60,6 +61,55 @@ public class SocketApplicationComm {
 						dos.close();
 					}
 					s.close();
+					throw ex;
+				}
+
+				return data.length;
+			}
+		} catch (Exception ex) {
+			CoreException cex = new CoreException(ex.getMessage(), ex);
+			cex.Data.put("TransactionID", message.getMessageHeader().getTransactionID());
+			throw cex;
+		}
+	}
+
+	public static int SendMessage(Session s, Message message) throws CoreException {
+		try {
+			if (s == null) {
+				return 0;
+			}
+
+			byte[] data = null;
+			int bufferindex = -1;
+			long size = 0;
+			data = EntityBufCore.Serialize(message, true);
+
+			byte[] dataLen = BitConverter.GetBytes(data.length + 4);
+
+			byte[] data2 = new byte[data.length + 8];
+			for (int i = 0; i < 4; i++) {
+				data2[i] = dataLen[i];
+			}
+
+			int crc32 = (int) HashEncryptUtil.GetCRC32(data, 0);
+			System.out.println("ะฃั้:" + String.valueOf(crc32));
+			byte[] crc32bytes = BitConverter.GetBytes(crc32);
+			for (int i = 4; i < 8; i++) {
+				data2[i] = crc32bytes[i - 4];
+			}
+
+			for (int i = 0; i < data.length; i++) {
+				data2[i + 8] = data[i];
+			}
+			data = data2;
+
+			synchronized (s) {
+				try {
+					ByteBuffer writeBuffer = ByteBuffer.allocate(data.length);
+					writeBuffer.put(data);
+					writeBuffer.flip();
+					s.getSocketChanel().write(writeBuffer);
+				} catch (IOException ex) {
 					throw ex;
 				}
 
