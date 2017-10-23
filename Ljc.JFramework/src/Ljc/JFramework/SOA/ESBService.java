@@ -106,8 +106,8 @@ public class ESBService extends SessionClient {
 		RegisterServiceRequest req = new RegisterServiceRequest();
 		req.setServiceNo(this.getServiceNo());
 		if (SupportTcpServiceRidrect) {
-			// req.RedirectTcpIps = RedirectTcpServiceServer.GetBindIps();
-			// req.RedirectTcpPort = RedirectTcpServiceServer.GetBindTcpPort();
+			req.setRedirectTcpIps(RedirectTcpServiceServer.GetBindIps());
+			req.setRedirectTcpPort(RedirectTcpServiceServer.GetBindTcpPort());
 		}
 		if (SupportUDPServiceRedirect) {
 			// req.RedirectUdpIps = RedirectUpdServiceServer.GetBindIps();

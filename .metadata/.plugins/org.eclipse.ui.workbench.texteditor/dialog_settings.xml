@@ -2,12 +2,18 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="String" key="selection"/>
+		<item value="StartRedirectService" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="StartRedirectService"/>
+			<item value="SupportTcpServiceRidrect"/>
+			<item value="DoResponseAction"/>
+			<item value="DoResponse"/>
+			<item value="sendbu"/>
+			<item value="_connectSocketDic"/>
 			<item value="string"/>
 			<item value="deSerialize"/>
 			<item value="requestTime"/>
@@ -17,12 +23,6 @@
 			<item value="sql"/>
 			<item value="conn"/>
 			<item value="send"/>
-			<item value="OnError"/>
-			<item value="this.stop"/>
-			<item value="error"/>
-			<item value="start"/>
-			<item value="java.lang.boolean"/>
-			<item value="bool"/>
 		</list>
 		<list key="replacehistory">
 		</list>

@@ -11,7 +11,7 @@ import Ljc.JFramework.Utility.Tuple;
 public class PersionService extends Ljc.JFramework.SOA.ESBService {
 
 	public PersionService() throws Exception {
-		super(1000);
+		super(1000, true);
 		// TODO Auto-generated constructor stub
 	}
 

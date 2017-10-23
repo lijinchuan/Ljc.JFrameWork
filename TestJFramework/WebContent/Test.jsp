@@ -66,8 +66,8 @@ System.out.println("name:"+properties.getProperty("name"));
   
   ESBConfig cfg= ESBConfig.ReadConfig();
   
-  //Core.PersionService service=new Core.PersionService();
-  //service.Login(null, null);
+  Core.PersionService service=new Core.PersionService();
+  service.Login(null, null);
   
   //Thread.sleep(60000);
 
