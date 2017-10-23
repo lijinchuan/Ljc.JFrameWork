@@ -37,6 +37,11 @@ public class BitConverter {
 		return buffer.getInt();
 	}
 
+	public static int GetInt(ByteBuffer buffer) {
+		buffer.position(0);
+		return buffer.getInt();
+	}
+
 	public static byte[] GetBytes(String value) throws UnsupportedEncodingException {
 		return value.getBytes("utf-8");
 	}

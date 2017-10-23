@@ -3,14 +3,24 @@ package Ljc.JFramework.SocketApplication.SocketEasy.Server;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Date;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
+import Ljc.JFramework.EntityBufCore;
+import Ljc.JFramework.SocketApplication.Message;
+import Ljc.JFramework.SocketApplication.Session;
+import Ljc.JFramework.SocketApplication.SocketApplicationComm;
+import Ljc.JFramework.SocketApplication.SocketApplicationException;
 import Ljc.JFramework.SocketApplication.SocketBase;
 import Ljc.JFramework.Utility.Action;
+import Ljc.JFramework.Utility.BitConverter;
+import Ljc.JFramework.Utility.ThreadPoolUtil;
 
 public class ServerBase extends SocketBase {
 
@@ -21,6 +31,8 @@ public class ServerBase extends SocketBase {
 	protected String[] bindIpArray;
 	protected int ipPort;
 	protected Boolean isStartServer = false;
+
+	protected ConcurrentHashMap<String, Session> _connectSocketDic = new ConcurrentHashMap<String, Session>();
 
 	/// <summary>
 	/// 对象清理之前的事件
@@ -60,17 +72,76 @@ public class ServerBase extends SocketBase {
 	}
 
 	// 服务端信道已经准备好了接收新的客户端连接
-	private void handleRead(SelectionKey key) throws IOException {
+	private void handleRead(SelectionKey key) throws Exception {
 		SocketChannel clntChan = (SocketChannel) key.channel();
-		// 获取该信道所关联的附件，这里为缓冲区
-		ByteBuffer buf = (ByteBuffer) key.attachment();
-		long bytesRead = clntChan.read(buf);
-		// 如果read（）方法返回-1，说明客户端关闭了连接，那么客户端已经接收到了与自己发送字节数相等的数据，可以安全地关闭
-		if (bytesRead == -1) {
+		Session session = (Session) key.attachment();
+		try {
+			if (session == null) {
+				clntChan.close();
+				return;
+			}
+
+			// 获取该信道所关联的附件，这里为缓冲区
+			ByteBuffer buf = ByteBuffer.allocate(4).order(ByteOrder.nativeOrder());
+			long bytesRead = clntChan.read(buf);
+			if (bytesRead == -1) {
+				throw new SocketApplicationException("读取长度为-1");
+			}
+
+			int dataLen = BitConverter.GetInt(buf);
+
+			if (dataLen > this._maxPackageLength) {
+				throw new Exception("超过了最大字节数：" + this._maxPackageLength);
+			}
+
+			bytesRead = clntChan.read(buf);
+			if (bytesRead == -1) {
+				throw new SocketApplicationException("读取长度为-1");
+			}
+
+			dataLen -= 4;
+			ByteBuffer bufbody = ByteBuffer.allocate(dataLen).order(ByteOrder.nativeOrder());
+			int readLen = 0;
+
+			while (readLen < dataLen) {
+				bytesRead = clntChan.read(bufbody);
+				if (bytesRead == -1) {
+					if (bytesRead == -1) {
+						throw new SocketApplicationException("读取长度为-1");
+					}
+				}
+				readLen += bytesRead;
+			}
+
+			key.interestOps(SelectionKey.OP_READ);
+
+			ThreadPoolUtil.QueueUserWorkItem(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					Message message = null;
+					Exception messageError = null;
+					try {
+						message = EntityBufCore.DeSerialize(Message.class, bufbody.array(), true);
+					} catch (Exception ex) {
+						messageError = ex;
+					}
+
+					session.setLastSessionTime(System.currentTimeMillis());
+					if (messageError == null) {
+						FormApp(message, session);
+					} else {
+						OnError(messageError);
+					}
+				}
+
+			});
+
+		} catch (Exception ex) {
+			key.cancel();
 			clntChan.close();
-		} else if (bytesRead > 0) {
-			// 如果缓冲区总读入了数据，则将该信道感兴趣的操作设置为为可读可写
-			key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+			this._connectSocketDic.remove(session.getSessionID());
 		}
 	}
 
@@ -106,6 +177,10 @@ public class ServerBase extends SocketBase {
 						socketServer.bind(new InetSocketAddress(ip, ipPort));
 					}
 				}
+
+				if (this.ipPort == 0) {
+					this.ipPort = socketServer.socket().getLocalPort();
+				}
 			}
 
 			if (!isStartServer) {
@@ -121,8 +196,15 @@ public class ServerBase extends SocketBase {
 						if (key.isAcceptable()) {
 							SocketChannel socket = socketServer.accept();
 							socket.configureBlocking(false);
-							socket.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE,
-									ByteBuffer.allocate(1024));
+							Session session = new Session();
+							session.setIPAddress(socket.getRemoteAddress().toString());
+							session.setIsValid(true);
+							session.setSessionID(SocketApplicationComm.GetSeqNum());
+							session.setSocketChannel(socket);
+							// session.setPort(socket.);
+							session.setConnectTime(new Date());
+							socket.register(selector, SelectionKey.OP_READ, session);
+							this._connectSocketDic.put(session.getSessionID(), session);
 							continue;
 						}
 						if (key.isReadable()) {
@@ -142,5 +224,9 @@ public class ServerBase extends SocketBase {
 			OnError(e);
 			return false;
 		}
+	}
+
+	protected void FormApp(Message message, Session session) {
+
 	}
 }

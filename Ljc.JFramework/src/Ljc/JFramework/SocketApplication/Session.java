@@ -1,7 +1,11 @@
 package Ljc.JFramework.SocketApplication;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.util.Date;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Session {
 	private String _sessionID;
@@ -44,14 +48,24 @@ public class Session {
 		this._isLogin = value;
 	}
 
-	private java.net.Socket _socket;
+	private Socket _socket;
 
-	public java.net.Socket getSocket() {
+	public Socket getSocket() {
 		return this._socket;
 	}
 
-	void setSocket(java.net.Socket value) {
+	public void setSocket(Socket value) {
 		this._socket = value;
+	}
+
+	private SocketChannel _socketChannel;
+
+	public Socket getSocketChanel() {
+		return this._socket;
+	}
+
+	public void setSocketChannel(SocketChannel value) {
+		this._socketChannel = value;
 	}
 
 	private Date _connectTime;
@@ -123,7 +137,7 @@ public class Session {
 		return this._iPAddress;
 	}
 
-	void getIPAddress(String value) {
+	public void setIPAddress(String value) {
 		this._iPAddress = value;
 	}
 
@@ -133,7 +147,7 @@ public class Session {
 		return this._port;
 	}
 
-	void setPort(int value) {
+	public void setPort(int value) {
 		this._port = value;
 	}
 
@@ -170,6 +184,12 @@ public class Session {
 		this._bytesSend = value;
 	}
 
+	private LinkedBlockingQueue<ByteBuffer> _sendBufferQueue = new LinkedBlockingQueue<ByteBuffer>(100);
+
+	public LinkedBlockingQueue<ByteBuffer> getSendBuffer() {
+		return this._sendBufferQueue;
+	}
+
 	public Session() {
 		_headBeatInterVal = 10000;
 		_sessionTimeOut = 30000;
@@ -192,9 +212,12 @@ public class Session {
 	}
 
 	public boolean SendMessage(Message msg) throws Exception {
-		if (this._socket == null)
+		if (this._socket == null && this._socketChannel == null)
 			throw new Exception("ÎÞÌ×½Ó×Ö");
 
+		if (this._socket == null) {
+			this._socket = this._socketChannel.socket();
+		}
 		int sendcount = SocketApplicationComm.SendMessage(this._socket, msg);
 
 		if (sendcount > 0) {
@@ -203,5 +226,6 @@ public class Session {
 		}
 
 		return sendcount > 0;
+
 	}
 }

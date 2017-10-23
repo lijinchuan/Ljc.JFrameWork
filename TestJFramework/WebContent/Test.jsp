@@ -35,8 +35,13 @@
 <%
 PrintWriter pw=response.getWriter();
 
-java.util.List<Entity.BlogType> list=new MongoTestCore().GetBlogTypes();
-pw.write(String.valueOf(list.size()));
+for(java.net.InetAddress addr: Ljc.JFramework.Utility.NetWorkUtil.getIpV4Address())
+{
+	pw.write(addr.getHostAddress()+"<br>");
+}
+
+//java.util.List<Entity.BlogType> list=new MongoTestCore().GetBlogTypes();
+//pw.write(String.valueOf(list.size()));
 
 //Core.CallBackTest ct=new Core.CallBackTest();
 String path=this.getClass().getClassLoader().getResource("").getPath();

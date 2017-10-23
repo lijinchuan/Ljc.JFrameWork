@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Ljc.JFramework.TypeUtil.DateTime;
+import Ljc.JFramework.Utility.Tuple;
 
 public class PersionService extends Ljc.JFramework.SOA.ESBService {
 
@@ -15,7 +16,9 @@ public class PersionService extends Ljc.JFramework.SOA.ESBService {
 	}
 
 	@Override
-	public Object DoResponse(int funcId, byte[] Param) throws Exception {
+	public Object DoResponse(Tuple<Integer, byte[]> tp) throws Exception {
+		int funcId = tp.GetItem1();
+		byte[] Param = tp.GetItem2();
 		switch (funcId) {
 		case 1: {
 			GetPersonRequest request = Ljc.JFramework.EntityBufCore.DeSerialize(GetPersonRequest.class, Param, true);
@@ -69,7 +72,7 @@ public class PersionService extends Ljc.JFramework.SOA.ESBService {
 			}
 		}
 		default: {
-			return super.DoResponse(funcId, Param);
+			return super.DoResponse(new Tuple<Integer, byte[]>(funcId, Param));
 		}
 		}
 	}
