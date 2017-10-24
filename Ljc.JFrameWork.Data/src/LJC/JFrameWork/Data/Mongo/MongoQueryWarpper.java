@@ -1,4 +1,4 @@
-package LJC.FrameWork.Data.Mongo;
+package LJC.JFrameWork.Data.Mongo;
 
 import org.bson.BsonRegularExpression;
 

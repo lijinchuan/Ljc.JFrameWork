@@ -1,4 +1,4 @@
-package LJC.FrameWork.Data.Mongo;
+package LJC.JFrameWork.Data.Mongo;
 
 import com.mongodb.client.model.UpdateOptions;
 

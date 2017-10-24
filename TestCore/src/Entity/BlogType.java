@@ -1,6 +1,6 @@
 package Entity;
 
-public class BlogType extends LJC.FrameWork.Data.Mongo.MongoDocumentObject {
+public class BlogType extends LJC.JFrameWork.Data.Mongo.MongoDocumentObject {
 	/**
 	 * 
 	 */
