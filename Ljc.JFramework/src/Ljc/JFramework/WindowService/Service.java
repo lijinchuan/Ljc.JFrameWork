@@ -14,6 +14,7 @@ public class Service implements IService {
 		System.out.println("服务线程开始运行");
 		while (getRunFlag()) {
 			// do something
+			this.doWork();
 		}
 		System.out.println("服务线程结束运行");
 	}

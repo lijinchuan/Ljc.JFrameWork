@@ -1,0 +1,65 @@
+java.lang.NoClassDefFoundError: Ljc/JFramework/WindowService/ServiceDomain
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClass(ClassLoader.java:763)
+	at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+	at java.net.URLClassLoader.defineClass(URLClassLoader.java:467)
+	at java.net.URLClassLoader.access$100(URLClassLoader.java:73)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:368)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:362)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:361)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:335)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+Caused by: java.lang.ClassNotFoundException: Ljc.JFramework.WindowService.ServiceDomain
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:335)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 12 more
+十月 24, 2017 10:44:05 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:44:05 CST 2017
+十月 24, 2017 10:44:15 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:44:15 CST 2017
+十月 24, 2017 10:44:25 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:44:25 CST 2017
+十月 24, 2017 10:44:35 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:44:35 CST 2017
+十月 24, 2017 10:44:45 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:44:45 CST 2017
+十月 24, 2017 10:44:55 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:44:55 CST 2017
+十月 24, 2017 10:45:05 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:45:05 CST 2017
+十月 24, 2017 10:45:15 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:45:15 CST 2017
+十月 24, 2017 10:45:25 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:45:25 CST 2017
+十月 24, 2017 10:45:35 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:45:35 CST 2017
+十月 24, 2017 10:45:45 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:45:45 CST 2017
+十月 24, 2017 10:45:55 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:45:55 CST 2017
+十月 24, 2017 10:46:05 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:46:05 CST 2017
+十月 24, 2017 10:46:15 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:46:15 CST 2017
+十月 24, 2017 10:46:25 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:46:25 CST 2017
+十月 24, 2017 10:46:35 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:46:35 CST 2017
+十月 24, 2017 10:46:45 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:46:45 CST 2017
+十月 24, 2017 10:46:55 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:46:55 CST 2017
+十月 24, 2017 10:47:05 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:47:05 CST 2017
+十月 24, 2017 10:47:15 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:47:15 CST 2017
+十月 24, 2017 10:47:25 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:47:25 CST 2017
+十月 24, 2017 10:47:35 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:47:35 CST 2017
+十月 24, 2017 10:47:45 下午 Ljc.JFramework.LogManager Info
+信息: Tue Oct 24 22:47:45 CST 2017
