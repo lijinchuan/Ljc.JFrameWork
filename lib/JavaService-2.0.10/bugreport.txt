@@ -1,2 +1,0 @@
-
-Bug ID 304733: Missing quote characters in install files

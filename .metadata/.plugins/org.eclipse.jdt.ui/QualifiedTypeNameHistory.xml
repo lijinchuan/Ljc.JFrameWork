@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.bson.BSONObject"/>
-<fullyQualifiedTypeName name="org.bson.conversions.Bson"/>
-<fullyQualifiedTypeName name="com.mongodb.client.model.Updates"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.PushOptions"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndUpdateOptions"/>
 <fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndDeleteOptions"/>
@@ -47,7 +44,6 @@
 <fullyQualifiedTypeName name="java.util.function.Function"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.EntityBufCore"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.StringUtil"/>
-<fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="java.util.Enumeration"/>
 <fullyQualifiedTypeName name="java.net.NetworkInterface"/>
 <fullyQualifiedTypeName name="java.net.SocketException"/>
@@ -60,4 +56,8 @@
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.Tuple"/>
 <fullyQualifiedTypeName name="javax.swing.text.html.HTMLDocument.Iterator"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.WindowService.ServiceDomain"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.WindowService.Service"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.LogManager"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
 </qualifiedTypeNameHistroy>

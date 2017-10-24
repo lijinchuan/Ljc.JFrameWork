@@ -1,1 +1,0 @@
-JavaService.exe -uninstall TestCoreService
