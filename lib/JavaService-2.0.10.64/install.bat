@@ -1,0 +1,1 @@
+JavaService.exe -install TestCoreService "%JAVA_HOME%/bin/server/jvm.dll" -Xmx128m -Djava.class.path="%JAVA_HOME%/lib/tools.jar;%CD%/Ljc.JFramework.jar;%CD%/Ljc.JFramework.TestCore.jar" -start TestService.Service1 -method StartService -stop TestService.Service1 -method StopService -out "%CD%/out.log" -err "%CD%/err.log" -current "%CD%" -auto

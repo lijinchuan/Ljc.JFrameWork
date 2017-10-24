@@ -33,6 +33,8 @@
 </head>
 <body>
 <%
+TestService.Service1.StartService(null);
+
 PrintWriter pw=response.getWriter();
 
 for(java.net.InetAddress addr: Ljc.JFramework.Utility.NetWorkUtil.getIpV4Address())
