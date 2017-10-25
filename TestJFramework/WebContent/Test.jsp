@@ -1,3 +1,4 @@
+<%@page import="LJC.JFrameWork.Data.Mysql.MsqylHelper"%>
 <%@page import="Core.MongoTestCore"%>
 <%@page import="Ljc.JFramework.SOA.ESBClient"%>
 <%@page import="Ljc.JFramework.SOA.SOARedirectRequest"%>
@@ -33,14 +34,18 @@
 </head>
 <body>
 <%
-TestService.Service1.StartService(null);
+
+
+//TestService.Service1.StartService(null);
 
 PrintWriter pw=response.getWriter();
 
-for(java.net.InetAddress addr: Ljc.JFramework.Utility.NetWorkUtil.getIpV4Address())
-{
-	pw.write(addr.getHostAddress()+"<br>");
-}
+//for(java.net.InetAddress addr: Ljc.JFramework.Utility.NetWorkUtil.getIpV4Address())
+//{
+//	pw.write(addr.getHostAddress()+"<br>");
+//}
+
+MsqylHelper.TestConn();
 
 //java.util.List<Entity.BlogType> list=new MongoTestCore().GetBlogTypes();
 //pw.write(String.valueOf(list.size()));
