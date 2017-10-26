@@ -34,7 +34,7 @@
 </head>
 <body>
 <%
-
+TestService.LinixService.main(new String[]{});
 
 //TestService.Service1.StartService(null);
 

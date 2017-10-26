@@ -1,5 +1,6 @@
 package Ljc.JFramework.WindowService;
 
+//安装成windos服务
 public abstract class ServiceDomain {
 	private Thread thread = null;
 	private IService service = null;
@@ -22,6 +23,10 @@ public abstract class ServiceDomain {
 	 * @param args
 	 */
 	public final void Start(String[] args) {
+		if (thread != null && thread.isAlive()) {
+			return;
+		}
+
 		System.out.println("启动服务");
 		// 产生服务线程
 		service = this.GetService();

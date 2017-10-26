@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.mongodb.client.model.PushOptions"/>
-<fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndUpdateOptions"/>
-<fullyQualifiedTypeName name="com.mongodb.client.model.FindOneAndDeleteOptions"/>
-<fullyQualifiedTypeName name="com.mongodb.client.model.CountOptions"/>
-<fullyQualifiedTypeName name="LJC.FrameWork.Data.Mongo.MongoDBHelper"/>
 <fullyQualifiedTypeName name="java.lang.Long"/>
 <fullyQualifiedTypeName name="java.lang.Character"/>
 <fullyQualifiedTypeName name="java.lang.Double"/>
@@ -60,4 +55,9 @@
 <fullyQualifiedTypeName name="Ljc.JFramework.LogManager"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.ConfigUtil"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
 </qualifiedTypeNameHistroy>
