@@ -34,7 +34,7 @@
 </head>
 <body>
 <%
-TestService.LinixService.main(new String[]{});
+//TestService.LinixService.main(new String[]{});
 
 //TestService.Service1.StartService(null);
 
@@ -45,7 +45,7 @@ PrintWriter pw=response.getWriter();
 //	pw.write(addr.getHostAddress()+"<br>");
 //}
 
-MsqylHelper.TestConn();
+//MsqylHelper.TestConn();
 
 //java.util.List<Entity.BlogType> list=new MongoTestCore().GetBlogTypes();
 //pw.write(String.valueOf(list.size()));

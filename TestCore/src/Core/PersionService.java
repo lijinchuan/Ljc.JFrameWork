@@ -52,11 +52,13 @@ public class PersionService extends Ljc.JFramework.SOA.ESBService {
 									e.printStackTrace();
 								}
 								this.setName("张三");
+								this.setIdNo("421182198612301310");
 								this.setFriends(new String[] { "李世民", "刘邦" });
 								List<String> list = new LinkedList<String>();
 								list.add("东方小学");
 								list.add("汉口中学");
 								list.add("深圳大学");
+
 								this.setSchools(list);
 								return this;
 							}

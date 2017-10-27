@@ -11,6 +11,7 @@ public class NewPersonInfo {
 	private String[] _friends;
 	private HashMap<String, NewPersonInfo> _friendsInfo;
 	private List<String> _schools;
+	private String _idNo;
 
 	public String getName() {
 		return this._name;
@@ -58,6 +59,14 @@ public class NewPersonInfo {
 
 	public void setSchools(List<String> value) {
 		this._schools = value;
+	}
+
+	public String getIdNo() {
+		return this._idNo;
+	}
+
+	public void setIdNo(String value) {
+		this._idNo = value;
 	}
 
 	public NewPersonInfo Fill() {
