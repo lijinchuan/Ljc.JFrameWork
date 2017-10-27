@@ -37,6 +37,7 @@ public class EntityBufCore {
 	private final static String _defaultString = "";
 	private final static BigDecimal _defaultDecimal = BigDecimal.ZERO;
 	private final static Boolean _defaultBool = Boolean.FALSE;
+	private final static byte complexchar = (byte) '\f';
 
 	private static Map<Integer, List<Tuple<EntityBufType, Boolean>>> EntityBufTypeDic = new HashMap<Integer, List<Tuple<EntityBufType, Boolean>>>();
 	private static ReentrantReadWriteLock EntityBufTypeDicRWLock = new ReentrantReadWriteLock();
@@ -364,6 +365,9 @@ public class EntityBufCore {
 			}
 
 		} else {
+			ms.WriteByte(complexchar);
+			ms.WriteByte(complexchar);
+
 			if (val != null) {
 				EntityBufTypeFlag flag = EntityBufTypeFlag.Empty;
 				ms.WriteByte((byte) flag.getVal());
@@ -795,6 +799,18 @@ public class EntityBufCore {
 						}
 					}
 				} else { // ∂¡œ¬±Í÷æ
+					byte byte1 = 0;
+					byte byte2 = 0;
+					while (true) {
+						byte1 = msReader.ReadByte();
+						if (byte1 == complexchar) {
+							byte2 = msReader.ReadByte();
+							if (byte2 == complexchar) {
+								break;
+							}
+						}
+					}
+
 					int flag = msReader.ReadUByte();
 					if ((flag & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
 						// ret.SetValue(buftype.Item1.Property, null);
