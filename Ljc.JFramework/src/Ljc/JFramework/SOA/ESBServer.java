@@ -14,6 +14,7 @@ import Ljc.JFramework.SocketApplication.Session;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketEasy.Server.SessionServer;
 import Ljc.JFramework.TypeUtil.DateTime;
+import Ljc.JFramework.Utility.EnvironmentUtil;
 import Ljc.JFramework.Utility.Tuple;
 
 public class ESBServer extends SessionServer {
@@ -37,9 +38,9 @@ public class ESBServer extends SessionServer {
 		}
 		case Consts.FunNo_Environment: {
 			SOAServerEnvironmentResponse obj = new SOAServerEnvironmentResponse();
-			// obj.setMachineName(Environment.MachineName);
-			// obj.setOSVersion(Environment.OSVersion.VersionString);
-			// obj.setProcessorCount(Environment.ProcessorCount);
+			obj.setMachineName(EnvironmentUtil.GetHostName());
+			obj.setOSVersion(EnvironmentUtil.GetOSVersion());
+			obj.setProcessorCount(Runtime.getRuntime().availableProcessors());
 			return obj;
 		}
 		case Consts.FunNo_ExistsAServiceNo: {
