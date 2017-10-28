@@ -7,6 +7,8 @@ import java.nio.channels.SocketChannel;
 import java.util.Date;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import Ljc.JFramework.CoreException;
+
 public class Session {
 	private String _sessionID;
 
@@ -104,7 +106,7 @@ public class Session {
 		return this._businessTimeStamp;
 	}
 
-	void setBusinessTimeStamp(Date value) {
+	public void setBusinessTimeStamp(Date value) {
 		this._businessTimeStamp = value;
 	}
 
@@ -211,9 +213,9 @@ public class Session {
 		this._isValid = false;
 	}
 
-	public boolean SendMessage(Message msg) throws Exception {
+	public boolean SendMessage(Message msg) throws CoreException {
 		if (this._socket == null && this._socketChannel == null)
-			throw new Exception("无套接字");
+			throw new CoreException("无套接字");
 
 		int sendcount = 0;
 		if (this._socket != null) {
