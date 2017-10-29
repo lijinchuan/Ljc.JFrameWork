@@ -23,4 +23,3 @@ org.eclipse.e4.ui.css.theme.e4_default.xpolive5.1.org.eclipse.ui.r30.org.eclipse
 org.eclipse.e4.ui.css.theme.e4_default.xpolive5.1.org.eclipse.ui.r30.org.eclipse.ui.workbench.INACTIVE_UNSELECTED_TABS_COLOR_END=255,255,255
 org.eclipse.e4.ui.css.theme.e4_default.xpolive5.1.org.eclipse.ui.r30.org.eclipse.ui.workbench.INACTIVE_UNSELECTED_TABS_COLOR_START=255,255,255
 org.eclipse.ui.commands=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<org.eclipse.ui.commands/>
-org.eclipse.ui.r30.org.eclipse.ui.workbench.HOVER_FOREGROUND=255,255,255

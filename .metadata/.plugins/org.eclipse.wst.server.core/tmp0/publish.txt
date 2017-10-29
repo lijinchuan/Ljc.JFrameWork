@@ -1,3 +1,0 @@
-#Tomcat publish data
-#Tue Sep 26 17:29:07 CST 2017
-org.eclipse.jst.j2ee.server\:Ljc.JFramework=WEB-INF/lib/Ljc.JFramework.jar

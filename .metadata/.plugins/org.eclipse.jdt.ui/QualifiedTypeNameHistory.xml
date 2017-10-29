@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.lang.Long"/>
-<fullyQualifiedTypeName name="java.lang.Character"/>
-<fullyQualifiedTypeName name="java.lang.Double"/>
-<fullyQualifiedTypeName name="java.lang.Float"/>
-<fullyQualifiedTypeName name="java.lang.Short"/>
-<fullyQualifiedTypeName name="java.util.TimerTask"/>
-<fullyQualifiedTypeName name="java.util.Timer"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.SOA.ESBService"/>
-<fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.Action"/>
 <fullyQualifiedTypeName name="java.net.ServerSocket"/>
 <fullyQualifiedTypeName name="java.net.SocketAddress"/>
@@ -19,8 +8,6 @@
 <fullyQualifiedTypeName name="java.nio.channels.Selector"/>
 <fullyQualifiedTypeName name="java.nio.channels.SelectionKey"/>
 <fullyQualifiedTypeName name="java.util.Set"/>
-<fullyQualifiedTypeName name="java.util.concurrent.ConcurrentHashMap"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.SocketApplicationComm"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.ThreadPoolUtil"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="java.util.Dictionary"/>
@@ -32,22 +19,14 @@
 <fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.LoginResponseMessage"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.SocketApplicationException"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Box"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.Message"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.Session"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.Func"/>
 <fullyQualifiedTypeName name="java.util.function.Function"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.EntityBufCore"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.StringUtil"/>
 <fullyQualifiedTypeName name="java.util.Enumeration"/>
 <fullyQualifiedTypeName name="java.net.NetworkInterface"/>
 <fullyQualifiedTypeName name="java.net.SocketException"/>
-<fullyQualifiedTypeName name="java.util.LinkedList"/>
 <fullyQualifiedTypeName name="java.net.Inet4Address"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.Utility.NetWorkUtil"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.net.InetAddress"/>
-<fullyQualifiedTypeName name="Ljc.JFramework.Utility.Tuple"/>
 <fullyQualifiedTypeName name="javax.swing.text.html.HTMLDocument.Iterator"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
 <fullyQualifiedTypeName name="Ljc.JFramework.WindowService.ServiceDomain"/>
@@ -60,4 +39,25 @@
 <fullyQualifiedTypeName name="java.sql.Statement"/>
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
 <fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.SocketEasy.Server.SessionServer"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.EntityBufCore"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.LinkedList"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.Message"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.Session"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.TypeUtil.DateTime"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.Tuple"/>
+<fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.SocketApplication.SocketApplicationComm"/>
+<fullyQualifiedTypeName name="java.util.concurrent.ConcurrentHashMap"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.CoreException"/>
+<fullyQualifiedTypeName name="java.net.InetAddress"/>
+<fullyQualifiedTypeName name="Ljc.JFramework.Utility.EnvironmentUtil"/>
+<fullyQualifiedTypeName name="java.util.Properties"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.hbase.client.HTable"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.hbase.HBaseConfiguration"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.conf.Configuration"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.hbase.client.Admin"/>
+<fullyQualifiedTypeName name="org.apache.hadoop.hbase.client.HBaseAdmin"/>
 </qualifiedTypeNameHistroy>

@@ -13,10 +13,30 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mysql-connector-java-5.1.22.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mysql-connector-java-5.1.43-sources.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/zookeeper-3.4.6.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/hbase-common-1.3.1.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/hbase-client-1.3.1.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/hadoop-client-2.5.1.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/hadoop-common-2.5.1.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/guava-12.0.1.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/commons-collections-3.2.2.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/protobuf-java-2.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/hbase-protocol-1.3.1.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/commons-configuration-1.6.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/hadoop-auth-2.5.1.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/slf4j-api-1.7.7.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/slf4j-log4j12-1.7.5.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/netty-all-4.0.23.Final.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/htrace-core-3.1.0-incubating.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

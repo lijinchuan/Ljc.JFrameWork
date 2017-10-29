@@ -15,14 +15,16 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFramework"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/TestCore"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFrameWork.Data"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mysql-connector-java-5.1.43-sources.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/wrapper.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mysql-connector-java-5.1.22.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mysql-connector-java-5.1.43-sources.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/zookeeper-3.4.6.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/hadoop-client-2.5.1.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/hadoop-common-2.5.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

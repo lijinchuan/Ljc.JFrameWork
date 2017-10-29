@@ -1,3 +1,4 @@
+<%@page import="LJC.JFrameWork.Data.HBaseClient.HBaseClientUtil"%>
 <%@page import="LJC.JFrameWork.Data.Mysql.MsqylHelper"%>
 <%@page import="Core.MongoTestCore"%>
 <%@page import="Ljc.JFramework.SOA.ESBClient"%>
@@ -40,6 +41,11 @@
 
 PrintWriter pw=response.getWriter();
 
+String[] names=HBaseClientUtil.GetTables();
+for(String name:names){
+	pw.write(name+"</br>");
+}
+
 //for(java.net.InetAddress addr: Ljc.JFramework.Utility.NetWorkUtil.getIpV4Address())
 //{
 //	pw.write(addr.getHostAddress()+"<br>");
@@ -73,8 +79,8 @@ System.out.println("name:"+properties.getProperty("name"));
   
   ESBConfig cfg= ESBConfig.ReadConfig();
   
-  Core.PersionService service=new Core.PersionService();
-  service.Login(null, null);
+  //Core.PersionService service=new Core.PersionService();
+  //service.Login(null, null);
   
   //Thread.sleep(60000);
 
