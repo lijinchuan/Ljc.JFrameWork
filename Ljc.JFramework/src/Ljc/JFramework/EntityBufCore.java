@@ -37,7 +37,7 @@ public class EntityBufCore {
 	private final static String _defaultString = "";
 	private final static BigDecimal _defaultDecimal = BigDecimal.ZERO;
 	private final static Boolean _defaultBool = Boolean.FALSE;
-	private final static byte complexchar = (byte) '\f';
+	private final static byte complexchar = (byte) (12);
 
 	private static Map<Integer, List<Tuple<EntityBufType, Boolean>>> EntityBufTypeDic = new HashMap<Integer, List<Tuple<EntityBufType, Boolean>>>();
 	private static ReentrantReadWriteLock EntityBufTypeDicRWLock = new ReentrantReadWriteLock();
