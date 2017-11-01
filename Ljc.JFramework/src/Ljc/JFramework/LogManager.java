@@ -17,7 +17,7 @@ public class LogManager {
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	private static Date LogNameDate;
-	private static final String LOG_FOLDER_NAME = "log";
+	private static final String LOG_FOLDER_NAME = "logs";
 
 	private static final String LOG_FILE_SUFFIX = ".log";
 
@@ -56,7 +56,6 @@ public class LogManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		debuglogger.addHandler(InfoLogHandler);
 	}
 
 	static FileHandler GetLogHandler(Level level) throws SecurityException, IOException {
@@ -70,9 +69,11 @@ public class LogManager {
 	private synchronized static String getLogFilePath(Level loglevel) throws IOException {
 		StringBuffer logFilePath = new StringBuffer();
 		// logFilePath.append("D:\\GitHub\\Ljc.JFrameWork\\Ljc.JFramework\\");
-		// logFilePath.append(LogManager.class.getResource("").getPath());
+		// logFilePath.append(LogManager.class.getClassLoader().getResource("").getPath());
 		// logFilePath.append(System.getProperty("user.home"));
-		logFilePath.append(new File("").getCanonicalPath());
+		logFilePath.append(System.getProperty("user.dir"));
+		// System.out.println("1111111:" + new File("../").getCanonicalPath());
+		// logFilePath.append(new File("../").getCanonicalPath());
 		logFilePath.append(File.separatorChar);
 		logFilePath.append(LOG_FOLDER_NAME);
 

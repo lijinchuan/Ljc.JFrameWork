@@ -112,7 +112,7 @@ public class ESBServer extends SessionServer {
 
 			if (serviceInfos == null || serviceInfos.size() == 0) {
 				resp.setIsSuccess(false);
-				resp.setErrMsg(String.format("{0}服务未注册。", request.getServiceNo()));
+				resp.setErrMsg(String.format("%d 服务未注册。", request.getServiceNo()));
 			}
 
 			if (resp.getIsSuccess()) {

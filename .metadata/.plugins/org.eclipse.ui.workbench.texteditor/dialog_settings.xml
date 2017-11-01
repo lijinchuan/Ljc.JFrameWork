@@ -2,12 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="ArrayList" key="selection"/>
+		<item value="" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="log"/>
+			<item value="onme"/>
+			<item value="system.out."/>
+			<item value="system.out"/>
+			<item value="GZIP_ENCODE_UTF_8"/>
+			<item value="minGZIPCompressLenth"/>
+			<item value="21"/>
+			<item value="complexchar"/>
 			<item value="ArrayList"/>
 			<item value="DoRequest"/>
 			<item value="_redirectTcpPort"/>
@@ -15,22 +23,14 @@
 			<item value="cancel"/>
 			<item value="StartRedirectService"/>
 			<item value="SupportTcpServiceRidrect"/>
-			<item value="DoResponseAction"/>
-			<item value="DoResponse"/>
-			<item value="sendbu"/>
-			<item value="_connectSocketDic"/>
-			<item value="string"/>
-			<item value="deSerialize"/>
-			<item value="requestTime"/>
-			<item value="reqestTime"/>
 		</list>
 		<list key="replacehistory">
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="301" key="DIALOG_WIDTH"/>
-		<item value="1|宋体|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|宋体" key="DIALOG_FONT_NAME"/>
-		<item value="360" key="DIALOG_HEIGHT"/>
+		<item value="300" key="DIALOG_WIDTH"/>
+		<item value="1|微软雅黑|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|微软雅黑" key="DIALOG_FONT_NAME"/>
+		<item value="409" key="DIALOG_HEIGHT"/>
 		<item value="1069" key="DIALOG_X_ORIGIN"/>
 		<item value="337" key="DIALOG_Y_ORIGIN"/>
 	</section>

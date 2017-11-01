@@ -95,6 +95,16 @@ public class ESBService extends SessionClient {
 		super.ReciveMessage(message);
 	}
 
+	/// <summary>
+	/// 启动服务
+	/// </summary>
+	public void StartService() throws Exception {
+		while (!StartClient()) {
+			Thread.sleep(1000);
+		}
+		Login(null, null);
+	}
+
 	public final boolean RegisterService() throws Exception {
 		if (this.getServiceNo() < 0)
 			throw new Exception("注册服务失败：服务号不能为负数");

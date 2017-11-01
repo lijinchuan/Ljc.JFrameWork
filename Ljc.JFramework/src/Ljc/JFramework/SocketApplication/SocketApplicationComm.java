@@ -36,7 +36,7 @@ public class SocketApplicationComm {
 			}
 
 			int crc32 = (int) HashEncryptUtil.GetCRC32(data, 0);
-			System.out.println("校验:" + String.valueOf(crc32));
+			// System.out.println("校验:" + String.valueOf(crc32));
 			byte[] crc32bytes = BitConverter.GetBytes(crc32);
 			for (int i = 4; i < 8; i++) {
 				data2[i] = crc32bytes[i - 4];
@@ -92,7 +92,7 @@ public class SocketApplicationComm {
 			}
 
 			int crc32 = (int) HashEncryptUtil.GetCRC32(data, 0);
-			System.out.println("校验:" + String.valueOf(crc32));
+			// System.out.println("校验:" + String.valueOf(crc32));
 			byte[] crc32bytes = BitConverter.GetBytes(crc32);
 			for (int i = 4; i < 8; i++) {
 				data2[i] = crc32bytes[i - 4];
