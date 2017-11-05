@@ -28,7 +28,7 @@
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/netty-all-4.0.23.Final.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/htrace-core-3.1.0-incubating.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_121">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_144">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>

@@ -4,18 +4,18 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFramework"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ljc.JFrameWork.Data"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mysql-connector-java-5.1.22.jar"/>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/mysql-connector-java-5.1.43-sources.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_121">
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/bson-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-3.5.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-async-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mysql-connector-java-5.1.22.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mysql-connector-java-5.1.43-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_144">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Work/learn/Git/Ljc.JFrameWork/lib/wrapper.jar"/>
+	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/wrapper.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

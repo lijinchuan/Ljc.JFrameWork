@@ -815,3 +815,32 @@ java.io.FileNotFoundException: E:\Work\learn\Git\Ljc.JFrameWork\.metadata\.plugi
 2017-11-01 10:56:45,333 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
 2017-11-01 10:56:45,348 [Worker-15] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
 2017-11-01 10:56:45,348 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\Work\learn\Git\Ljc.JFrameWork\Ljc.JFrameWork.Data\src\test\resources
+2017-11-04 21:29:11,545 [Worker-1] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2017-11-04 21:36:15,213 [Worker-28] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: Ljc.JFrameWork.Data:Ljc.JFrameWork.Data:0.0.1-SNAPSHOT @ D:\GitHub\Ljc.JFrameWork\Ljc.JFrameWork.Data\pom.xml.
+2017-11-04 21:36:16,824 [Worker-28] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2017-11-04 21:36:16,835 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2017-11-04 21:36:16,851 [Worker-28] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2017-11-04 21:36:16,852 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\Ljc.JFrameWork\Ljc.JFrameWork.Data\src\test\resources
+2017-11-04 21:36:43,880 [Worker-27] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2017-11-04 21:36:43,886 [Worker-27] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-11-04 21:36:43,888 [Worker-27] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2017-11-04 21:36:43,890 [Worker-27] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\Ljc.JFrameWork\Ljc.JFrameWork.Data\src\test\resources
+2017-11-04 21:46:51,191 [Worker-33] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2017-11-04 21:46:51,193 [Worker-33] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-11-04 21:46:51,195 [Worker-33] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2017-11-04 21:46:51,197 [Worker-33] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\Ljc.JFrameWork\Ljc.JFrameWork.Data\src\test\resources
+2017-11-04 22:14:51,335 [Worker-44] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2017-11-04 22:14:51,335 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2017-11-04 22:14:51,335 [Worker-44] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!
+2017-11-04 22:14:51,335 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\GitHub\Ljc.JFrameWork\Ljc.JFrameWork.Data\src\test\resources
+2017-11-04 22:19:31,531 [main] INFO  o.e.m2e.actions.ExecutePomAction - Creating new launch configuration
+2017-11-04 22:19:47,815 [Worker-50] INFO  o.e.m.i.launch.MavenLaunchDelegate - D:\GitHub\Ljc.JFrameWork\Ljc.JFrameWork.Data
+2017-11-04 22:19:47,815 [Worker-50] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn -B complie
+2017-11-04 22:20:22,770 [main] INFO  o.e.m2e.actions.ExecutePomAction - Using existing launch configuration
+2017-11-04 22:20:22,786 [Worker-49] INFO  o.e.m.i.launch.MavenLaunchDelegate - D:\GitHub\Ljc.JFrameWork\Ljc.JFrameWork.Data
+2017-11-04 22:20:22,786 [Worker-49] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn -B complie
+2017-11-04 22:20:32,836 [main] INFO  o.e.m2e.actions.ExecutePomAction - Creating new launch configuration
+2017-11-04 22:20:47,240 [Worker-44] INFO  o.e.m.i.launch.MavenLaunchDelegate - D:\GitHub\Ljc.JFrameWork\Ljc.JFrameWork.Data
+2017-11-04 22:20:47,240 [Worker-44] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn -B compile
+2017-11-05 10:09:55,857 [Worker-0] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2017-11-05 19:07:37,438 [Worker-5] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.

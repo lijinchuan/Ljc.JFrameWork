@@ -3,7 +3,7 @@
 	<item value="false" key="TypeHierarchyViewPart.qualifiednames"/>
 	<item value="3" key="TypeHierarchyViewPart.orientation"/>
 	<item value="false" key="TypeHierarchyViewPart.linkeditors"/>
-	<item value="E:\Work\Code\newsvn\Payment\BigDataSparkManager\lib" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="D:\GitHub\Ljc.JFrameWork\lib\hbase\hbase-lib\lib" key="org.eclipse.jdt.ui.lastextjar"/>
 	<item value="2" key="TypeHierarchyViewPart.hierarchyview"/>
 	<item value="filter_imports;" key="filters_last_used"/>
 	<section name="ProblemSeveritiesConfigurationBlock">
@@ -128,6 +128,7 @@
 		<item value="false" key="JarManifestWizardPage.SAVE_MANIFEST"/>
 		<item value="false" key="JarPackageWizardPage.EXPORT_OUTPUT_FOLDER"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="D:\GitHub\Ljc.JFrameWork\lib\Ljc.JFramework.Data.jar"/>
 			<item value="E:\Work\learn\Git\Ljc.JFrameWork\Ljc.JFramework.jar"/>
 			<item value="BigDataSparkManager/lib/com.eastmoney.bigdata.sparkmanager.proxyServiceDomain.jar"/>
 			<item value="E:\Work\learn\Git\Ljc.JFrameWork\Ljc.JFramework.TestCore.jar"/>

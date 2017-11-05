@@ -1,5 +1,4 @@
 <%@page import="LJC.JFrameWork.Data.HBaseClient.HBaseClientUtil"%>
-<%@page import="LJC.JFrameWork.Data.Mysql.MsqylHelper"%>
 <%@page import="Core.MongoTestCore"%>
 <%@page import="Ljc.JFramework.SOA.ESBClient"%>
 <%@page import="Ljc.JFramework.SOA.SOARedirectRequest"%>
@@ -39,9 +38,9 @@
 
 //TestService.Service1.StartService(null);
 
-PrintWriter pw=response.getWriter();
 
-String[] names=HBaseClientUtil.GetTables();
+PrintWriter pw=response.getWriter();
+String[] names=HBaseClientUtil.GetTables2();
 for(String name:names){
 	pw.write(name+"</br>");
 }
