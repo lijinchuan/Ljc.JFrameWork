@@ -28,9 +28,24 @@ public class HBaseClientUtil {
 	public static String[] GetTables2() throws IOException {
 		HBaseConfiguration hbaseConfig = null;
 		Configuration config = new Configuration();
-		config.set("hbase.master", "192.168.0.100:60000");
+		config.set("hbase.master", "192.168.0.110:60000");
 		config.set("hbase.zookeeper.quorum", "192.168.0.110,192.168.0.111,192.168.0.112");
 		config.set("hbase.zookeeper.property.clientPort", "2181");
+		hbaseConfig = new HBaseConfiguration(config);
+
+		// Configuration configuration = new HBaseConfiguration();
+		// HTable htable = new HTable(configuration, "logs");
+		HBaseAdmin hbaseadmin = new HBaseAdmin(hbaseConfig);
+		String[] names = hbaseadmin.getTableNames();
+		return names;
+	}
+
+	public static String[] GetTables3() throws IOException {
+		HBaseConfiguration hbaseConfig = null;
+		Configuration config = new Configuration();
+		// config.set("hbase.master", "192.168.0.110:60000");
+		config.set("hbase.zookeeper.quorum", "192.168.0.100:10110,192.168.0.100:10111,192.168.0.100:10112");
+		// config.set("hbase.zookeeper.property.clientPort", "2181");
 		hbaseConfig = new HBaseConfiguration(config);
 
 		// Configuration configuration = new HBaseConfiguration();

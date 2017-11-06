@@ -40,7 +40,7 @@
 
 
 PrintWriter pw=response.getWriter();
-String[] names=HBaseClientUtil.GetTables2();
+String[] names=HBaseClientUtil.GetTables3();
 for(String name:names){
 	pw.write(name+"</br>");
 }
