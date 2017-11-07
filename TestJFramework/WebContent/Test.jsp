@@ -1,3 +1,6 @@
+<%@page import="org.apache.hadoop.hbase.util.Bytes"%>
+<%@page import="org.apache.hadoop.hbase.TableName"%>
+<%@page import="LJC.JFrameWork.Data.HBaseClient.HBaseClientWrapper"%>
 <%@page import="LJC.JFrameWork.Data.HBaseClient.HBaseClientUtil"%>
 <%@page import="Core.MongoTestCore"%>
 <%@page import="Ljc.JFramework.SOA.ESBClient"%>
@@ -37,12 +40,15 @@
 //TestService.LinixService.main(new String[]{});
 
 //TestService.Service1.StartService(null);
-
-
 PrintWriter pw=response.getWriter();
-String[] names=HBaseClientUtil.GetTables3();
-for(String name:names){
-	pw.write(name+"</br>");
+
+HBaseClientWrapper client=new HBaseClientWrapper("ljcserver:10110,ljcserver:10111,ljcserver:10112");
+//client.createTable("ljctest", "col1","col2");
+client.put("ljctest", "rk-001", "col2", "name", "ljc");
+String val=Bytes.toString(client.getString("ljctest", "rk-001", "col2", "name"));
+pw.write(val);
+for(TableName name : client.GetTables()){
+    pw.write(name.getNameAsString()+"<br/>");	
 }
 
 //for(java.net.InetAddress addr: Ljc.JFramework.Utility.NetWorkUtil.getIpV4Address())
