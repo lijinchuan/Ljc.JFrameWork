@@ -1,6 +1,8 @@
 package LJC.JFrameWork.Data.HBaseClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
@@ -12,6 +14,8 @@ import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.util.Bytes;
 
@@ -180,6 +184,35 @@ public class HBaseClientWrapper {
 		Result result = table.get(get);
 
 		return result.value();
+	}
+
+	public List<byte[]> scan(String tabname, String family, String qualifier, String startRow, String stopRow)
+			throws IOException {
+
+		List<byte[]> ret = new ArrayList<byte[]>();
+
+		TableName tablename = TableName.valueOf(tabname);
+		Table table = this._hbaseConnection.getTable(tablename);
+		Scan scan = new Scan();
+
+		if (!StringUtil.isNullOrEmpty(family)) {
+			if (!StringUtil.isNullOrEmpty(qualifier)) {
+				scan.addColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));
+			} else {
+				scan.addFamily(Bytes.toBytes(family));
+			}
+		}
+
+		scan.setStartRow(Bytes.toBytes(startRow));
+		scan.setStopRow(Bytes.toBytes(stopRow));
+		ResultScanner scanner = table.getScanner(scan);
+		for (Result result = scanner.next(); result != null; result = scanner.next()) {
+			ret.add(result.value());
+
+			System.out.println(result);
+		}
+
+		return ret;
 	}
 
 }
