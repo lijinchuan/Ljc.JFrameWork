@@ -56,12 +56,12 @@ public class ESBClient extends SessionClient {
 		if (param == null) {
 			request.setParam(null);
 		} else {
-			request.setParam(EntityBufCore.Serialize(param, true));
+			request.setParam(EntityBufCore.Serialize(param));
 		}
 
 		Message msg = new Message(SOAMessageType.DoSOARequest.getVal());
 		msg.getMessageHeader().setTransactionID(SocketApplicationComm.GetSeqNum());
-		msg.setMessageBuffer(EntityBufCore.Serialize(request, true));
+		msg.setMessageBuffer(EntityBufCore.Serialize(request));
 
 		T result = SendMessageAnsy(classt, msg, 30000);
 		return result;
@@ -73,12 +73,12 @@ public class ESBClient extends SessionClient {
 		if (param == null) {
 			request.setParam(null);
 		} else {
-			request.setParam(EntityBufCore.Serialize(param, true));
+			request.setParam(EntityBufCore.Serialize(param));
 		}
 
 		Message msg = new Message(SOAMessageType.DoSOARedirectRequest.getVal());
 		msg.getMessageHeader().setTransactionID(SocketApplicationComm.GetSeqNum());
-		msg.setMessageBuffer(EntityBufCore.Serialize(request, true));
+		msg.setMessageBuffer(EntityBufCore.Serialize(request));
 
 		T result = SendMessageAnsy(classt, msg, 30000);
 		return result;

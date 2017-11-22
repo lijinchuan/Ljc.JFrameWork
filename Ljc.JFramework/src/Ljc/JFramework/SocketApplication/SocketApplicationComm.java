@@ -26,7 +26,7 @@ public class SocketApplicationComm {
 			byte[] data = null;
 			int bufferindex = -1;
 			long size = 0;
-			data = EntityBufCore.Serialize(message, true);
+			data = EntityBufCore.Serialize(message);
 
 			byte[] dataLen = BitConverter.GetBytes(data.length + 4);
 
@@ -82,7 +82,7 @@ public class SocketApplicationComm {
 			byte[] data = null;
 			int bufferindex = -1;
 			long size = 0;
-			data = EntityBufCore.Serialize(message, true);
+			data = EntityBufCore.Serialize(message);
 
 			byte[] dataLen = BitConverter.GetBytes(data.length + 4);
 

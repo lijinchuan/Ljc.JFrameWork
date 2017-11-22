@@ -124,7 +124,7 @@ public class ServerBase extends SocketBase {
 					Message message = null;
 					Exception messageError = null;
 					try {
-						message = EntityBufCore.DeSerialize(Message.class, bufbody.array(), true);
+						message = EntityBufCore.DeSerialize(Message.class, bufbody.array());
 					} catch (Exception ex) {
 						messageError = ex;
 					}

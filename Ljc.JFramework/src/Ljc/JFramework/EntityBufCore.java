@@ -20,7 +20,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import Ljc.JFramework.TypeUtil.UInt16;
 import Ljc.JFramework.Utility.BitConverter;
-import Ljc.JFramework.Utility.GzipUtil;
 import Ljc.JFramework.Utility.ReflectUtil;
 import Ljc.JFramework.Utility.StringUtil;
 import Ljc.JFramework.Utility.Tuple;
@@ -43,8 +42,6 @@ public class EntityBufCore {
 	private static ReentrantReadWriteLock EntityBufTypeDicRWLock = new ReentrantReadWriteLock();
 	private static Map<Integer, Tuple<EntityBufType, Boolean>> TypeBufTypeDic = new HashMap<Integer, Tuple<EntityBufType, Boolean>>();
 	private static ReentrantReadWriteLock TypeBufTypeDicRWLock = new ReentrantReadWriteLock();
-
-	private static final int minGZIPCompressLenth = 21;
 
 	private static EntityBufType MapBufType(Class<?> type, Box<Boolean> isArray) {
 		EntityBufType ebtype = new EntityBufType();
@@ -476,7 +473,7 @@ public class EntityBufCore {
 		}
 	}
 
-	public static byte[] Serialize(Object o, boolean compress) throws Exception {
+	public static byte[] Serialize(Object o) throws Exception {
 		ByteArrayOutputStream s = new ByteArrayOutputStream();
 		try {
 
@@ -485,12 +482,7 @@ public class EntityBufCore {
 
 			byte[] bytes = ms.GetBytes();
 
-			if (compress && bytes.length > minGZIPCompressLenth) {
-				byte[] compressBytes = GzipUtil.compress(bytes);
-				return compressBytes;
-			} else {
-				return bytes;
-			}
+			return bytes;
 		} finally {
 			s.close();
 		}
@@ -835,16 +827,11 @@ public class EntityBufCore {
 		return ret;
 	}
 
-	public static <T> T DeSerialize(Class<T> c, byte[] bytes, boolean compress) throws Exception {
-		byte[] decompressBytes = bytes;
-		if (compress && bytes != null && bytes.length > minGZIPCompressLenth) {
-			decompressBytes = GzipUtil.uncompress(bytes);
-		}
-
+	public static <T> T DeSerialize(Class<T> c, byte[] bytes) throws Exception {
 		java.io.ByteArrayInputStream bs = null;
 		try {
 
-			bs = new java.io.ByteArrayInputStream(decompressBytes);
+			bs = new java.io.ByteArrayInputStream(bytes);
 			Ljc.JFramework.MemoryStreamReader reader = new Ljc.JFramework.MemoryStreamReader(bs);
 			Object obj = DeSerialize(c, reader);
 			return (T) obj;

@@ -286,7 +286,7 @@ public class SessionClient extends ClientBase {
 
 			throw ex;
 		} else {
-			T result = EntityBufCore.DeSerialize(classt, (byte[]) autoResetEvent.getWaitResult(), true);
+			T result = EntityBufCore.DeSerialize(classt, (byte[]) autoResetEvent.getWaitResult());
 			return result;
 		}
 	}

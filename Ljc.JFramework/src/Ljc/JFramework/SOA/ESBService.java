@@ -72,7 +72,7 @@ public class ESBService extends SessionClient {
 
 				try {
 					Object result = DoResponse(new Tuple<Integer, byte[]>(request.getFundId(), request.getParam()));
-					responseBody.setResult(EntityBufCore.Serialize(result, true));
+					responseBody.setResult(EntityBufCore.Serialize(result));
 					responseBody.setIsSuccess(true);
 
 				} catch (Exception ex) {

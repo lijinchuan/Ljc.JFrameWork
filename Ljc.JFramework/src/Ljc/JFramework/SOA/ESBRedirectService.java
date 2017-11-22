@@ -1,13 +1,11 @@
 package Ljc.JFramework.SOA;
 
-import java.util.Date;
 import java.util.function.Function;
 
 import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.Session;
 import Ljc.JFramework.SocketApplication.SocketEasy.Server.SessionServer;
-import Ljc.JFramework.TypeUtil.DateTime;
 import Ljc.JFramework.Utility.StringUtil;
 import Ljc.JFramework.Utility.Tuple;
 
@@ -33,7 +31,7 @@ public class ESBRedirectService extends SessionServer {
 			try {
 				if (DoResponseAction != null) {
 					SOARedirectRequest reqbag = EntityBufCore.DeSerialize(SOARedirectRequest.class,
-							message.getMessageBuffer(), true);
+							message.getMessageBuffer());
 					Object obj = DoResponseAction
 							.apply(new Tuple<Integer, byte[]>(reqbag.getFuncId(), reqbag.getParam()));
 
@@ -46,8 +44,7 @@ public class ESBRedirectService extends SessionServer {
 						retmsg.getMessageHeader().setTransactionID(message.getMessageHeader().getTransactionID());
 						SOARedirectResponse resp = new SOARedirectResponse();
 						resp.setIsSuccess(true);
-						resp.setResponseTime(new Date());
-						resp.setResult(EntityBufCore.Serialize(obj, true));
+						resp.setResult(EntityBufCore.Serialize(obj));
 						retmsg.SetMessageBody(resp);
 
 						session.SendMessage(retmsg);
@@ -60,7 +57,6 @@ public class ESBRedirectService extends SessionServer {
 				retmsg.getMessageHeader().setTransactionID(message.getMessageHeader().getTransactionID());
 				SOARedirectResponse resp = new SOARedirectResponse();
 				resp.setIsSuccess(false);
-				resp.setResponseTime(DateTime.Now());
 				resp.setErrMsg(ex.toString());
 				retmsg.SetMessageBody(resp);
 

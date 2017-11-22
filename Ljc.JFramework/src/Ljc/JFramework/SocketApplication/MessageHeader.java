@@ -1,6 +1,6 @@
 package Ljc.JFramework.SocketApplication;
 
-import java.util.Date;
+import java.util.HashMap;
 
 public class MessageHeader {
 	private int _messageType;
@@ -26,13 +26,23 @@ public class MessageHeader {
 		this._transactionID = value;
 	}
 
-	private Date _messageTime;
+	private int _compressType;
 
-	public Date getMessageTime() {
-		return this._messageTime;
+	public int getCompressType() {
+		return this._compressType;
 	}
 
-	public void setMessageTime(Date value) {
-		this._messageTime = value;
+	public void setCompressType(int value) {
+		this._compressType = value;
+	}
+
+	private HashMap<String, String> _customData;
+
+	public HashMap<String, String> getCustomData() {
+		return this._customData;
+	}
+
+	public void setCustomData(HashMap<String, String> value) {
+		this._customData = value;
 	}
 }
