@@ -1,11 +1,13 @@
 package Ljc.JFramework.Net;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import Ljc.JFramework.Utility.StringUtil;
 
@@ -82,7 +84,7 @@ public class WebClient {
 		_defaultEncoding = value;
 	}
 
-	private boolean _supportCompression = true;
+	private boolean _supportCompression = false;
 
 	/// <summary>
 	/// 是否支持压缩
@@ -154,7 +156,7 @@ public class WebClient {
 		}
 
 		URL requestUrl = new URL(url);
-		URLConnection conn = requestUrl.openConnection();
+		HttpURLConnection conn = (HttpURLConnection) requestUrl.openConnection();
 
 		if (buff != null && buff.length > 0 && method == WebRequestMethodEnum.GET)
 			conn.setRequestProperty("Method", WebRequestMethodEnum.POST.toString());
@@ -202,7 +204,24 @@ public class WebClient {
 			output.write(buff, 0, buff.length);
 		}
 
+		int responsecode = conn.getResponseCode();
+		if (responsecode != 200) {
+			throw new IOException("请求错误:" + responsecode);
+		}
+
 		Map<String, List<String>> headers = conn.getHeaderFields();
+
+		for (Entry<String, List<String>> kv : headers.entrySet()) {
+			System.out.println(kv.getKey() + ":" + kv.getValue());
+		}
+
+		InputStream input = conn.getInputStream();
+
+		byte[] contentbuffer = Ljc.JFramework.Utility.StreamUtil.ReadStream(input);
+		System.out.println(String.valueOf(contentbuffer.length));
+		String str = new String(contentbuffer, "utf-8");
+		System.out.println(str);
+		conn.disconnect();
 
 		return null;
 
