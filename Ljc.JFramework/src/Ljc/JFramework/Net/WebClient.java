@@ -1,5 +1,7 @@
 package Ljc.JFramework.Net;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -324,6 +326,37 @@ public class WebClient {
 
 		return conn.getInputStream();
 
+	}
+
+	public void DownloadFile(String url, String file) throws Exception {
+		InputStream s = this.GetStream(url, true);
+
+		try {
+			File destfile = new File(file);
+			if (destfile.exists()) {
+				throw new Exception("文件已存在:" + file);
+			}
+
+			java.io.BufferedInputStream reader = new java.io.BufferedInputStream(s);
+			java.io.FileOutputStream os = new FileOutputStream(destfile);
+			try {
+
+				byte[] buff = new byte[2048];
+				int len = 0;
+				while (true) {
+					len = reader.read(buff);
+					if (len == -1) {
+						break;
+					}
+					os.write(buff, 0, len);
+				}
+			} finally {
+				os.close();
+				reader.close();
+			}
+		} finally {
+			s.close();
+		}
 	}
 
 }
