@@ -1,5 +1,10 @@
 package Ljc.JFramework.Net;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+
+import Ljc.JFramework.Utility.StringUtil;
+
 public class HttpResponseEx {
 	private boolean _cacheControl = false;
 
@@ -174,7 +179,7 @@ public class HttpResponseEx {
 		this._responseBytes = value;
 	}
 
-	private String _characterSet;
+	private String _characterSet = "utf-8";
 
 	public String getCharacterSet() {
 		return this._characterSet;
@@ -266,44 +271,52 @@ public class HttpResponseEx {
 		return this._requestMills;
 	}
 
-	// public HttpResponseEx PraseHeader(HttpWebResponse httpWebResponse) {
-	// // 打开和URL之间的连接
-	// URLConnection connection = realUrl.openConnection();
-	// if (httpWebResponse != null) {
-	// this.AcceptRanges = httpWebResponse.Headers.Get("AcceptRanges");
-	// this.Age = httpWebResponse.Headers.Get("Age");
-	// this.Allow = httpWebResponse.Headers.Get("Allow");
-	// this.Connection = httpWebResponse.Headers.Get("Connection");
-	// this.ContentEncoding = httpWebResponse.Headers.Get("Content-Encoding");
-	// this.ContentLanguage = httpWebResponse.Headers.Get("Content-Language");
-	// this.ContentLength = httpWebResponse.Headers.Get("Content-Length");
-	// this.ContentLocation = httpWebResponse.Headers.Get("Content-Location");
-	// this.ContentMd5 = httpWebResponse.Headers.Get("ContentMd5");
-	// this.ContentRange = httpWebResponse.Headers.Get("Content-Range");
-	// this.ContentType = httpWebResponse.Headers.Get("Content-Type");
-	// this.Date = httpWebResponse.Headers.Get("Date");
-	// this.ETag = httpWebResponse.Headers.Get("ETag");
-	// this.Expires = httpWebResponse.Headers.Get("Expires");
-	// this.KeepAlive = httpWebResponse.Headers.Get("KeepAlive");
-	// this.LastModified = httpWebResponse.Headers.Get("LastModified");
-	// this.Location = httpWebResponse.Headers.Get("Location");
-	// this.Pragma = httpWebResponse.Headers.Get("Pragma");
-	// this.ProxyAuthenticate = httpWebResponse.Headers.Get("ProxyAuthenticate");
-	// this.RetryAfter = httpWebResponse.Headers.Get("RetryAfter");
-	// this.Server = httpWebResponse.Headers.Get("Server");
-	// this.SetCookie = httpWebResponse.Headers.Get("Set-Cookie");
-	// this.Trailer = httpWebResponse.Headers.Get("Trailer");
-	// this.TransferEncoding = httpWebResponse.Headers.Get("Transfer-Encoding");
-	// this.Upgrade = httpWebResponse.Headers.Get("Upgrade");
-	// this.Vary = httpWebResponse.Headers.Get("Vary");
-	// this.Via = httpWebResponse.Headers.Get("Via");
-	// this.Warning = httpWebResponse.Headers.Get("Warning");
-	// this.WwwAuthenticate = httpWebResponse.Headers.Get("WwwAuthenticate");
-	// this.StatusCode = (int) httpWebResponse.StatusCode;
-	// this.StatusDescription = httpWebResponse.StatusDescription;
-	//
-	// this.ResponseUrl = httpWebResponse.ResponseUri.AbsoluteUri;
-	// }
-	// return this;
-	// }
+	public HttpResponseEx PraseHeader(HttpURLConnection httpWebResponse) throws IOException {
+
+		if (httpWebResponse != null) {
+			this.AcceptRanges = httpWebResponse.getHeaderField("AcceptRanges");
+			this.Age = httpWebResponse.getHeaderField("Age");
+			this.Allow = httpWebResponse.getHeaderField("Allow");
+			this.Connection = httpWebResponse.getHeaderField("Connection");
+			this.ContentEncoding = httpWebResponse.getHeaderField("Content-Encoding");
+			this.ContentLanguage = httpWebResponse.getHeaderField("Content-Language");
+			this.ContentLength = httpWebResponse.getHeaderField("Content-Length");
+			this.ContentLocation = httpWebResponse.getHeaderField("Content-Location");
+			this.ContentMd5 = httpWebResponse.getHeaderField("ContentMd5");
+			this.ContentRange = httpWebResponse.getHeaderField("Content-Range");
+			this.ContentType = httpWebResponse.getHeaderField("Content-Type");
+			System.out.println(ContentType);
+			if (!StringUtil.isNullOrEmpty(this.ContentType)) {
+				String[] charsets = this.ContentType.split("charset=");
+				if (charsets.length > 0) {
+					this._characterSet = charsets[charsets.length - 1].split(";")[0];
+				}
+			}
+
+			this.Date = httpWebResponse.getHeaderField("Date");
+			this.ETag = httpWebResponse.getHeaderField("ETag");
+			this.Expires = httpWebResponse.getHeaderField("Expires");
+			this.KeepAlive = httpWebResponse.getHeaderField("KeepAlive");
+			this.LastModified = httpWebResponse.getHeaderField("LastModified");
+			this.Location = httpWebResponse.getHeaderField("Location");
+			this.Pragma = httpWebResponse.getHeaderField("Pragma");
+			this.ProxyAuthenticate = httpWebResponse.getHeaderField("ProxyAuthenticate");
+			this.RetryAfter = httpWebResponse.getHeaderField("RetryAfter");
+			this.Server = httpWebResponse.getHeaderField("Server");
+			this.SetCookie = httpWebResponse.getHeaderField("Set-Cookie");
+			System.out.println("cookie" + this.SetCookie);
+			this.Trailer = httpWebResponse.getHeaderField("Trailer");
+			this.TransferEncoding = httpWebResponse.getHeaderField("Transfer-Encoding");
+			this.Upgrade = httpWebResponse.getHeaderField("Upgrade");
+			this.Vary = httpWebResponse.getHeaderField("Vary");
+			this.Via = httpWebResponse.getHeaderField("Via");
+			this.Warning = httpWebResponse.getHeaderField("Warning");
+			this.WwwAuthenticate = httpWebResponse.getHeaderField("WwwAuthenticate");
+			this._statusCode = (int) httpWebResponse.getResponseCode();
+			this._statusDescription = httpWebResponse.getResponseMessage();
+			System.out.println(this._statusDescription);
+			this._responseUrl = httpWebResponse.getURL().getPath();
+		}
+		return this;
+	}
 }

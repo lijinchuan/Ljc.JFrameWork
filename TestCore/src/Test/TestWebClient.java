@@ -6,11 +6,11 @@ import Ljc.JFramework.Net.WebClient;
 import Ljc.JFramework.Net.WebRequestMethodEnum;
 
 public class TestWebClient {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		WebClient wc = new WebClient();
 		try {
-			wc.DoRequest("https://www.cnblogs.com/zhuawang/archive/2012/12/08/2809380.html", null,
-					WebRequestMethodEnum.GET, true, true, null);
+			wc.DoRequest("http://blog.csdn.net/heyu158/article/details/23342533", null, WebRequestMethodEnum.GET, true,
+					true, null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

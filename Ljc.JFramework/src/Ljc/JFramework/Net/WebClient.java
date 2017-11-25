@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import Ljc.JFramework.Utility.StringUtil;
@@ -149,7 +148,7 @@ public class WebClient {
 
 	// ∑Ω∑®
 	public HttpResponseEx DoRequest(String url, byte[] buff, WebRequestMethodEnum method, boolean saveCookie,
-			boolean getContent, String contentType) throws IOException {
+			boolean getContent, String contentType) throws Exception {
 		HttpResponseEx ret = new HttpResponseEx();
 		if (StringUtil.isNullOrEmpty(contentType)) {
 			contentType = "application/x-www-form-urlencoded;charset=UTF-8;";
@@ -205,25 +204,34 @@ public class WebClient {
 		}
 
 		int responsecode = conn.getResponseCode();
-		if (responsecode != 200) {
+		if (responsecode != 200 && responsecode != 302) {
 			throw new IOException("«Î«Û¥ÌŒÛ:" + responsecode);
 		}
 
-		Map<String, List<String>> headers = conn.getHeaderFields();
-
-		for (Entry<String, List<String>> kv : headers.entrySet()) {
-			System.out.println(kv.getKey() + ":" + kv.getValue());
+		for (Entry<String, List<String>> kv : conn.getHeaderFields().entrySet()) {
+			System.out.println(kv.getKey() + ":");
+			for (String vv : kv.getValue()) {
+				System.out.println(vv);
+			}
 		}
 
-		InputStream input = conn.getInputStream();
+		ret.PraseHeader(conn);
 
-		byte[] contentbuffer = Ljc.JFramework.Utility.StreamUtil.ReadStream(input);
-		System.out.println(String.valueOf(contentbuffer.length));
-		String str = new String(contentbuffer, "utf-8");
-		System.out.println(str);
+		if (getContent) {
+			InputStream input = conn.getInputStream();
+
+			byte[] contentbuffer = Ljc.JFramework.Utility.StreamUtil.ReadStream(input, conn.getContentLength());
+			ret.setResponseBytes(contentbuffer);
+
+		}
+		System.out.println("..." + conn.getContentEncoding());
+		// System.out.println(String.valueOf(contentbuffer.length));
+		// String str = new String(contentbuffer, "utf-8");
+		// System.out.println(str);
 		conn.disconnect();
 
-		return null;
+		ret.setSuccessed(true);
+		return ret;
 
 	}
 
