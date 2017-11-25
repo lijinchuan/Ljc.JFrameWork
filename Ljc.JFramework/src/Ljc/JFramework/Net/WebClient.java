@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -56,17 +57,18 @@ public class WebClient {
 		_refer = value;
 	}
 
+	private final static Charset DefaultEncoding = Charset.forName("utf-8");
 	// 编码
-	private String _encoding = "utf-8";
+	private Charset _encoding;
 
 	/// <summary>
 	/// 页面编码
 	/// </summary>
-	public String getWebEncoding() {
+	public Charset getWebEncoding() {
 		return _encoding;
 	}
 
-	public void setWebEncoding(String value) {
+	public void setWebEncoding(Charset value) {
 		_encoding = value;
 	}
 
@@ -146,6 +148,45 @@ public class WebClient {
 		_timeOut = value * 1000;
 	}
 
+	/// <summary>
+	/// post方法发送数据
+	/// </summary>
+	/// <param name="url"></param>
+	/// <param name="data"></param>
+	/// <param name="saveCookie">是否保存cookie</param>
+	/// <param name="getContent">是否读取内容</param>
+	/// <returns></returns>
+	public HttpResponseEx DoRequest(String url, String data, WebRequestMethodEnum method, boolean saveCookie,
+			boolean getContent, String contentType) throws Exception {
+		if (contentType == null) {
+			contentType = "application/x-www-form-urlencoded;charset=UTF-8;";
+		}
+
+		byte[] buff = null;
+
+		if (!StringUtil.isNullOrEmpty(data)) {
+			buff = data.getBytes(this.getWebEncoding());
+		}
+
+		HttpResponseEx response = DoRequest(url, buff, method, saveCookie, getContent, contentType);
+
+		if (!response.getSuccessed()) {
+			return response;
+		}
+
+		Charset charset;
+		try {
+			charset = Charset.forName(response.getCharacterSet());
+		} catch (Exception ex) {
+			charset = DefaultEncoding;
+		}
+
+		if (response.getResponseBytes() != null && response.getResponseBytes().length > 0) {
+			response.setResponseContent(new String(response.getResponseBytes(), charset));
+		}
+		return response;
+	}
+
 	// 方法
 	public HttpResponseEx DoRequest(String url, byte[] buff, WebRequestMethodEnum method, boolean saveCookie,
 			boolean getContent, String contentType) throws Exception {
@@ -198,8 +239,9 @@ public class WebClient {
 
 			conn.setRequestProperty("Content-Type", contentType);
 			conn.setRequestProperty("Content-Length", String.valueOf(buff.length));
-
+			conn.setDoOutput(true);
 			OutputStream output = conn.getOutputStream();
+
 			output.write(buff, 0, buff.length);
 		}
 
@@ -224,14 +266,63 @@ public class WebClient {
 			ret.setResponseBytes(contentbuffer);
 
 		}
+
 		System.out.println("..." + conn.getContentEncoding());
 		// System.out.println(String.valueOf(contentbuffer.length));
-		// String str = new String(contentbuffer, "utf-8");
+		// String str = new String(ret.getResponseBytes(), ret.getCharacterSet());
 		// System.out.println(str);
+
 		conn.disconnect();
 
 		ret.setSuccessed(true);
 		return ret;
+
+	}
+
+	/// <summary>
+	/// 返回请求的数据流，主要用于读取网络图片等
+	/// </summary>
+	/// <param name="url"></param>
+	/// <returns></returns>
+	public InputStream GetStream(String url, boolean saveCookie) throws IOException {
+		URL requestUrl = new URL(url);
+		HttpURLConnection conn = (HttpURLConnection) requestUrl.openConnection();
+
+		conn.setRequestProperty("Method", WebRequestMethodEnum.GET.toString());
+
+		conn.setRequestProperty("Accept", this._accept);
+
+		// webRequest.AllowAutoRedirect = true;
+		// Accept-Language:zh-CN,zh;q=0.8
+		conn.setRequestProperty("Accept-Language", this._acceptLanguage);
+		// webRequest.KeepAlive = true;
+		conn.setRequestProperty("Connection", "keep-alive");
+		conn.setUseCaches(false);
+		// webRequest.CachePolicy = new
+		// System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+		// webRequest.UserAgent = UserAgent;
+		conn.setRequestProperty("User-Agent", this._userAgent);
+		if (_timeOut > 0) {
+			// webRequest.Timeout = _timeOut;
+			conn.setConnectTimeout(_timeOut);
+		}
+
+		if (!StringUtil.isNullOrEmpty(this._refer)) {
+			conn.setRequestProperty("Referer", this._refer);
+		}
+
+		if (serverCookie != null)
+			conn.setRequestProperty("Cookie", this.serverCookie.toString());
+		else
+			conn.setRequestProperty("Cookie", "");
+
+		int responsecode = conn.getResponseCode();
+		if (responsecode != 200 && responsecode != 302) {
+			conn.disconnect();
+			throw new IOException("请求错误:" + responsecode);
+		}
+
+		return conn.getInputStream();
 
 	}
 
