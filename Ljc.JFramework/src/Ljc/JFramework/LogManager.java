@@ -67,13 +67,10 @@ public class LogManager {
 	}
 
 	private synchronized static String getLogFilePath(Level loglevel) throws IOException {
-		StringBuffer logFilePath = new StringBuffer();
-		// logFilePath.append("D:\\GitHub\\Ljc.JFrameWork\\Ljc.JFramework\\");
-		// logFilePath.append(LogManager.class.getClassLoader().getResource("").getPath());
-		// logFilePath.append(System.getProperty("user.home"));
-		logFilePath.append(System.getProperty("user.dir"));
-		// System.out.println("1111111:" + new File("../").getCanonicalPath());
-		// logFilePath.append(new File("../").getCanonicalPath());
+		StringBuffer logFilePath = new StringBuffer("..");
+
+		// logFilePath.append(System.getProperty("user.dir"));
+
 		logFilePath.append(File.separatorChar);
 		logFilePath.append(LOG_FOLDER_NAME);
 
