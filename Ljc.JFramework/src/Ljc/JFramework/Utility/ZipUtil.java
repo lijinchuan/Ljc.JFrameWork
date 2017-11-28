@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class ZipUtil {
@@ -45,28 +47,74 @@ public class ZipUtil {
 		}
 	}
 
-	public static void unZip(String zipfile, String destdir) throws IOException {
-		ZipInputStream Zin = new ZipInputStream(new FileInputStream(zipfile));// 输入源zip路径
-		BufferedInputStream Bin = new BufferedInputStream(Zin);
-		String Parent = destdir; // 输出路径（文件夹目录）
-		File Fout = null;
-		ZipEntry entry;
-		while ((entry = Zin.getNextEntry()) != null && !entry.isDirectory()) {
-			Fout = new File(Parent, entry.getName());
-			if (!Fout.exists()) {
-				(new File(Fout.getParent())).mkdirs();
-			}
-			FileOutputStream out = new FileOutputStream(Fout);
-			BufferedOutputStream Bout = new BufferedOutputStream(out);
-			int b;
-			while ((b = Bin.read()) != -1) {
-				Bout.write(b);
-			}
-			Bout.close();
-			out.close();
-			System.out.println(Fout + "解压成功");
+	public static void unZip(String srcPath, String dest) throws IOException {
+		File file = new File(srcPath);
+
+		if (!file.exists()) {
+
+			throw new RuntimeException(srcPath + "所指文件不存在");
+
 		}
-		Bin.close();
-		Zin.close();
+
+		ZipFile zf = new ZipFile(file);
+		Enumeration entries = zf.entries();
+
+		ZipEntry entry = null;
+
+		while (entries.hasMoreElements()) {
+
+			entry = (ZipEntry) entries.nextElement();
+
+			System.out.println("解压" + entry.getName());
+
+			if (entry.isDirectory()) {
+
+				String dirPath = dest + File.separator + entry.getName();
+
+				File dir = new File(dirPath);
+
+				dir.mkdirs();
+
+			} else {
+
+				// 表示文件
+
+				File f = new File(dest + File.separator + entry.getName());
+
+				if (!f.exists()) {
+
+					String dirs = f.getParentFile().getAbsolutePath();
+
+					File parentDir = new File(dirs);
+
+					parentDir.mkdirs();
+
+				}
+
+				f.createNewFile();
+
+				// 将压缩文件内容写入到这个文件中
+
+				InputStream is = zf.getInputStream(entry);
+
+				FileOutputStream fos = new FileOutputStream(f);
+
+				int count;
+
+				byte[] buf = new byte[8192];
+
+				while ((count = is.read(buf)) != -1) {
+
+					fos.write(buf, 0, count);
+
+				}
+
+				is.close();
+
+				fos.close();
+
+			}
+
+		}
 	}
 }
