@@ -251,7 +251,7 @@ public class EntityBufCore {
 				}
 				msWriter.WriteStringArray(strarr);
 			} else {
-				msWriter.WriteString((String) val);
+				msWriter.WriteString(val.toString());
 			}
 			break;
 		case DICTIONARY:
