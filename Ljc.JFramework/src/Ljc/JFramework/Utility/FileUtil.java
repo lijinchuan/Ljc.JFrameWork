@@ -8,12 +8,14 @@ public class FileUtil {
 			return false;
 		}
 
-		for (File sf : f.listFiles()) {
-			if (sf.isFile()) {
-				sf.delete();
-			}
+		if (f.isDirectory()) {
+			for (File sf : f.listFiles()) {
+				if (sf.isFile()) {
+					sf.delete();
+				}
 
-			deleteAll(sf);
+				deleteAll(sf);
+			}
 		}
 
 		return f.delete();
