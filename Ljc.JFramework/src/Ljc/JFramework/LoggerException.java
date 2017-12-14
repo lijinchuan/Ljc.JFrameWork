@@ -62,7 +62,7 @@ public class LoggerException extends Exception {
 				CoreException cexp = (CoreException) inexp;
 				sb.append(String.format("%s---------数据信息---------%s", level, EnvironmentUtil.NEW_LINE));
 				for (Entry<Object, Object> kv : cexp.Data.entrySet()) {
-					sb.append(String.format("%s %s: %s%s", level, kv.getKey(), kv.getValue().toString(),
+					sb.append(String.format("%s %s: %s%s", level, kv.getKey(), kv.getValue(),
 							EnvironmentUtil.NEW_LINE));
 				}
 				sb.append(String.format("%s------------数据信息END---------------%s", level, EnvironmentUtil.NEW_LINE));
