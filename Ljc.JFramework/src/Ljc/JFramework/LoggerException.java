@@ -38,6 +38,9 @@ public class LoggerException extends Exception {
 
 	@Override
 	public String getMessage() {
+		if (this._fromException == null) {
+			return "";
+		}
 		return this._fromException.getMessage();
 	}
 
