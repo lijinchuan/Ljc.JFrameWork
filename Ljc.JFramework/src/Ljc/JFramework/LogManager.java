@@ -136,11 +136,11 @@ public class LogManager {
 	}
 
 	public static void Debug(Object msg) {
-		if (msg != null) {
+		if (msg == null) {
 			return;
 		}
 		CheckHandler(Level.FINEST);
-		debuglogger.log(Level.FINEST, msg.toString());
+		debuglogger.fine(msg.toString());
 	}
 
 	public static void Info(Object message) {
@@ -159,9 +159,15 @@ public class LogManager {
 		warnlogger.warning(message.toString());
 	}
 
-	public static void Error(Object message, Exception exception) {
+	public static void Error(Object message, Throwable exception) {
 		CheckHandler(Level.SEVERE);
 
-		errorlogger.log(Level.SEVERE, message.toString(), LoggerException.GetException(exception));
+		errorlogger.severe(
+				(message == null ? "" : message.toString()) + LoggerException.GetException(exception).toString());
+	}
+
+	public static void Error(Throwable exception) {
+		CheckHandler(Level.SEVERE);
+		errorlogger.severe(LoggerException.GetException(exception).toString());
 	}
 }

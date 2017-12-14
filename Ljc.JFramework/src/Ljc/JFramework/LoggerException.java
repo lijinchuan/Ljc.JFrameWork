@@ -9,18 +9,29 @@ public class LoggerException extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Exception _fromException = null;
+	private Throwable _fromException = null;
 
-	private LoggerException(Exception ex) {
+	private LoggerException(Throwable ex) {
 		_fromException = ex;
 	}
 
-	public static Exception GetException(Exception ex) {
+	public static Throwable GetException(Throwable ex) {
 		if (ex == null)
 			return null;
 
 		if (ex instanceof LoggerException)
 			return ex;
+
+		return new LoggerException(ex);
+	}
+
+	public static Exception GetException(String message, Exception ex) {
+		if (ex == null)
+			return null;
+
+		if (ex instanceof LoggerException) {
+			return ex;
+		}
 
 		return new LoggerException(ex);
 	}
@@ -33,7 +44,7 @@ public class LoggerException extends Exception {
 	@Override
 	public String toString() {
 
-		Exception inexp = _fromException;
+		Throwable inexp = _fromException;
 		StringBuilder sb = new StringBuilder();
 
 		String level = "";
