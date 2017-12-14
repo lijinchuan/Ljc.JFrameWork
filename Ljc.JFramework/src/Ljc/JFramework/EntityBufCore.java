@@ -38,9 +38,9 @@ public class EntityBufCore {
 	private final static Boolean _defaultBool = Boolean.FALSE;
 	private final static byte complexchar = (byte) (12);
 
-	private static Map<Integer, List<Tuple<EntityBufType, Boolean>>> EntityBufTypeDic = new HashMap<Integer, List<Tuple<EntityBufType, Boolean>>>();
+	private static Map<String, List<Tuple<EntityBufType, Boolean>>> EntityBufTypeDic = new HashMap<String, List<Tuple<EntityBufType, Boolean>>>();
 	private static ReentrantReadWriteLock EntityBufTypeDicRWLock = new ReentrantReadWriteLock();
-	private static Map<Integer, Tuple<EntityBufType, Boolean>> TypeBufTypeDic = new HashMap<Integer, Tuple<EntityBufType, Boolean>>();
+	private static Map<String, Tuple<EntityBufType, Boolean>> TypeBufTypeDic = new HashMap<String, Tuple<EntityBufType, Boolean>>();
 	private static ReentrantReadWriteLock TypeBufTypeDicRWLock = new ReentrantReadWriteLock();
 
 	private static EntityBufType MapBufType(Class<?> type, Box<Boolean> isArray) {
@@ -380,7 +380,7 @@ public class EntityBufCore {
 		if (tp == null) {
 			return null;
 		}
-		int key = tp.hashCode();
+		String key = tp.getName();
 		Tuple<EntityBufType, Boolean> getval = null;
 		if ((getval = TypeBufTypeDic.getOrDefault(key, null)) != null) {
 			return getval;
@@ -404,7 +404,7 @@ public class EntityBufCore {
 		if (tp == null)
 			return null;
 
-		int key = tp.hashCode();
+		String key = tp.getName();
 		boolean isrealsereadlock = false;
 		try {
 			EntityBufTypeDicRWLock.readLock().lock();
