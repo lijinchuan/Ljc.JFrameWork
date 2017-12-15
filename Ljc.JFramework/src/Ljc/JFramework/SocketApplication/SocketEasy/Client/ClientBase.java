@@ -186,7 +186,12 @@ public class ClientBase extends SocketBase {
 				act.setParams(buffer);
 				ThreadPoolUtil.QueueUserWorkItem(act, buffer);
 			} catch (IOException e) {
-				break;
+				OnError(e);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+				}
 			} catch (Exception e) {
 				OnError(e);
 			}
@@ -196,7 +201,7 @@ public class ClientBase extends SocketBase {
 			socketClient.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LogManager.Error(e);
 		}
 	}
 
