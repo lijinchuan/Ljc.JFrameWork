@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import Ljc.JFramework.EntityBufCore;
+import Ljc.JFramework.LogManager;
 import Ljc.JFramework.MemoryStreamWriter;
 import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.SocketApplicationException;
@@ -86,6 +87,11 @@ public class ClientBase extends SocketBase {
 	private boolean IsConnected() {
 		return this.socketClient != null && this.socketClient.isConnected() && !this.socketClient.isClosed();
 	}
+	
+	protected void ClientReset()
+	{
+		
+	}
 
 	public Boolean StartClient() {
 		try {
@@ -101,9 +107,6 @@ public class ClientBase extends SocketBase {
 				isResetClient = true;
 			}
 
-			if (socketClient != null) {
-				socketClient.close();
-			}
 			try {
 				socketClient = new Socket(this.serverIp, this.ipPort);
 				socketClient.setReceiveBufferSize(32000);
@@ -129,8 +132,9 @@ public class ClientBase extends SocketBase {
 			}
 
 			isStartClient = true;
-
+			
 			if (isResetClient && OnClientReset != null) {
+				ClientReset();
 				OnClientReset.notifyEvent(null);
 			}
 
@@ -240,7 +244,11 @@ public class ClientBase extends SocketBase {
 				ex.Data.put("errorResume", errorResume);
 				ex.Data.put("socketClient.Connected", socketClient.isConnected());
 				ex.Data.put("checksocket", "不需要发起重连");
+				
+				
 			}
+			
+			LogManager.Error(ex);
 		}
 	}
 }

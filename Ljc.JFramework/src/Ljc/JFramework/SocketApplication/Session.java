@@ -83,7 +83,7 @@ public class Session {
 		this._connectTime = value;
 	}
 
-	private long _lastSessionTime;
+	private long _lastSessionTime=new Date().getTime();
 
 	/// <summary>
 	/// 上次心跳时间
@@ -198,7 +198,7 @@ public class Session {
 	}
 
 	public boolean IsTimeOut() {
-		return System.currentTimeMillis() - _lastSessionTime > _sessionTimeOut * 2;
+		return System.currentTimeMillis() - _lastSessionTime > _sessionTimeOut * 3;
 	}
 
 	public void Close() {

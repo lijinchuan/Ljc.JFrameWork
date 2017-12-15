@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import Ljc.JFramework.AutoReSetEventResult;
 import Ljc.JFramework.CoreException;
 import Ljc.JFramework.EntityBufCore;
+import Ljc.JFramework.LogManager;
 import Ljc.JFramework.TimeOutException;
 import Ljc.JFramework.SocketApplication.LoginRequestMessage;
 import Ljc.JFramework.SocketApplication.LoginResponseMessage;
@@ -71,7 +72,7 @@ public class SessionClient extends ClientBase {
 	}
 
 	protected void OnSessionTimeOut() {
-
+		
 	}
 
 	protected void OnLoginSuccess() {
@@ -79,7 +80,7 @@ public class SessionClient extends ClientBase {
 	}
 
 	protected void OnSessionResume() {
-
+		LogManager.Info("SessionClient OnSessionResume");
 	}
 
 	public final void Login(String uid, String pwd) throws Exception {
@@ -121,7 +122,7 @@ public class SessionClient extends ClientBase {
 		SessionContext.setUserName(message.getLoginID());
 		SessionContext.setConnectTime(DateTime.Now());
 		SessionContext.setSessionID(message.getSessionID());
-		SessionContext.setSessionTimeOut(message.getSessionTimeOut());
+		//SessionContext.setSessionTimeOut(message.getSessionTimeOut());
 		SessionContext.setHeadBeatInterVal(message.getHeadBeatInterVal());
 		SessionContext.setIsLogin(true);
 		SessionContext.setIsValid(true);

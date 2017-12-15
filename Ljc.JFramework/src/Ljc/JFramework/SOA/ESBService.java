@@ -5,7 +5,9 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Ljc.JFramework.CoreException;
 import Ljc.JFramework.EntityBufCore;
+import Ljc.JFramework.LogManager;
 import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketEasy.Client.SessionClient;
@@ -105,11 +107,13 @@ public class ESBService extends SessionClient {
 		Login(null, null);
 	}
 
-	public final boolean RegisterService() throws Exception {
+	public final RegisterServiceResponse RegisterService() throws Exception {
 		if (this.getServiceNo() < 0)
 			throw new Exception("注册服务失败：服务号不能为负数");
 
 		StartRedirectService();
+		
+		LogManager.Info("注册服务:"+this.getServiceNo());
 
 		Message msg = new Message(SOAMessageType.RegisterService.getVal());
 		msg.getMessageHeader().setTransactionID(SocketApplicationComm.GetSeqNum());
@@ -126,9 +130,7 @@ public class ESBService extends SessionClient {
 
 		msg.SetMessageBody(req);
 
-		boolean boo = SendMessageAnsy(RegisterServiceResponse.class, msg, 30000).getIsSuccess();
-
-		return boo;
+		return SendMessageAnsy(RegisterServiceResponse.class, msg, 30000);
 	}
 
 	public void UnRegisterService() throws Exception {
@@ -150,13 +152,19 @@ public class ESBService extends SessionClient {
 	protected void OnSessionResume() {
 		super.OnSessionResume();
 
+		LogManager.Info("EsbService OnSessionResume");
+		
 		while (true) {
 			try {
-				if (RegisterService()) {
+				RegisterServiceResponse resp=RegisterService();
+				if (resp.getIsSuccess()) {
 					// LogHelper.Instance.Info("连接恢复后注册服务成功");
 					break;
 				} else {
-					// LogHelper.Instance.Info("连接恢复后注册服务失败");
+					CoreException ex=new CoreException("连接恢复后注册服务失败");
+					ex.Data.put("ServiceNo", this.getServiceNo());
+					ex.Data.put("error", resp.getErrMsg());
+					LogManager.Error(ex);
 				}
 			} catch (Exception ex) {
 				// LogHelper.Instance.Error("连接恢复后注册服务失败", ex);
@@ -177,16 +185,53 @@ public class ESBService extends SessionClient {
 		super.OnLoginSuccess();
 		while (true) {
 			try {
-				if (RegisterService()) {
-					System.out.println("注册服务成功");
+				RegisterServiceResponse resp=RegisterService();
+				if (resp.getIsSuccess()) {
+					// LogHelper.Instance.Info("连接恢复后注册服务成功");
 					break;
 				} else {
-					System.out.println("注册服务失败");
+					CoreException ex=new CoreException("连接恢复后注册服务失败");
+					ex.Data.put("ServiceNo", this.getServiceNo());
+					ex.Data.put("error", resp.getErrMsg());
+					LogManager.Error(ex);
 				}
 			} catch (Exception ex) {
 				this.OnError(ex);
 				// LogHelper.Error("注册服务失败", ex);
 			}
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	protected final void ClientReset()
+	{
+		super.ClientReset();
+		
+        LogManager.Info("EsbService ClientReset");
+		
+		while (true) {
+			try {
+				RegisterServiceResponse resp=RegisterService();
+				if (resp.getIsSuccess()) {
+					// LogHelper.Instance.Info("连接恢复后注册服务成功");
+					break;
+				} else {
+					CoreException ex=new CoreException("连接恢复后注册服务失败");
+					ex.Data.put("ServiceNo", this.getServiceNo());
+					ex.Data.put("error", resp.getErrMsg());
+					LogManager.Error(ex);
+				}
+			} catch (Exception ex) {
+				// LogHelper.Instance.Error("连接恢复后注册服务失败", ex);
+				this.OnError(ex);
+			}
+
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
