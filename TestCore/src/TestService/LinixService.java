@@ -15,6 +15,8 @@ public class LinixService implements WrapperListener {
 			System.out.println(arg);
 		Instance = new LinixService();
 		Instance.start(args);
+		
+		
 	}
 
 	private LinixService() {

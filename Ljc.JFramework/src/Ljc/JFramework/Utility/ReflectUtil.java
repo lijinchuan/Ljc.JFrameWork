@@ -62,4 +62,9 @@ public class ReflectUtil {
 			return null;
 		}
 	}
+	
+	public static void test()
+	{
+		
+	}
 }

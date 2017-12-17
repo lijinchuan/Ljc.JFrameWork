@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -118,6 +119,8 @@ public class EntityBufCore {
 			ebtype.setEntityType(EntityType.DICTIONARY);
 			break;
 		case "java.util.List":
+		case "java.util.ArrayList":
+		case "java.util.LinkedList":
 			ebtype.setEntityType(EntityType.LIST);
 			break;
 		default:
@@ -541,6 +544,7 @@ public class EntityBufCore {
 		if (args == null || args.length != 1) {
 			return null;
 		}
+
 		return Class.forName(args[0].getTypeName());
 	}
 
@@ -563,7 +567,12 @@ public class EntityBufCore {
 		if (args == null || args.length != 2) {
 			return null;
 		}
-		return new Tuple<Class, Class>(Class.forName(args[0].getTypeName()), Class.forName(args[1].getTypeName()));
+		
+		try {
+			return new Tuple<Class, Class>(Class.forName(args[0].getTypeName()), Class.forName(args[1].getTypeName()));
+		} catch (Exception ex) {
+			return new Tuple<Class, Class>(Class.forName(args[0].getTypeName()), (Class<?>)args[1]);
+		}
 	}
 
 	private static Object DeserializeSimple(EntityBufType buftype, boolean isArray, MemoryStreamReader msReader)
