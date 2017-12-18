@@ -47,7 +47,7 @@ public class EntityBufCore {
 	private static EntityBufType MapBufType(Class<?> type, Box<Boolean> isArray) {
 		EntityBufType ebtype = new EntityBufType();
 		ebtype.setValueType(type);
-
+        
 		if (type.isArray()) {
 			isArray.setData(true);
 			ebtype.setClassType(type.getComponentType());
@@ -567,12 +567,8 @@ public class EntityBufCore {
 		if (args == null || args.length != 2) {
 			return null;
 		}
-		
-		try {
-			return new Tuple<Class, Class>(Class.forName(args[0].getTypeName()), Class.forName(args[1].getTypeName()));
-		} catch (Exception ex) {
-			return new Tuple<Class, Class>(Class.forName(args[0].getTypeName()), (Class<?>)args[1]);
-		}
+		return new Tuple<Class, Class>(Class.forName(args[0].getTypeName()), Class.forName(args[1].getTypeName()));
+
 	}
 
 	private static Object DeserializeSimple(EntityBufType buftype, boolean isArray, MemoryStreamReader msReader)
@@ -734,9 +730,10 @@ public class EntityBufCore {
 				int listarrlen = msReader.ReadInt32();
 				if (listarrlen == -1)
 					return null;
-				Array listArray = (Array) Array.newInstance(buftype.getValueType(), listarrlen);
+				Object listArray = Array.newInstance(buftype.getValueType(), listarrlen);
 				for (int i = 0; i < listarrlen; i++) {
-					Array.set(listArray, i, DeSerialize(buftype.getClassType(), msReader));
+					Object item=DeSerialize(buftype.getClassType(), msReader);
+					Array.set(listArray, i, item);
 				}
 				return listArray;
 			} else {
