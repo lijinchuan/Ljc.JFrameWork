@@ -199,7 +199,7 @@ public class ClientBase extends SocketBase {
 	private void ProcessMessage(byte[] data) {
 		try {
 
-			Message message = EntityBufCore.DeSerialize(Message.class, data, true);
+			Message message = EntityBufCore.DeSerialize(Message.class, data);
 			OnMessage(message);
 		} catch (Exception e) {
 			OnError(e);

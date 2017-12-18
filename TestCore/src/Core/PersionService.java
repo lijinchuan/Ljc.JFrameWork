@@ -21,7 +21,7 @@ public class PersionService extends Ljc.JFramework.SOA.ESBService {
 		byte[] Param = tp.GetItem2();
 		switch (funcId) {
 		case 1: {
-			GetPersonRequest request = Ljc.JFramework.EntityBufCore.DeSerialize(GetPersonRequest.class, Param, true);
+			GetPersonRequest request = Ljc.JFramework.EntityBufCore.DeSerialize(GetPersonRequest.class, Param);
 			if (request.getId() == 9999) {
 				GetPersonResponse resp = new GetPersonResponse();
 				resp.setId(9999);

@@ -1,11 +1,8 @@
 package Ljc.JFramework.SOA;
 
-import java.util.Date;
-
 public class SOARequest {
 	private int _serviceNo;
 	private int _funcId;
-	private Date _requestTime;
 	private byte[] _param;
 
 	public int getServiceNo() {
@@ -22,14 +19,6 @@ public class SOARequest {
 
 	public void setFuncId(int value) {
 		this._funcId = value;
-	}
-
-	public Date getRequestTime() {
-		return this._requestTime;
-	}
-
-	public void setRequestTime(Date value) {
-		this._requestTime = value;
 	}
 
 	public byte[] getParam() {

@@ -6,4 +6,5 @@ public class Consts {
 	public static final int FunNo_Environment = 2;
 	public static final int FunNo_ExistsAServiceNo = 3;
 	public static final int FunNo_GetRegisterServiceInfo = 4;
+	public static final int FunNo_Test = 5;
 }

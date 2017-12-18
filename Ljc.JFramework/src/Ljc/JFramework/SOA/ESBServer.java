@@ -44,7 +44,7 @@ public class ESBServer extends SessionServer {
 			return obj;
 		}
 		case Consts.FunNo_ExistsAServiceNo: {
-			int serviceno = EntityBufCore.DeSerialize(int.class, param, true);
+			int serviceno = EntityBufCore.DeSerialize(int.class, param);
 			for (ESBServiceInfo item : ServiceContainer) {
 				if (item.getServiceNo() == serviceno) {
 					return true;
@@ -53,8 +53,7 @@ public class ESBServer extends SessionServer {
 			return false;
 		}
 		case Consts.FunNo_GetRegisterServiceInfo: {
-			GetRegisterServiceInfoRequest req = EntityBufCore.DeSerialize(GetRegisterServiceInfoRequest.class, param,
-					true);
+			GetRegisterServiceInfoRequest req = EntityBufCore.DeSerialize(GetRegisterServiceInfoRequest.class, param);
 			GetRegisterServiceInfoResponse resp = new GetRegisterServiceInfoResponse();
 
 			resp.setServiceNo(req.getServiceNo());
@@ -73,6 +72,11 @@ public class ESBServer extends SessionServer {
 			resp.setInfos(list.toArray(new RegisterServiceInfo[list.size()]));
 
 			return resp;
+		}
+		case Consts.FunNo_Test: {
+			String req = EntityBufCore.DeSerialize(String.class, param);
+
+			return req;
 		}
 		default: {
 			throw new CoreException(String.format("未实现的功能:%d", funcId));
@@ -93,7 +97,7 @@ public class ESBServer extends SessionServer {
 		if (request.getServiceNo() == 0) {
 			try {
 				Object obj = DoRequest(request.getFuncId(), request.getParam());
-				resp.setResult(EntityBufCore.Serialize(obj, true));
+				resp.setResult(EntityBufCore.Serialize(obj));
 			} catch (Exception ex) {
 				resp.setIsSuccess(false);
 				resp.setErrMsg(ex.getMessage());
@@ -209,7 +213,15 @@ public class ESBServer extends SessionServer {
 	@Override
 	protected void FormApp(Message message, Session session) {
 		try {
-			if (message.IsMessage(SOAMessageType.RegisterService.getVal())) {
+			if (message.IsMessage(SOAMessageType.DoSOARequest.getVal())) {
+				SOARequest req = message.GetMessageBody(SOARequest.class);
+				DoTransferRequest(session, message.getMessageHeader().getTransactionID(), req);
+				return;
+			} else if (message.IsMessage(SOAMessageType.DoSOATransferResponse.getVal())) {
+				SOATransferResponse resp = message.GetMessageBody(SOATransferResponse.class);
+				DoTransferResponse(resp);
+				return;
+			} else if (message.IsMessage(SOAMessageType.RegisterService.getVal())) {
 				Message msg = new Message(SOAMessageType.RegisterService.getVal());
 				msg.getMessageHeader().setTransactionID(message.getMessageHeader().getTransactionID());
 				try {
@@ -266,14 +278,6 @@ public class ESBServer extends SessionServer {
 				}
 
 				session.SendMessage(msg);
-				return;
-			} else if (message.IsMessage(SOAMessageType.DoSOARequest.getVal())) {
-				SOARequest req = message.GetMessageBody(SOARequest.class);
-				DoTransferRequest(session, message.getMessageHeader().getTransactionID(), req);
-				return;
-			} else if (message.IsMessage(SOAMessageType.DoSOATransferResponse.getVal())) {
-				SOATransferResponse resp = message.GetMessageBody(SOATransferResponse.class);
-				DoTransferResponse(resp);
 				return;
 			}
 		} catch (Exception ex) {
