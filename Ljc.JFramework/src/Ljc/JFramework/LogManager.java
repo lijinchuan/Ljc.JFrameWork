@@ -91,8 +91,33 @@ public class LogManager {
 		return logFilePath.toString();
 	}
 
+	private static void changeHandler(Level level) {
+		try {
+			FileHandler oldhandler = null;
+			if (level == Level.FINEST) {
+				oldhandler = DebugLogHandler;
+				DebugLogHandler = GetLogHandler(level);
+
+			} else if (level == Level.INFO) {
+				oldhandler = InfoLogHandler;
+				InfoLogHandler = GetLogHandler(level);
+			} else if (level == Level.WARNING) {
+				oldhandler = WarnLogHandler;
+				WarnLogHandler = GetLogHandler(level);
+			} else if (level == Level.SEVERE) {
+				oldhandler = ErrorLogHandler;
+				ErrorLogHandler = GetLogHandler(level);
+			}
+
+			oldhandler.flush();
+			oldhandler.close();
+		} catch (Exception ex) {
+
+		}
+	}
+
 	@SuppressWarnings("deprecation")
-	private static void CheckHandler(Level level) {
+	private static void checkHandler(Level level) {
 		Date now = new Date();
 
 		if (now.getYear() == LogNameDate.getYear() && now.getMonth() == LogNameDate.getMonth()
@@ -100,37 +125,16 @@ public class LogManager {
 			return;
 		}
 
-		Logger logger = null;
-		FileHandler oldhandler = null;
-		FileHandler nowhandler = null;
-		if (level == Level.FINEST) {
-			logger = debuglogger;
-			oldhandler = nowhandler = DebugLogHandler;
-		} else if (level == Level.INFO) {
-			oldhandler = nowhandler = InfoLogHandler;
-			logger = infologger;
-		} else if (level == Level.WARNING) {
-			oldhandler = nowhandler = WarnLogHandler;
-			logger = warnlogger;
-		} else if (level == Level.SEVERE) {
-			oldhandler = nowhandler = ErrorLogHandler;
-			logger = errorlogger;
-		} else {
-			oldhandler = nowhandler = DebugLogHandler;
-			logger = debuglogger;
-		}
+		synchronized (LogManager.class) {
+			if (now.getYear() == LogNameDate.getYear() && now.getMonth() == LogNameDate.getMonth()
+					&& now.getDate() == LogNameDate.getDate()) {
+				return;
+			}
 
-		try {
-			nowhandler = GetLogHandler(level);
-
-			logger.addHandler(nowhandler);
-
-			logger.removeHandler(oldhandler);
-			oldhandler.flush();
-			oldhandler.close();
-		} catch (SecurityException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			changeHandler(Level.FINEST);
+			changeHandler(Level.INFO);
+			changeHandler(Level.WARNING);
+			changeHandler(Level.SEVERE);
 		}
 
 	}
@@ -139,7 +143,7 @@ public class LogManager {
 		if (msg == null) {
 			return;
 		}
-		CheckHandler(Level.FINEST);
+		checkHandler(Level.FINEST);
 		debuglogger.fine(msg.toString());
 	}
 
@@ -147,7 +151,7 @@ public class LogManager {
 		if (message == null) {
 			return;
 		}
-		CheckHandler(Level.INFO);
+		checkHandler(Level.INFO);
 		infologger.info(message.toString());
 	}
 
@@ -155,19 +159,19 @@ public class LogManager {
 		if (message == null) {
 			return;
 		}
-		CheckHandler(Level.WARNING);
+		checkHandler(Level.WARNING);
 		warnlogger.warning(message.toString());
 	}
 
 	public static void Error(Object message, Throwable exception) {
-		CheckHandler(Level.SEVERE);
+		checkHandler(Level.SEVERE);
 
 		errorlogger.severe(
 				(message == null ? "" : message.toString()) + LoggerException.GetException(exception).toString());
 	}
 
 	public static void Error(Throwable exception) {
-		CheckHandler(Level.SEVERE);
+		checkHandler(Level.SEVERE);
 		errorlogger.severe(LoggerException.GetException(exception).toString());
 	}
 }
