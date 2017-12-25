@@ -93,41 +93,55 @@ public class LogManager {
 
 	private static void changeHandler(Level level) {
 		try {
+			Logger logger = null;
 			FileHandler oldhandler = null;
+			FileHandler newhandler = null;
 			if (level == Level.FINEST) {
+				logger = debuglogger;
 				oldhandler = DebugLogHandler;
-				DebugLogHandler = GetLogHandler(level);
+				newhandler = DebugLogHandler = GetLogHandler(level);
 
 			} else if (level == Level.INFO) {
+				logger = infologger;
 				oldhandler = InfoLogHandler;
-				InfoLogHandler = GetLogHandler(level);
+				newhandler = InfoLogHandler = GetLogHandler(level);
 			} else if (level == Level.WARNING) {
+				logger = warnlogger;
 				oldhandler = WarnLogHandler;
-				WarnLogHandler = GetLogHandler(level);
+				newhandler = WarnLogHandler = GetLogHandler(level);
 			} else if (level == Level.SEVERE) {
+				logger = errorlogger;
 				oldhandler = ErrorLogHandler;
-				ErrorLogHandler = GetLogHandler(level);
+				newhandler = ErrorLogHandler = GetLogHandler(level);
 			}
 
+			logger.addHandler(newhandler);
+			logger.removeHandler(oldhandler);
 			oldhandler.flush();
 			oldhandler.close();
 		} catch (Exception ex) {
 
 		}
 	}
-
-	@SuppressWarnings("deprecation")
-	private static void checkHandler(Level level) {
+	
+	private static boolean checkLogExpir() {
 		Date now = new Date();
 
 		if (now.getYear() == LogNameDate.getYear() && now.getMonth() == LogNameDate.getMonth()
 				&& now.getDate() == LogNameDate.getDate()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private static void checkHandler(Level level) {
+		if (!checkLogExpir()) {
 			return;
 		}
 
 		synchronized (LogManager.class) {
-			if (now.getYear() == LogNameDate.getYear() && now.getMonth() == LogNameDate.getMonth()
-					&& now.getDate() == LogNameDate.getDate()) {
+			if (!checkLogExpir()) {
 				return;
 			}
 
@@ -166,8 +180,15 @@ public class LogManager {
 	public static void Error(Object message, Throwable exception) {
 		checkHandler(Level.SEVERE);
 
-		errorlogger.severe(
-				(message == null ? "" : message.toString()) + LoggerException.GetException(exception).toString());
+		if (exception == null) {
+			if (message == null) {
+				return;
+			}
+			errorlogger.severe(message.toString());
+		} else {
+			errorlogger.severe(
+					(message == null ? "" : message.toString()) + LoggerException.GetException(exception).toString());
+		}
 	}
 
 	public static void Error(Throwable exception) {
