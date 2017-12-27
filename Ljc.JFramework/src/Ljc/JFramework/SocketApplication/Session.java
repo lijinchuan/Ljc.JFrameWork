@@ -210,6 +210,14 @@ public class Session {
 				e.printStackTrace();
 			}
 		}
+		if(this._socketChannel!=null) {
+			try {
+				this._socketChannel.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		this._isValid = false;
 	}
 
