@@ -122,6 +122,10 @@ public class ClientBase extends SocketBase {
 
 				lastReStartClientTime = System.currentTimeMillis();
 				throw e;
+			}catch(Exception e) {
+				Exception ne = new Exception(
+						String.format("连接到远程服务器%s失败，端口:%d，原因:%s", serverIp, ipPort, e.getMessage()));
+				throw ne;
 			}
 
 			if (!isStartClient) {
