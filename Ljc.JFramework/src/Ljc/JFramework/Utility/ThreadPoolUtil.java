@@ -9,9 +9,9 @@ public class ThreadPoolUtil {
 
 	private static ThreadPoolExecutor _threadPool;
 	private static BlockingQueue<Runnable> _poolqueues;
-	private static final int minPoolSize = 10;
-	private static final int maxPoolSize = 1000;
-	private static final int keepAliveTime = 30;
+	private static final int minPoolSize = 500;
+	private static final int maxPoolSize = 2000;
+	private static final int keepAliveTime = 10;
 
 	static {
 		_poolqueues = new LinkedBlockingQueue<Runnable>();
