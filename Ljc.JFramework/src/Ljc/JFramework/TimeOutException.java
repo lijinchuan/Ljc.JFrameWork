@@ -8,7 +8,7 @@ public class TimeOutException extends CoreException {
 	private static final long serialVersionUID = 1L;
 
 	public TimeOutException() {
-		super();
+		super("time out");
 	}
 
 	public TimeOutException(String message) {
