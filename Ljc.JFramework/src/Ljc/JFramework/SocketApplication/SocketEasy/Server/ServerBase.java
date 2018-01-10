@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import Ljc.JFramework.EntityBufCore;
+import Ljc.JFramework.LogManager;
 import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.Session;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
@@ -107,14 +108,12 @@ public class ServerBase extends SocketBase {
 			while (readLen < dataLen) {
 				bytesRead = clntChan.read(bufbody);
 				if (bytesRead == -1) {
-					if (bytesRead == -1) {
-						throw new SocketApplicationException("读取长度为-1");
-					}
+					throw new SocketApplicationException("读取长度为-1");
 				}
 				readLen += bytesRead;
 			}
 
-			key.interestOps(SelectionKey.OP_READ);
+			//key.interestOps(SelectionKey.OP_WRITE);
 
 			ThreadPoolUtil.QueueUserWorkItem(new Runnable() {
 
@@ -149,18 +148,18 @@ public class ServerBase extends SocketBase {
 	// 客户端信道已经准备好了将数据从缓冲区写入信道
 	public void handleWrite(SelectionKey key) throws IOException {
 		// 获取与该信道关联的缓冲区，里面有之前读取到的数据
-		ByteBuffer buf = (ByteBuffer) key.attachment();
-		// 重置缓冲区，准备将数据写入信道
-		buf.flip();
-		SocketChannel clntChan = (SocketChannel) key.channel();
-		// 将数据写入到信道中
-		clntChan.write(buf);
-		if (!buf.hasRemaining()) {
-			// 如果缓冲区中的数据已经全部写入了信道，则将该信道感兴趣的操作设置为可读
-			key.interestOps(SelectionKey.OP_READ);
+		Session session = (Session) key.attachment();
+		ByteBuffer buffer=session.getSendBuffer().poll();
+		while(buffer!=null) {
+		   if(buffer.position()>0) {
+			   buffer.flip();
+		   }
+		   while(buffer.hasRemaining()) {
+			   int writeresult=session.getSocketChanel().write(buffer);
+			   LogManager.Info("handleWrite:"+writeresult);
+		   }
+		   buffer=session.getSendBuffer().poll();
 		}
-		// 为读入更多的数据腾出空间
-		buf.compact();
 	}
 
 	private void Listening(Selector selector) {
@@ -177,6 +176,7 @@ public class ServerBase extends SocketBase {
 						if (key.isAcceptable()) {
 							SocketChannel socket = ((ServerSocketChannel) key.channel()).accept();
 							socket.configureBlocking(false);
+
 							Session session = new Session();
 							session.setIPAddress(socket.getRemoteAddress().toString());
 							session.setIsValid(true);
@@ -184,14 +184,14 @@ public class ServerBase extends SocketBase {
 							session.setSocketChannel(socket);
 							// session.setPort(socket.);
 							session.setConnectTime(new Date());
-							socket.register(selector, SelectionKey.OP_READ, session);
+							socket.register(selector, SelectionKey.OP_READ|SelectionKey.OP_WRITE, session);
 							this._connectSocketDic.put(session.getSessionID(), session);
 							continue;
 						}
 						if (key.isReadable()) {
 							handleRead(key);
 						}
-						if (key.isWritable()) {
+						if (key.isValid() && key.isWritable()) {
 							// write(key.channel(), "这是我写出的消息");
 							handleWrite(key);
 						}

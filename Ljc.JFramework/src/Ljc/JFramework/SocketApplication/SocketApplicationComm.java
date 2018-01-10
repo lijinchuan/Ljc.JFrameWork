@@ -80,8 +80,6 @@ public class SocketApplicationComm {
 			}
 
 			byte[] data = null;
-			int bufferindex = -1;
-			long size = 0;
 			data = EntityBufCore.Serialize(message);
 
 			byte[] dataLen = BitConverter.GetBytes(data.length + 4);
@@ -103,18 +101,9 @@ public class SocketApplicationComm {
 			}
 			data = data2;
 
-			synchronized (s) {
-				try {
-					ByteBuffer writeBuffer = ByteBuffer.allocate(data.length);
-					writeBuffer.put(data);
-					writeBuffer.flip();
-					s.getSocketChanel().write(writeBuffer);
-				} catch (IOException ex) {
-					throw ex;
-				}
-
-				return data.length;
-			}
+			ByteBuffer writeBuffer = ByteBuffer.wrap(data);
+            s.getSendBuffer().put(writeBuffer);
+			return data.length;
 		} catch (Exception ex) {
 			CoreException cex = new CoreException(ex.getMessage(), ex);
 			cex.Data.put("TransactionID", message.getMessageHeader().getTransactionID());
