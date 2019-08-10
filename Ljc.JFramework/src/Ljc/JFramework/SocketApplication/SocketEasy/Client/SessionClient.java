@@ -45,8 +45,8 @@ public class SessionClient extends ClientBase {
 
 	private int sendMessageTryCountLimit = 3;
 
-	public SessionClient(String serverip, int serverport, boolean startSession) {
-		super(serverip, serverport, true);
+	public SessionClient(String serverip, int serverport, boolean startSession, boolean security) {
+		super(serverip, serverport, true, security);
 		if (startSession) {
 			StartSession();
 		}
@@ -118,6 +118,7 @@ public class SessionClient extends ClientBase {
 
 	private void StartHearteBeat(LoginResponseMessage message) {
 		SessionContext = new Session();
+		SessionContext.setEncryKey(this.encryKey);
 		SessionContext.setUserName(message.getLoginID());
 		SessionContext.setConnectTime(DateTime.Now());
 		SessionContext.setSessionID(message.getSessionID());
@@ -286,7 +287,7 @@ public class SessionClient extends ClientBase {
 
 			throw ex;
 		} else {
-			T result = EntityBufCore.DeSerialize(classt, (byte[]) autoResetEvent.getWaitResult());
+			T result = EntityBufCore.DeSerialize(classt, (byte[]) autoResetEvent.getWaitResult(), true);
 			return result;
 		}
 	}
@@ -307,7 +308,7 @@ public class SessionClient extends ClientBase {
 			// byte[] len = BitConverter.GetBytes(data.Length);
 			// socketClient.Send(len);
 			// socketClient.Send(data);
-			return SocketApplicationComm.SendMessage(socketClient, message) > 0;
+			return SocketApplicationComm.SendMessage(socketClient, message, this.encryKey) > 0;
 		} catch (Exception e) {
 			OnError(e);
 			throw e;

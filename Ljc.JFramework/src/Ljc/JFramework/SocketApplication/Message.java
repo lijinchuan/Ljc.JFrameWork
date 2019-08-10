@@ -1,8 +1,6 @@
 package Ljc.JFramework.SocketApplication;
 
-import Ljc.JFramework.CoreException;
 import Ljc.JFramework.EntityBufCore;
-import Ljc.JFramework.Utility.GzipUtil;
 
 public class Message {
 	Message(MessageType msgType) {
@@ -47,13 +45,7 @@ public class Message {
 			if (_msgBody == null) {
 				_messageBuffer = new byte[0];
 			} else {
-				if (this._messageHeader.getCompressType() == MessageCompressType.none.getVal()) {
-					_messageBuffer = EntityBufCore.Serialize(this._msgBody);
-				} else if (this._messageHeader.getCompressType() == MessageCompressType.gzip.getVal()) {
-					_messageBuffer = GzipUtil.compress(EntityBufCore.Serialize(this._msgBody));
-				} else {
-					throw new CoreException(String.format("未知的压缩方式:%d", this._messageHeader.getCompressType()));
-				}
+				_messageBuffer = EntityBufCore.Serialize(this._msgBody, true);
 			}
 		}
 		return _messageBuffer;
@@ -65,13 +57,7 @@ public class Message {
 
 	public <T> T GetMessageBody(Class<T> classt) throws SocketApplicationException {
 		try {
-			if (this._messageHeader.getCompressType() == MessageCompressType.none.getVal()) {
-				return EntityBufCore.DeSerialize(classt, _messageBuffer);
-			} else if (this._messageHeader.getCompressType() == MessageCompressType.gzip.getVal()) {
-				return EntityBufCore.DeSerialize(classt, GzipUtil.uncompress(_messageBuffer));
-			} else {
-				throw new CoreException(String.format("未知的压缩方式:%d", this._messageHeader.getCompressType()));
-			}
+			return EntityBufCore.DeSerialize(classt, _messageBuffer, true);
 		} catch (Exception ex) {
 			SocketApplicationException e = new SocketApplicationException("消息解析失败", ex);
 			e.Data.put("this.MessageHeader.TransactionID", this.getMessageHeader().getTransactionID());

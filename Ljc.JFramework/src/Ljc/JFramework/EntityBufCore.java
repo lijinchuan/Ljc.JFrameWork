@@ -20,6 +20,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import Ljc.JFramework.TypeUtil.UInt16;
 import Ljc.JFramework.Utility.BitConverter;
+import Ljc.JFramework.Utility.GzipUtil;
 import Ljc.JFramework.Utility.ReflectUtil;
 import Ljc.JFramework.Utility.StringUtil;
 import Ljc.JFramework.Utility.Tuple;
@@ -37,6 +38,7 @@ public class EntityBufCore {
 	private final static BigDecimal _defaultDecimal = BigDecimal.ZERO;
 	private final static Boolean _defaultBool = Boolean.FALSE;
 	private final static byte complexchar = (byte) (12);
+	private final static int minGZIPCompressLenth = 21;
 
 	private static Map<Integer, List<Tuple<EntityBufType, Boolean>>> EntityBufTypeDic = new HashMap<Integer, List<Tuple<EntityBufType, Boolean>>>();
 	private static ReentrantReadWriteLock EntityBufTypeDicRWLock = new ReentrantReadWriteLock();
@@ -362,8 +364,8 @@ public class EntityBufCore {
 			}
 
 		} else {
-			ms.WriteByte(complexchar);
-			ms.WriteByte(complexchar);
+			// ms.WriteByte(complexchar);
+			// ms.WriteByte(complexchar);
 
 			if (val != null) {
 				EntityBufTypeFlag flag = EntityBufTypeFlag.Empty;
@@ -473,7 +475,7 @@ public class EntityBufCore {
 		}
 	}
 
-	public static byte[] Serialize(Object o) throws Exception {
+	public static byte[] Serialize(Object o, boolean compress) throws Exception {
 		ByteArrayOutputStream s = new ByteArrayOutputStream();
 		try {
 
@@ -482,7 +484,12 @@ public class EntityBufCore {
 
 			byte[] bytes = ms.GetBytes();
 
-			return bytes;
+			if (compress && bytes.length > minGZIPCompressLenth) {
+				byte[] compressBytes = GzipUtil.compress(bytes);
+				return compressBytes;
+			} else {
+				return bytes;
+			}
 		} finally {
 			s.close();
 		}
@@ -791,17 +798,11 @@ public class EntityBufCore {
 						}
 					}
 				} else { // ∂¡œ¬±Í÷æ
-					byte byte1 = 0;
-					byte byte2 = 0;
-					while (true) {
-						byte1 = msReader.ReadByte();
-						if (byte1 == complexchar) {
-							byte2 = msReader.ReadByte();
-							if (byte2 == complexchar) {
-								break;
-							}
-						}
-					}
+					/*
+					 * byte byte1 = 0; byte byte2 = 0; while (true) { byte1 = msReader.ReadByte();
+					 * if (byte1 == complexchar) { byte2 = msReader.ReadByte(); if (byte2 ==
+					 * complexchar) { break; } } }
+					 */
 
 					int flag = msReader.ReadUByte();
 					if ((flag & EntityBufTypeFlag.VlaueNull.getVal()) == EntityBufTypeFlag.VlaueNull.getVal()) {
@@ -827,10 +828,12 @@ public class EntityBufCore {
 		return ret;
 	}
 
-	public static <T> T DeSerialize(Class<T> c, byte[] bytes) throws Exception {
+	public static <T> T DeSerialize(Class<T> c, byte[] bytes, boolean compress) throws Exception {
 		java.io.ByteArrayInputStream bs = null;
 		try {
-
+			if (compress && bytes != null && bytes.length > minGZIPCompressLenth) {
+				bytes = GzipUtil.uncompress(bytes);
+			}
 			bs = new java.io.ByteArrayInputStream(bytes);
 			Ljc.JFramework.MemoryStreamReader reader = new Ljc.JFramework.MemoryStreamReader(bs);
 			Object obj = DeSerialize(c, reader);

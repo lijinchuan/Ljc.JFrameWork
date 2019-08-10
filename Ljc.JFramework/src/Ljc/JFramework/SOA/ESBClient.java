@@ -18,7 +18,7 @@ public class ESBClient extends SessionClient {
 
 	static {
 		try {
-			_clientmanager = new ESBClientPoolManager(5, (i) -> null);
+			_clientmanager = new ESBClientPoolManager(1, (i) -> null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -27,8 +27,8 @@ public class ESBClient extends SessionClient {
 
 	private int _serviceNo = -1;
 
-	ESBClient(String serverip, int serverport, boolean startSession) {
-		super(serverip, serverport, startSession);
+	ESBClient(String serverip, int serverport, boolean startSession, boolean isSecurity) {
+		super(serverip, serverport, startSession, isSecurity);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -38,7 +38,7 @@ public class ESBClient extends SessionClient {
 
 	ESBClient() throws Exception {
 		super(ESBConfig.ReadConfig().getESBServer(), ESBConfig.ReadConfig().getESBPort(),
-				ESBConfig.ReadConfig().getAutoStart());
+				ESBConfig.ReadConfig().getAutoStart(), ESBConfig.ReadConfig().getSecurity());
 	}
 
 	String GetESBServer() {
@@ -56,12 +56,12 @@ public class ESBClient extends SessionClient {
 		if (param == null) {
 			request.setParam(null);
 		} else {
-			request.setParam(EntityBufCore.Serialize(param));
+			request.setParam(EntityBufCore.Serialize(param, true));
 		}
 
 		Message msg = new Message(SOAMessageType.DoSOARequest.getVal());
 		msg.getMessageHeader().setTransactionID(SocketApplicationComm.GetSeqNum());
-		msg.setMessageBuffer(EntityBufCore.Serialize(request));
+		msg.setMessageBuffer(EntityBufCore.Serialize(request, true));
 
 		T result = SendMessageAnsy(classt, msg, 30000);
 		return result;
@@ -73,12 +73,12 @@ public class ESBClient extends SessionClient {
 		if (param == null) {
 			request.setParam(null);
 		} else {
-			request.setParam(EntityBufCore.Serialize(param));
+			request.setParam(EntityBufCore.Serialize(param, true));
 		}
 
 		Message msg = new Message(SOAMessageType.DoSOARedirectRequest.getVal());
 		msg.getMessageHeader().setTransactionID(SocketApplicationComm.GetSeqNum());
-		msg.setMessageBuffer(EntityBufCore.Serialize(request));
+		msg.setMessageBuffer(EntityBufCore.Serialize(request, true));
 
 		T result = SendMessageAnsy(classt, msg, 30000);
 		return result;
@@ -198,7 +198,8 @@ public class ESBClient extends SessionClient {
 
 										for (String ip : OrderIp(info.getRedirectTcpIps())) {
 											try {
-												ESBClient client = new ESBClient(ip, info.getRedirectTcpPort(), false);
+												ESBClient client = new ESBClient(ip, info.getRedirectTcpPort(), false,
+														false);
 												client.SetServiceNo(info.getServiceNo());
 
 												client.Error.addEvent(client, "Clent_Error", Exception.class);
@@ -209,7 +210,7 @@ public class ESBClient extends SessionClient {
 															return client;
 														}
 														ESBClient newclient = new ESBClient(ip,
-																info.getRedirectTcpPort(), false);
+																info.getRedirectTcpPort(), false, false);
 														newclient.SetServiceNo(info.getServiceNo());
 														newclient.StartSession();
 

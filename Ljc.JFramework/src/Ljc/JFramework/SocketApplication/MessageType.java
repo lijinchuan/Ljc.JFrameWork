@@ -1,9 +1,8 @@
 package Ljc.JFramework.SocketApplication;
 
 public enum MessageType {
-	HEARTBEAT(0), TEST_REQUEST(1), RESEND_REQUEST(2), REJECT(3), SEQUENCE_RESET(4), LOGIN(5), LOGOUT(
-			6), INDICATION_OF_INTEREST(
-					7), ADVERTISEMENT(8), EXECUTION_REPORT(9), ORDER_CANCEL_REJECT(10), UAN(11), UAP(12),
+	HEARTBEAT(0), TEST_REQUEST(1), RESEND_REQUEST(2), REJECT(3), SEQUENCE_RESET(4), LOGIN(5), LOGOUT(6),
+	INDICATION_OF_INTEREST(7), ADVERTISEMENT(8), EXECUTION_REPORT(9), ORDER_CANCEL_REJECT(10), UAN(11), UAP(12),
 	/// <summary>
 	/// 重登陆
 	/// </summary>
@@ -35,7 +34,11 @@ public enum MessageType {
 	/// <summary>
 	/// 断点续传检查
 	/// </summary>
-	SENDFILRESENDCHECK(22);
+	SENDFILRESENDCHECK(22),
+	/// <summary>
+	/// 协商加密请求
+	/// </summary>
+	NEGOTIATIONENCRYR(99);
 
 	private int _val;
 

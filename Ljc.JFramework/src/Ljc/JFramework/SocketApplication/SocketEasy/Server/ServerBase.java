@@ -10,16 +10,21 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.SocketApplication.Message;
+import Ljc.JFramework.SocketApplication.MessageType;
+import Ljc.JFramework.SocketApplication.NegotiationEncryMessage;
 import Ljc.JFramework.SocketApplication.Session;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketApplicationException;
 import Ljc.JFramework.SocketApplication.SocketBase;
 import Ljc.JFramework.Utility.Action;
+import Ljc.JFramework.Utility.AesEncryHelper;
 import Ljc.JFramework.Utility.BitConverter;
+import Ljc.JFramework.Utility.StringUtil;
 import Ljc.JFramework.Utility.ThreadPoolUtil;
 
 public class ServerBase extends SocketBase {
@@ -124,14 +129,41 @@ public class ServerBase extends SocketBase {
 					Message message = null;
 					Exception messageError = null;
 					try {
-						message = EntityBufCore.DeSerialize(Message.class, bufbody.array());
+						byte[] buffer = bufbody.array();
+						if (!StringUtil.isNullOrEmpty(session.getEncryKey())) {
+							buffer = AesEncryHelper.AesDecrypt(buffer, session.getEncryKey());
+						}
+						message = EntityBufCore.DeSerialize(Message.class, buffer, true);
+
 					} catch (Exception ex) {
 						messageError = ex;
 					}
 
 					session.setLastSessionTime(System.currentTimeMillis());
 					if (messageError == null) {
-						FormApp(message, session);
+						if (message.IsMessage(MessageType.NEGOTIATIONENCRYR.getVal())) {
+							try {
+								NegotiationEncryMessage nmsg = message.GetMessageBody(NegotiationEncryMessage.class);
+								if (StringUtil.isNullOrEmpty(nmsg.getPublicKey())) {
+									throw new SocketApplicationException("公钥错误");
+								}
+								String encrykey = session.getEncryKey();
+								if (StringUtil.isNullOrEmpty(encrykey)) {
+									encrykey = UUID.randomUUID().toString();
+									Message rep = new Message(MessageType.NEGOTIATIONENCRYR.getVal());
+									rep.SetMessageBody(nmsg);
+									nmsg.setEncryKey(encrykey);
+									session.SendMessage(rep);
+									session.setEncryKey(encrykey);
+								} else {
+									throw new SocketApplicationException("不允许多次协商密钥");
+								}
+							} catch (Exception ex) {
+
+							}
+						} else {
+							FormApp(message, session);
+						}
 					} else {
 						OnError(messageError);
 					}

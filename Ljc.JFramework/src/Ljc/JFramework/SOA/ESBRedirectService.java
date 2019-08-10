@@ -31,7 +31,7 @@ public class ESBRedirectService extends SessionServer {
 			try {
 				if (DoResponseAction != null) {
 					SOARedirectRequest reqbag = EntityBufCore.DeSerialize(SOARedirectRequest.class,
-							message.getMessageBuffer());
+							message.getMessageBuffer(), true);
 					Object obj = DoResponseAction
 							.apply(new Tuple<Integer, byte[]>(reqbag.getFuncId(), reqbag.getParam()));
 
@@ -44,7 +44,7 @@ public class ESBRedirectService extends SessionServer {
 						retmsg.getMessageHeader().setTransactionID(message.getMessageHeader().getTransactionID());
 						SOARedirectResponse resp = new SOARedirectResponse();
 						resp.setIsSuccess(true);
-						resp.setResult(EntityBufCore.Serialize(obj));
+						resp.setResult(EntityBufCore.Serialize(obj, true));
 						retmsg.SetMessageBody(resp);
 
 						session.SendMessage(retmsg);

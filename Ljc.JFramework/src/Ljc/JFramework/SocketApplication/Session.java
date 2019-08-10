@@ -186,6 +186,16 @@ public class Session {
 		this._bytesSend = value;
 	}
 
+	private String _encryKey;
+
+	public String getEncryKey() {
+		return this._encryKey;
+	}
+
+	public void setEncryKey(String val) {
+		this._encryKey = val;
+	}
+
 	private LinkedBlockingQueue<ByteBuffer> _sendBufferQueue = new LinkedBlockingQueue<ByteBuffer>(100);
 
 	public LinkedBlockingQueue<ByteBuffer> getSendBuffer() {
@@ -227,7 +237,7 @@ public class Session {
 
 		int sendcount = 0;
 		if (this._socket != null) {
-			sendcount = SocketApplicationComm.SendMessage(this._socket, msg);
+			sendcount = SocketApplicationComm.SendMessage(this._socket, msg, this.getEncryKey());
 		} else {
 			sendcount = SocketApplicationComm.SendMessage(this, msg);
 		}

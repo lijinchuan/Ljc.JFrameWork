@@ -10,14 +10,16 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import Ljc.JFramework.CoreException;
 import Ljc.JFramework.EntityBufCore;
+import Ljc.JFramework.Utility.AesEncryHelper;
 import Ljc.JFramework.Utility.BitConverter;
 import Ljc.JFramework.Utility.HashEncryptUtil;
+import Ljc.JFramework.Utility.StringUtil;
 
 public class SocketApplicationComm {
 	private static AtomicLong seqNum = new AtomicLong();
 	private static String _seqperfix = UUID.randomUUID().toString().replace("-", "");
 
-	public static int SendMessage(Socket s, Message message) throws CoreException {
+	public static int SendMessage(Socket s, Message message, String encrykey) throws CoreException {
 		try {
 			if (s == null) {
 				return 0;
@@ -26,7 +28,10 @@ public class SocketApplicationComm {
 			byte[] data = null;
 			int bufferindex = -1;
 			long size = 0;
-			data = EntityBufCore.Serialize(message);
+			data = EntityBufCore.Serialize(message, true);
+			if (!StringUtil.isNullOrEmpty(encrykey)) {
+				data = AesEncryHelper.AesEncrypt(data, encrykey);
+			}
 
 			byte[] dataLen = BitConverter.GetBytes(data.length + 4);
 
@@ -82,7 +87,11 @@ public class SocketApplicationComm {
 			byte[] data = null;
 			int bufferindex = -1;
 			long size = 0;
-			data = EntityBufCore.Serialize(message);
+			data = EntityBufCore.Serialize(message, true);
+
+			if (!StringUtil.isNullOrEmpty(s.getEncryKey())) {
+				data = AesEncryHelper.AesEncrypt(data, s.getEncryKey());
+			}
 
 			byte[] dataLen = BitConverter.GetBytes(data.length + 4);
 

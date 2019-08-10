@@ -27,14 +27,14 @@ public class ESBService extends SessionClient {
 
 	public ESBService(String serverip, int serverport, int sNo, boolean startSession,
 			boolean supportTcpServiceRidrect) {
-		super(serverip, serverport, startSession);
+		super(serverip, serverport, startSession, false);
 		// TODO Auto-generated constructor stub
 
 		this.setServiceNo(sNo);
 	}
 
 	public ESBService(int sNo, boolean supportTcpServiceRidrect) throws Exception {
-		super(ESBConfig.ReadConfig().getESBServer(), ESBConfig.ReadConfig().getESBPort(), true);
+		super(ESBConfig.ReadConfig().getESBServer(), ESBConfig.ReadConfig().getESBPort(), true, false);
 		this.setServiceNo(sNo);
 		this.SupportTcpServiceRidrect = supportTcpServiceRidrect;
 	}
@@ -72,7 +72,7 @@ public class ESBService extends SessionClient {
 
 				try {
 					Object result = DoResponse(new Tuple<Integer, byte[]>(request.getFundId(), request.getParam()));
-					responseBody.setResult(EntityBufCore.Serialize(result));
+					responseBody.setResult(EntityBufCore.Serialize(result, true));
 					responseBody.setIsSuccess(true);
 
 				} catch (Exception ex) {

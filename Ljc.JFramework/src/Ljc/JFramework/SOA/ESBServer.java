@@ -44,7 +44,7 @@ public class ESBServer extends SessionServer {
 			return obj;
 		}
 		case Consts.FunNo_ExistsAServiceNo: {
-			int serviceno = EntityBufCore.DeSerialize(int.class, param);
+			int serviceno = EntityBufCore.DeSerialize(int.class, param, true);
 			for (ESBServiceInfo item : ServiceContainer) {
 				if (item.getServiceNo() == serviceno) {
 					return true;
@@ -53,7 +53,8 @@ public class ESBServer extends SessionServer {
 			return false;
 		}
 		case Consts.FunNo_GetRegisterServiceInfo: {
-			GetRegisterServiceInfoRequest req = EntityBufCore.DeSerialize(GetRegisterServiceInfoRequest.class, param);
+			GetRegisterServiceInfoRequest req = EntityBufCore.DeSerialize(GetRegisterServiceInfoRequest.class, param,
+					true);
 			GetRegisterServiceInfoResponse resp = new GetRegisterServiceInfoResponse();
 
 			resp.setServiceNo(req.getServiceNo());
@@ -74,7 +75,7 @@ public class ESBServer extends SessionServer {
 			return resp;
 		}
 		case Consts.FunNo_Test: {
-			String req = EntityBufCore.DeSerialize(String.class, param);
+			String req = EntityBufCore.DeSerialize(String.class, param, true);
 
 			return req;
 		}
@@ -97,7 +98,7 @@ public class ESBServer extends SessionServer {
 		if (request.getServiceNo() == 0) {
 			try {
 				Object obj = DoRequest(request.getFuncId(), request.getParam());
-				resp.setResult(EntityBufCore.Serialize(obj));
+				resp.setResult(EntityBufCore.Serialize(obj, true));
 			} catch (Exception ex) {
 				resp.setIsSuccess(false);
 				resp.setErrMsg(ex.getMessage());
@@ -139,7 +140,7 @@ public class ESBServer extends SessionServer {
 						throw new Exception(String.format("%d服务可能不可用,30秒无应答。", request.getServiceNo()));
 					}
 
-					String clientid = SocketApplicationComm.GetSeqNum();
+					String clientid = session.getSessionID();
 					SOATransferRequest transferrequest = new SOATransferRequest();
 					transferrequest.setClientId(clientid);
 					transferrequest.setFundId(request.getFuncId());
@@ -150,7 +151,7 @@ public class ESBServer extends SessionServer {
 					msg.getMessageHeader().setTransactionID(SocketApplicationComm.GetSeqNum());
 					msg.SetMessageBody(transferrequest);
 
-					ClientSessionList.putIfAbsent(clientid, session);
+					ClientSessionList.putIfAbsent(msg.getMessageHeader().getTransactionID(), session);
 
 					if (serviceInfo.getSession().SendMessage(msg)) {
 						// LogHelper.Instance.Debug(string.Format("发送SOA请求,请求序列:{0},服务号:{1},功能号:{2}",
@@ -179,7 +180,7 @@ public class ESBServer extends SessionServer {
 
 	void DoTransferResponse(SOATransferResponse response) {
 		try {
-			Session session = ClientSessionList.getOrDefault(response.getClientId(), null);
+			Session session = ClientSessionList.getOrDefault(response.getClientTransactionID(), null);
 
 			if (session != null) {
 				ClientSessionList.remove(response.getClientId());

@@ -6,20 +6,41 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import Ljc.JFramework.AutoResetEvent;
 import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.MemoryStreamWriter;
 import Ljc.JFramework.SocketApplication.Message;
+import Ljc.JFramework.SocketApplication.MessageType;
+import Ljc.JFramework.SocketApplication.NegotiationEncryMessage;
+import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketApplicationException;
 import Ljc.JFramework.SocketApplication.SocketBase;
 import Ljc.JFramework.Utility.Action;
+import Ljc.JFramework.Utility.AesEncryHelper;
 import Ljc.JFramework.Utility.BitConverter;
+import Ljc.JFramework.Utility.RSACryptoServiceProvider;
+import Ljc.JFramework.Utility.RsaEncryHelper;
+import Ljc.JFramework.Utility.StringUtil;
 import Ljc.JFramework.Utility.ThreadPoolUtil;
+import Ljc.JFramework.Utility.Tuple;
 
 public class ClientBase extends SocketBase {
 	protected Socket socketClient;
 
 	protected boolean isStartClient = false;
 	protected boolean errorResume = true;
+
+	/// <summary>
+	/// 是否采用安全连接
+	/// </summary>
+	protected boolean isSecurity = false;
+	protected String rsaPubKey = "";
+	protected String rsaRrivateKey = "";
+	/// <summary>
+	/// 安全连接key
+	/// </summary>
+	protected String encryKey = "";
+
 	protected String serverIp;
 	protected int ipPort;
 	private long lastReStartClientTime;
@@ -38,6 +59,7 @@ public class ClientBase extends SocketBase {
 	private int _maxPackageLength = 10 * 1024 * 1024 * 8;
 
 	public Action OnClientReset = new Action();
+	private AutoResetEvent _startSign = new AutoResetEvent(false);
 
 	/// <summary>
 	/// 每次最大接收的字节数byte
@@ -62,10 +84,11 @@ public class ClientBase extends SocketBase {
 	/// <param name="serverip"></param>
 	/// <param name="serverport"></param>
 	/// <param name="stop">如果为true,不会断开自动重连</param>
-	public ClientBase(String serverip, int serverport, Boolean errorResume) {
+	public ClientBase(String serverip, int serverport, Boolean errorResume, boolean security) {
 		this.serverIp = serverip;
 		this.ipPort = serverport;
 		this.errorResume = errorResume;
+		this.isSecurity = security;
 	}
 
 	public ClientBase() {
@@ -104,6 +127,11 @@ public class ClientBase extends SocketBase {
 			if (socketClient != null) {
 				socketClient.close();
 			}
+
+			if (!StringUtil.isNullOrEmpty(encryKey)) {
+				encryKey = "";
+			}
+
 			try {
 				socketClient = new Socket(this.serverIp, this.ipPort);
 				socketClient.setReceiveBufferSize(32000);
@@ -126,6 +154,23 @@ public class ClientBase extends SocketBase {
 				act.addEvent(this, "Receiving", null);
 				Thread threadClient = new Thread(act);
 				threadClient.start();
+			}
+
+			if (isSecurity) {
+				Tuple<String, String> rsapair = RsaEncryHelper.GenPair();
+				this.rsaPubKey = rsapair.GetItem1();
+				this.rsaPubKey = rsapair.GetItem2();
+				Message msg = new Message(MessageType.NEGOTIATIONENCRYR.getVal());
+				encryKey = null;
+				NegotiationEncryMessage negotiationEncryMessage = new NegotiationEncryMessage();
+				negotiationEncryMessage.setPublicKey(rsapair.GetItem1());
+				msg.SetMessageBody(negotiationEncryMessage);
+				_startSign.reset();
+				SocketApplicationComm.SendMessage(socketClient, msg, this.encryKey);
+				_startSign.wait(30 * 1000);
+				if (StringUtil.isNullOrEmpty(encryKey)) {
+					throw new Exception("协商加密失败");
+				}
 			}
 
 			isStartClient = true;
@@ -198,9 +243,18 @@ public class ClientBase extends SocketBase {
 
 	private void ProcessMessage(byte[] data) {
 		try {
-
-			Message message = EntityBufCore.DeSerialize(Message.class, data);
-			OnMessage(message);
+			if (!StringUtil.isNullOrEmpty(this.encryKey)) {
+				data = AesEncryHelper.AesDecrypt(data, this.encryKey);
+			}
+			Message message = EntityBufCore.DeSerialize(Message.class, data, true);
+			if (message.IsMessage(MessageType.NEGOTIATIONENCRYR.getVal())) {
+				NegotiationEncryMessage nmsg = message.GetMessageBody(NegotiationEncryMessage.class);
+				this.encryKey = new String(RsaEncryHelper
+						.decrypt(RSACryptoServiceProvider.decryptBASE64(nmsg.getEncryKey()), this.rsaRrivateKey));
+				this._startSign.set();
+			} else {
+				OnMessage(message);
+			}
 		} catch (Exception e) {
 			OnError(e);
 		}

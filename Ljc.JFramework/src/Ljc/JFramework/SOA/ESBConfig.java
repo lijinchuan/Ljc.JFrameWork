@@ -8,7 +8,9 @@ import java.net.InetAddress;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import Ljc.JFramework.CoreException;
 
@@ -19,8 +21,12 @@ public class ESBConfig {
 	private String eSBServer;
 	// @XmlElement(name = "ESBPort")
 	private int eSBPort;
-	// @XmlElement(name = "AutoStart")
+
+	@XmlElement(name = "AutoStart")
 	private boolean autoStart;
+
+	@XmlElement(name = "Security")
+	private boolean security;
 
 	public String getESBServer() {
 		return this.eSBServer;
@@ -45,6 +51,15 @@ public class ESBConfig {
 
 	public void setAutoStart(boolean val) {
 		this.autoStart = val;
+	}
+
+	@XmlTransient
+	public boolean getSecurity() {
+		return this.security;
+	}
+
+	public void setSecurity(boolean val) {
+		this.security = val;
 	}
 
 	private static String configfile = System.getProperty("user.home") + File.separatorChar + "ESBConfig.xml";
