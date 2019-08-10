@@ -28,7 +28,7 @@ public class StringUtil {
 		int istart = source.toLowerCase().indexOf(start.toLowerCase());
 		int iend = source.toLowerCase().indexOf(end.toLowerCase());
 		if (istart < iend && istart > -1) {
-			return source.substring(istart, iend);
+			return source.substring(istart + start.length(), iend);
 		}
 
 		return "";

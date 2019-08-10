@@ -159,7 +159,7 @@ public class ClientBase extends SocketBase {
 			if (isSecurity) {
 				Tuple<String, String> rsapair = RsaEncryHelper.GenPair();
 				this.rsaPubKey = rsapair.GetItem1();
-				this.rsaPubKey = rsapair.GetItem2();
+				this.rsaRrivateKey = rsapair.GetItem2();
 				Message msg = new Message(MessageType.NEGOTIATIONENCRYR.getVal());
 				encryKey = null;
 				NegotiationEncryMessage negotiationEncryMessage = new NegotiationEncryMessage();
@@ -249,8 +249,8 @@ public class ClientBase extends SocketBase {
 			Message message = EntityBufCore.DeSerialize(Message.class, data, true);
 			if (message.IsMessage(MessageType.NEGOTIATIONENCRYR.getVal())) {
 				NegotiationEncryMessage nmsg = message.GetMessageBody(NegotiationEncryMessage.class);
-				this.encryKey = new String(RsaEncryHelper
-						.decrypt(RSACryptoServiceProvider.decryptBASE64(nmsg.getEncryKey()), this.rsaRrivateKey));
+				byte[] ek = RSACryptoServiceProvider.decryptBASE64(nmsg.getEncryKey());
+				this.encryKey = new String(RsaEncryHelper.decrypt(ek, this.rsaRrivateKey));
 				this._startSign.set();
 			} else {
 				OnMessage(message);
