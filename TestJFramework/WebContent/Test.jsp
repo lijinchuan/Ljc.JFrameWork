@@ -1,7 +1,5 @@
-<%@page import="org.apache.hadoop.hbase.util.Bytes"%>
-<%@page import="org.apache.hadoop.hbase.TableName"%>
-<%@page import="LJC.JFrameWork.Data.HBaseClient.HBaseClientWrapper"%>
-<%@page import="LJC.JFrameWork.Data.HBaseClient.HBaseClientUtil"%>
+<%@page import="Ljc.JFramework.Utility.RSACryptoServiceProvider"%>
+<%@page import="Ljc.JFramework.Utility.AesEncryHelper"%>
 <%@page import="Core.MongoTestCore"%>
 <%@page import="Ljc.JFramework.SOA.ESBClient"%>
 <%@page import="Ljc.JFramework.SOA.SOARedirectRequest"%>
@@ -9,7 +7,6 @@
 <%@page import="Ljc.JFramework.SOA.ESBConfig"%>
 <%@page import="Ljc.JFramework.Utility.EventHandler"%>
 <%@page import="Ljc.JFramework.Utility.ProcessTraceUtil"%>
-<%@page import="java.lang.reflect.Parameter"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.lang.reflect.ParameterizedType"%>
 <%@page import="java.util.HashMap"%>
@@ -38,18 +35,16 @@
 <body>
 <%
 //TestService.LinixService.main(new String[]{});
-
 //TestService.Service1.StartService(null);
 PrintWriter pw=response.getWriter();
 
-HBaseClientWrapper client=new HBaseClientWrapper("ljcserver:10110,ljcserver:10111,ljcserver:10112");
-//client.createTable("ljctest", "col1","col2");
-client.put("ljctest", "rk-001", "col2", "name", "ljc");
-String val=Bytes.toString(client.getString("ljctest", "rk-001", "col2", "name"));
-pw.write(val);
-for(TableName name : client.GetTables()){
-    pw.write(name.getNameAsString()+"<br/>");	
-}
+//RSACryptoServiceProvider rsa=new RSACryptoServiceProvider();
+//pw.print("公钥："+rsa.getPublicKeyStr()+"<br/>");
+//pw.print("私钥："+rsa.getPrivateKeyStr()+"<br/>");
+//pw.print("公钥："+rsa.ToXmlString(false)+"<br/>");
+//pw.print("私钥："+rsa.ToXmlString(true)+"<br/>");
+
+//pw.print(RSACryptoServiceProvider.encryptBASE64(RSACryptoServiceProvider.decodePrivateKeyFromXml("<RSAKeyValue><Modulus>koen1gO6MgfOJmjKKMEMxlgmIjTxx6Sk8wHMFeK6VAxiw2xsO+bx+maXsRlMOkAvE18TqQHpVm4464cb77BjPiW6w0V1Ds+JctdnUHkKQOUIpO7SC0zVQPPr0xGp+5ezsfx4/idopreZU9BYaRx6yfbDkMozaQNzUV0y1YyVrjU=</Modulus><Exponent>AQAB</Exponent><P>zilSrf97ffXMEM2K31U3F+yzpykY5hV8JV4zbzBEmcPeYUN03t+t848FTQqIeSE3VnEuHxir7nsacTwZosl+Aw==</P><Q>tfPtXXK1HIrlr3wc4D1hZEc/4f+MgxfTdJpozOtXp4U00xdKqA0XAwuWyIshSrRXRUHtKqKWcjhRan1zaxypZw==</Q><DP>gKgzK9kLdUEmt7m+F7/zYN/cAc7Y9gWkcyGFkbcaqKceqa5SSiBnS18O3NRc9NLw2OZK9ScNbQewKchq6zc5hw==</DP><DQ>cptyp6nY6mGSyzYh+hyve7plQrT0jJ41UvzvhiO20o3U+CFzpOaZ2BE0qJz6G1P8pGMiP/ipSsiuf6UFTjJ/gQ==</DQ><InverseQ>oDUGPYlDG4EKl+JKvTU3YzlXnh2GsGzjuRyCN72TNpPynXB3SNWAchIHOYUd8gkAESCYdSaIM9PYMSUEk7qtVw==</InverseQ><D>d48ckPFloaDgwlJKcUpjhAs0wkB07zMWK/nRbiIbaqzYgSAciBv+YRQIvcYofncUcjfnsMUQgSdaZkNNths0PaqY/RP+dxTK2dJkruD2E4HF2iFbQPmqdLGyU5GYo429XWVn2C3WJvP0YjGO6dYIrA+3tEhowQ2WiktEjLRhwBk=</D></RSAKeyValue>").getEncoded()));
 
 //for(java.net.InetAddress addr: Ljc.JFramework.Utility.NetWorkUtil.getIpV4Address())
 //{
@@ -78,7 +73,7 @@ System.out.println("name:"+properties.getProperty("name"));
   
   pw.print("<br/>");
 
-
+   
   //String helloMsg= ESBClient.DoSOARequest(String.class, 100, 1, "hello,李金川");
   //pw.print("hellosg:"+helloMsg);
   
@@ -95,7 +90,14 @@ System.out.println("name:"+properties.getProperty("name"));
   pw.print("<br/>");
   pw.print(cfg.getESBPort());
   pw.print("<br/>");
-   
+  pw.print(cfg.getAutoStart());
+  pw.print("<br/>");
+  pw.print(cfg.getSecurity());
+  pw.print("<br/>");
+  
+  String respstr=ESBClient.DoSOARequest(String.class, 0, 1, "hello");
+  pw.print("esbecho:"+respstr);
+  
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    
 /*   Person p=new Person();

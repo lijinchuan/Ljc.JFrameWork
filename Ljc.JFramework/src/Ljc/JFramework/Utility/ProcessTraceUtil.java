@@ -9,7 +9,7 @@ public class ProcessTraceUtil {
 
 	public static void StartTrace() {
 		long threadid = Thread.currentThread().getId();
-		Queue<Tuple<String, Long>> queue = TraceDic.getOrDefault(threadid, null);
+		Queue<Tuple<String, Long>> queue = TraceDic.get(threadid);
 		if (queue == null) {
 			queue = new LinkedBlockingQueue<Tuple<String, Long>>();
 			TraceDic.put(threadid, queue);
@@ -21,7 +21,7 @@ public class ProcessTraceUtil {
 
 	public static void Trace(String message) {
 		long threadid = Thread.currentThread().getId();
-		Queue<Tuple<String, Long>> queue = TraceDic.getOrDefault(threadid, null);
+		Queue<Tuple<String, Long>> queue = TraceDic.get(threadid);
 		if (queue != null) {
 			queue.add(new Tuple<String, Long>(message, System.currentTimeMillis()));
 		}
@@ -31,7 +31,7 @@ public class ProcessTraceUtil {
 
 		long traceid = Thread.currentThread().getId();
 
-		Queue<Tuple<String, Long>> queue = TraceDic.getOrDefault(traceid, null);
+		Queue<Tuple<String, Long>> queue = TraceDic.get(traceid);
 		if (queue == null) {
 			return "";
 		}

@@ -10,6 +10,7 @@ import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketApplicationException;
 import Ljc.JFramework.SocketApplication.SocketEasy.Client.SessionClient;
+import Ljc.JFramework.Utility.Func3;
 import Ljc.JFramework.Utility.StringUtil;
 
 public class ESBClient extends SessionClient {
@@ -18,7 +19,8 @@ public class ESBClient extends SessionClient {
 
 	static {
 		try {
-			_clientmanager = new ESBClientPoolManager(1, (i) -> null);
+			Func3<Integer, String, RegisterServiceInfo, ESBClient> fun = new Func3<Integer, String, RegisterServiceInfo, ESBClient>();
+			_clientmanager = new ESBClientPoolManager(1, null, null, fun);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,12 +168,13 @@ public class ESBClient extends SessionClient {
 		return orderips;
 	}
 
-	public static <T> T DoSOARequest2(Class<T> classt, int serviceId, int functionId, Object param) throws Exception {
-		List<ESBClientPoolManager> tcpclientlist = _esbClientDicManager.getOrDefault(serviceId, null);
+	public static <T> T DoSOARequest2(Class<T> classt, final int serviceId, int functionId, Object param)
+			throws Exception {
+		List<ESBClientPoolManager> tcpclientlist = _esbClientDicManager.get(serviceId);
 		if (tcpclientlist == null) {
 			boolean takecleint = false;
 			synchronized (_esbClientDicManager) {
-				tcpclientlist = _esbClientDicManager.getOrDefault(serviceId, null);
+				tcpclientlist = _esbClientDicManager.get(serviceId);
 				if (tcpclientlist == null) {
 					takecleint = true;
 					_esbClientDicManager.put(serviceId, null);
@@ -205,19 +208,10 @@ public class ESBClient extends SessionClient {
 												client.Error.addEvent(client, "Clent_Error", Exception.class);
 
 												if (client.StartSession()) {
-													poollist.add(new ESBClientPoolManager(5, idx -> {
-														if (idx == 0) {
-															return client;
-														}
-														ESBClient newclient = new ESBClient(ip,
-																info.getRedirectTcpPort(), false, false);
-														newclient.SetServiceNo(info.getServiceNo());
-														newclient.StartSession();
-
-														newclient.Error.addEvent(client, "Clent_Error",
-																Exception.class);
-														return newclient;
-													}));
+													Func3<Integer, String, RegisterServiceInfo, ESBClient> clientfunc = new Func3<Integer, String, RegisterServiceInfo, ESBClient>();
+													clientfunc.addEvent(client, "CreateClient", Integer.class,
+															String.class, RegisterServiceInfo.class);
+													poollist.add(new ESBClientPoolManager(5, ip, info, clientfunc));
 													// LogHelper.Instance.Debug(string.Format("创建tcp客户端成功:{0},端口{1}",
 													// ip,
 													// info.RedirectTcpPort));
@@ -247,7 +241,7 @@ public class ESBClient extends SessionClient {
 			}
 		}
 
-		List<ESBClientPoolManager> poolmanagerlist = _esbClientDicManager.getOrDefault(serviceId, null);
+		List<ESBClientPoolManager> poolmanagerlist = _esbClientDicManager.get(serviceId);
 		if (poolmanagerlist != null && poolmanagerlist.size() > 0) {
 			// Console.WriteLine("直连了");
 			ESBClientPoolManager poolmanager = poolmanagerlist.size() == 1 ? poolmanagerlist.get(0)
@@ -260,6 +254,22 @@ public class ESBClient extends SessionClient {
 		} else {
 			return DoSOARequest(classt, serviceId, functionId, param);
 		}
+	}
+
+	private ESBClient CreateClient(Integer idx, String ip, RegisterServiceInfo info) {
+		if (ip == null) {
+			return null;
+		}
+
+		if (idx == 0) {
+			return this;
+		}
+		ESBClient newclient = new ESBClient(ip, info.getRedirectTcpPort(), false, false);
+		newclient.SetServiceNo(info.getServiceNo());
+		newclient.StartSession();
+
+		newclient.Error.addEvent(this, "Clent_Error", Exception.class);
+		return newclient;
 	}
 
 	private void Clent_Error(Exception ex) {

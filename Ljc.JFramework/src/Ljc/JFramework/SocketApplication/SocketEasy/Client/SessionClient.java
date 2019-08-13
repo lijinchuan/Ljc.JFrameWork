@@ -187,8 +187,7 @@ public class SessionClient extends ClientBase {
 
 	protected void ReciveMessage(Message message) throws Exception {
 		if (!StringUtil.isNullOrEmpty(message.getMessageHeader().getTransactionID())) {
-			AutoReSetEventResult autoEvent = watingEvents.getOrDefault(message.getMessageHeader().getTransactionID(),
-					null);
+			AutoReSetEventResult autoEvent = watingEvents.get(message.getMessageHeader().getTransactionID());
 
 			if (autoEvent != null) {
 				autoEvent.setWaitResult(DoMessage(message));

@@ -131,8 +131,10 @@ public class LogManager {
 			logger.removeHandler(oldhandler);
 			oldhandler.flush();
 			oldhandler.close();
-		} catch (SecurityException | IOException e) {
+		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

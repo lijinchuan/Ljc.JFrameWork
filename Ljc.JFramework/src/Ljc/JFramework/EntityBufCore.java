@@ -57,72 +57,48 @@ public class EntityBufCore {
 			isArray.setData(false);
 			ebtype.setClassType(type);
 		}
-
-		switch (ebtype.getClassType().getTypeName()) {
-		case "short":
-		case "java.lang.Short":
+		String classname = ebtype.getClassType().getName();
+		if ("short".equals(classname) || "java.lang.Short".equals(classname)) {
 			ebtype.setEntityType(EntityType.SHORT);
 			ebtype.setDefaultValue(_defaultShort);
-			break;
-		case "Ljc.JFramework.TypeUtil.UInt16":
-		case "Ljc.JFramework.TypeUtil.UShort":
+		} else if ("Ljc.JFramework.TypeUtil.UInt16".equals(classname)
+				|| "Ljc.JFramework.TypeUtil.UShort".equals(classname)) {
 			ebtype.setEntityType(EntityType.USHORT);
 			ebtype.setDefaultValue(_defaultUShort);
-			break;
-		case "int":
-		case "java.lang.Integer":
+		} else if ("int".equals(classname) || "java.lang.Integer".equals(classname)) {
 			ebtype.setEntityType(EntityType.INT32);
 			ebtype.setDefaultValue(_defaultInt);
-			break;
-		case "long":
-		case "java.lang.Long":
+		} else if ("long".equals(classname) || "java.lang.Long".equals(classname)) {
 			ebtype.setEntityType(EntityType.INT64);
 			ebtype.setDefaultValue(_defaultLong);
-			break;
-		case "byte":
-		case "java.lang.Byte":
+		} else if ("byte".equals(classname) || "java.lang.Byte".equals(classname)) {
 			ebtype.setEntityType(EntityType.BYTE);
 			ebtype.setDefaultValue(_defaultByte);
-			break;
-		case "char":
-		case "java.lang.Character":
+		} else if ("char".equals(classname) || "java.lang.Character".equals(classname)) {
 			ebtype.setEntityType(EntityType.CHAR);
 			ebtype.setDefaultValue(_defaultChar);
-			break;
-		case "double":
-		case "java.lang.Double":
+		} else if ("double".equals(classname) || "java.lang.Double".equals(classname)) {
 			ebtype.setEntityType(EntityType.DOUBLE);
 			ebtype.setDefaultValue(_defaultDouble);
-			break;
-		case "float":
-		case "java.lang.Float":
+		} else if ("float".equals(classname) || "java.lang.Float".endsWith(classname)) {
 			ebtype.setEntityType(EntityType.FLOAT);
 			ebtype.setDefaultValue(_defaultFloat);
-			break;
-		case "java.lang.String":
+		} else if ("String".equals(classname) || "java.lang.String".equals(classname)) {
 			ebtype.setEntityType(EntityType.STRING);
 			ebtype.setDefaultValue(_defaultString);
-			break;
-		case "Ljc.JFramework.TypeUtil.DateTime":
-		case "java.util.Date":
+		} else if ("Ljc.JFramework.TypeUtil.DateTime".equals(classname) || "java.util.Date".equals(classname)) {
 			ebtype.setEntityType(EntityType.DATETIME);
-			break;
-		case "java.math.BigDecimal":
+		} else if ("java.math.BigDecimal".equals(classname)) {
 			ebtype.setEntityType(EntityType.DECIMAL);
 			ebtype.setDefaultValue(_defaultDecimal);
-			break;
-		case "java.lang.Boolean":
-		case "boolean":
+		} else if ("java.lang.Boolean".equals(classname) || "boolean".equals(classname)) {
 			ebtype.setEntityType(EntityType.BOOL);
 			ebtype.setDefaultValue(_defaultBool);
-			break;
-		case "java.util.HashMap":
+		} else if ("java.util.HashMap".equals(classname)) {
 			ebtype.setEntityType(EntityType.DICTIONARY);
-			break;
-		case "java.util.List":
+		} else if ("java.util.List".equals(classname)) {
 			ebtype.setEntityType(EntityType.LIST);
-			break;
-		default:
+		} else {
 			if (isArray.getData()) {
 				ebtype.setEntityType(EntityType.ARRAY);
 			} else if (ebtype.getClassType().isEnum()) {
@@ -131,11 +107,9 @@ public class EntityBufCore {
 			{
 				ebtype.setEntityType(EntityType.COMPLEX);
 			}
-			break;
 		}
 
 		return ebtype;
-
 	}
 
 	public static void TestSerialize(short val) throws IOException {
@@ -161,7 +135,7 @@ public class EntityBufCore {
 			if (isArray) {
 				msWriter.WriteByteArray((byte[]) val);
 			} else {
-				msWriter.WriteByte((byte) val);
+				msWriter.WriteByte((Byte) val);
 			}
 			break;
 		case STRING:
@@ -176,7 +150,7 @@ public class EntityBufCore {
 			if (isArray) {
 				msWriter.WriteInt16Array((short[]) val);
 			} else {
-				msWriter.WriteInt16((short) val);
+				msWriter.WriteInt16((Short) val);
 			}
 			break;
 		case USHORT:
@@ -190,14 +164,14 @@ public class EntityBufCore {
 			if (isArray) {
 				msWriter.WriteCharArray((char[]) val);
 			} else {
-				msWriter.WriteChar((char) val);
+				msWriter.WriteChar((Character) val);
 			}
 			break;
 		case INT32:
 			if (isArray) {
 				msWriter.WriteInt32Array((int[]) val);
 			} else {
-				msWriter.WriteInt32((int) val);
+				msWriter.WriteInt32((Integer) val);
 			}
 			break;
 		case DECIMAL:
@@ -211,14 +185,14 @@ public class EntityBufCore {
 			if (isArray) {
 				msWriter.WriteDoubleArray((double[]) val);
 			} else {
-				msWriter.WriteDouble((double) val);
+				msWriter.WriteDouble((Double) val);
 			}
 			break;
 		case FLOAT: {
 			if (isArray) {
 				msWriter.WriteFloatArray((float[]) val);
 			} else {
-				msWriter.WriteFloat((float) val);
+				msWriter.WriteFloat((Float) val);
 			}
 			break;
 		}
@@ -226,7 +200,7 @@ public class EntityBufCore {
 			if (isArray) {
 				msWriter.WriteInt64Array((long[]) val);
 			} else {
-				msWriter.WriteInt64((long) val);
+				msWriter.WriteInt64((Long) val);
 			}
 			break;
 		case DATETIME:
@@ -240,7 +214,7 @@ public class EntityBufCore {
 			if (isArray) {
 				msWriter.WriteBoolArray((boolean[]) val);
 			} else {
-				msWriter.WriteBool((boolean) val);
+				msWriter.WriteBool((Boolean) val);
 			}
 			break;
 		case ENUM:
@@ -384,7 +358,7 @@ public class EntityBufCore {
 		}
 		int key = tp.hashCode();
 		Tuple<EntityBufType, Boolean> getval = null;
-		if ((getval = TypeBufTypeDic.getOrDefault(key, null)) != null) {
+		if ((getval = TypeBufTypeDic.get(key)) != null) {
 			return getval;
 		} else {
 			try {
@@ -412,7 +386,7 @@ public class EntityBufCore {
 			EntityBufTypeDicRWLock.readLock().lock();
 			List<Tuple<EntityBufType, Boolean>> val;
 
-			if ((val = EntityBufTypeDic.getOrDefault(key, null)) != null) {
+			if ((val = EntityBufTypeDic.get(key)) != null) {
 				return val;
 			}
 
@@ -548,7 +522,7 @@ public class EntityBufCore {
 		if (args == null || args.length != 1) {
 			return null;
 		}
-		return Class.forName(args[0].getTypeName());
+		return Class.forName(args[0].getClass().getName());
 	}
 
 	private static Tuple<Class, Class> GetDirctionaryKeyValueType(EntityBufType iDicType)
@@ -570,7 +544,8 @@ public class EntityBufCore {
 		if (args == null || args.length != 2) {
 			return null;
 		}
-		return new Tuple<Class, Class>(Class.forName(args[0].getTypeName()), Class.forName(args[1].getTypeName()));
+		return new Tuple<Class, Class>(Class.forName(args[0].getClass().getName()),
+				Class.forName(args[1].getClass().getName()));
 	}
 
 	private static Object DeserializeSimple(EntityBufType buftype, boolean isArray, MemoryStreamReader msReader)

@@ -11,7 +11,7 @@
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mongodb-driver-core-3.5.0.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mysql-connector-java-5.1.22.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/mysql-connector-java-5.1.43-sources.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_144">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>

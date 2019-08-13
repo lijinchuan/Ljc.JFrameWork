@@ -269,7 +269,7 @@ public class ClientBase extends SocketBase {
 		super.OnError(e);
 
 		if (!this.stop) {
-			ClientBase client = this;
+			final ClientBase client = this;
 			SocketApplicationException ex = new SocketApplicationException("client³ö´í", e);
 
 			if (socketClient != null && errorResume && (socketClient.isClosed() || !socketClient.isConnected())) {

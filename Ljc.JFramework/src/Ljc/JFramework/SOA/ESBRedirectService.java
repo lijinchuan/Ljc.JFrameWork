@@ -1,16 +1,15 @@
 package Ljc.JFramework.SOA;
 
-import java.util.function.Function;
-
 import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.Session;
 import Ljc.JFramework.SocketApplication.SocketEasy.Server.SessionServer;
+import Ljc.JFramework.Utility.Func;
 import Ljc.JFramework.Utility.StringUtil;
 import Ljc.JFramework.Utility.Tuple;
 
 public class ESBRedirectService extends SessionServer {
-	public Function<Tuple<Integer, byte[]>, Object> DoResponseAction;
+	public Func<Tuple<Integer, byte[]>, Object> DoResponseAction;
 
 	public ESBRedirectService(String[] ips, int port) {
 		super(ips, port);

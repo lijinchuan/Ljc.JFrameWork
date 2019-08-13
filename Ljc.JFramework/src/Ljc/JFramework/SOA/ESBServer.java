@@ -180,7 +180,7 @@ public class ESBServer extends SessionServer {
 
 	void DoTransferResponse(SOATransferResponse response) {
 		try {
-			Session session = ClientSessionList.getOrDefault(response.getClientTransactionID(), null);
+			Session session = ClientSessionList.get(response.getClientTransactionID());
 
 			if (session != null) {
 				ClientSessionList.remove(response.getClientId());
@@ -232,9 +232,15 @@ public class ESBServer extends SessionServer {
 						throw new CoreException("不允许使用服务号:0");
 
 					synchronized (LockObj) {
-						ServiceContainer.removeIf(p -> p.getSession().getIPAddress() == session.getIPAddress()
-								&& p.getSession().getPort() == session.getPort()
-								&& p.getServiceNo() == req.getServiceNo());
+						List<ESBServiceInfo> li = new ArrayList<ESBServiceInfo>();
+						for (ESBServiceInfo p : ServiceContainer) {
+							if (p.getSession().getIPAddress() == session.getIPAddress()
+									&& p.getSession().getPort() == session.getPort()
+									&& p.getServiceNo() == req.getServiceNo()) {
+								li.add(p);
+							}
+						}
+						ServiceContainer.removeAll(li);
 
 						ESBServiceInfo info = new ESBServiceInfo();
 						info.setServiceNo(req.getServiceNo());
@@ -265,9 +271,15 @@ public class ESBServer extends SessionServer {
 				try {
 					UnRegisterServiceRequest req = message.GetMessageBody(UnRegisterServiceRequest.class);
 					synchronized (LockObj) {
-						ServiceContainer.removeIf(p -> p.getSession().getIPAddress() == session.getIPAddress()
-								&& p.getSession().getPort() == session.getPort()
-								&& p.getServiceNo() == req.getServiceNo());
+						List<ESBServiceInfo> li = new ArrayList<ESBServiceInfo>();
+						for (ESBServiceInfo p : ServiceContainer) {
+							if (p.getSession().getIPAddress() == session.getIPAddress()
+									&& p.getSession().getPort() == session.getPort()
+									&& p.getServiceNo() == req.getServiceNo()) {
+								li.add(p);
+							}
+						}
+						ServiceContainer.removeAll(li);
 					}
 					UnRegisterServiceResponse resp = new UnRegisterServiceResponse();
 					resp.setIsSuccess(true);

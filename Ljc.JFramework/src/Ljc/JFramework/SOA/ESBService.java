@@ -9,6 +9,7 @@ import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.SocketApplication.Message;
 import Ljc.JFramework.SocketApplication.SocketApplicationComm;
 import Ljc.JFramework.SocketApplication.SocketEasy.Client.SessionClient;
+import Ljc.JFramework.Utility.Func;
 import Ljc.JFramework.Utility.Tuple;
 
 public class ESBService extends SessionClient {
@@ -208,16 +209,11 @@ public class ESBService extends SessionClient {
 				int trytimes = 0;
 				while (true) {
 					try {
-
 						RedirectTcpServiceServer = new ESBRedirectService(ips.toArray(new String[ips.size()]), iport);
-						RedirectTcpServiceServer.DoResponseAction = s -> {
-							try {
-								return this.DoResponse(s);
-							} catch (Exception e) {
-								return e;
-							}
+						Func<Tuple<Integer, byte[]>, Object> respfun = new Func<Tuple<Integer, byte[]>, Object>();
+						respfun.addEvent(this, "DoResponse", Tuple.class);
+						RedirectTcpServiceServer.DoResponseAction = respfun;
 
-						};
 						RedirectTcpServiceServer.StartServer();
 						break;
 					} catch (Exception ex) {

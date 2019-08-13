@@ -1,39 +1,21 @@
 package Ljc.JFramework.SOA;
 
 import java.util.Random;
-import java.util.function.Function;
 
-import Ljc.JFramework.Utility.Func;
+import Ljc.JFramework.Utility.Func3;
 
 class ESBClientPoolManager {
 	private ESBClient[] Clients;
 
-	public ESBClientPoolManager(Integer clientcount, Func<Integer, ESBClient> getClient) throws Exception {
+	public ESBClientPoolManager(Integer clientcount, String ip, RegisterServiceInfo info,
+			Func3<Integer, String, RegisterServiceInfo, ESBClient> getClient) throws Exception {
 		if (clientcount == 0) {
 			clientcount = 5;
 		}
 
 		Clients = new ESBClient[clientcount];
 		for (int i = 0; i < clientcount; i++) {
-			ESBClient client = getClient.notifyEvent(i);
-			if (client == null) {
-				client = new ESBClient();
-			}
-			client.Error.addEvent(this, "client_Error", Exception.class);
-			client.StartSession();
-			client.Login(null, null);
-			Clients[i] = client;
-		}
-	}
-
-	public ESBClientPoolManager(Integer clientcount, Function<Integer, ESBClient> getClient) throws Exception {
-		if (clientcount == 0) {
-			clientcount = 5;
-		}
-
-		Clients = new ESBClient[clientcount];
-		for (int i = 0; i < clientcount; i++) {
-			ESBClient client = getClient.apply(i);
+			ESBClient client = getClient.notifyEvent(i, ip, info);
 			if (client == null) {
 				client = new ESBClient();
 			}

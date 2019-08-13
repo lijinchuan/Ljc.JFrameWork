@@ -79,7 +79,7 @@ public class ServerBase extends SocketBase {
 	// 服务端信道已经准备好了接收新的客户端连接
 	private void handleRead(SelectionKey key) throws Exception {
 		SocketChannel clntChan = (SocketChannel) key.channel();
-		Session session = (Session) key.attachment();
+		final Session session = (Session) key.attachment();
 		try {
 			if (session == null) {
 				clntChan.close();
@@ -106,7 +106,7 @@ public class ServerBase extends SocketBase {
 			}
 
 			dataLen -= 4;
-			ByteBuffer bufbody = ByteBuffer.allocate(dataLen).order(ByteOrder.nativeOrder());
+			final ByteBuffer bufbody = ByteBuffer.allocate(dataLen).order(ByteOrder.nativeOrder());
 			int readLen = 0;
 
 			while (readLen < dataLen) {
@@ -210,7 +210,8 @@ public class ServerBase extends SocketBase {
 							SocketChannel socket = ((ServerSocketChannel) key.channel()).accept();
 							socket.configureBlocking(false);
 							Session session = new Session();
-							session.setIPAddress(socket.getRemoteAddress().toString());
+
+							session.setIPAddress(socket.socket().getRemoteSocketAddress().toString());
 							session.setIsValid(true);
 							session.setSessionID(SocketApplicationComm.GetSeqNum());
 							session.setSocketChannel(socket);
@@ -253,19 +254,19 @@ public class ServerBase extends SocketBase {
 				// SocketOptionName.ReuseAddress, 1);
 				if (bindIpArray == null) {
 					InetSocketAddress sa = new InetSocketAddress(this.ipPort);
-					socketServer.bind(sa);
+					socketServer.socket().bind(sa);
 				} else {
 					/*
 					 * for (String ip : bindIpArray) { socketServer.bind(new InetSocketAddress(ip,
 					 * ipPort)); }
 					 */
 					InetSocketAddress sa = new InetSocketAddress(this.ipPort);
-					socketServer.bind(sa);
+					socketServer.socket().bind(sa);
 				}
 			}
 
 			if (!isStartServer) {
-				Selector selector = Selector.open();
+				final Selector selector = Selector.open();
 				socketServer.register(selector, SelectionKey.OP_ACCEPT);// 注册监听事件，poll epoll
 				if (this.ipPort == 0) {
 					this.ipPort = socketServer.socket().getLocalPort();

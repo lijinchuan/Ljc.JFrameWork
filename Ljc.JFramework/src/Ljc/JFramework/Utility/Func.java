@@ -12,7 +12,19 @@ public class Func<T1, R1> implements Runnable {
 		handler = new EventHandler();
 	}
 
-	public boolean addEvent(Object object, String methodName, Class<T1> tClass) {
+	public R1 apply(T1 param) throws Exception {
+		if (this.handler == null) {
+			return null;
+		}
+
+		Object[] rs = this.handler.notifyX(param);
+		if (rs == null || rs.length == 0) {
+			return null;
+		}
+		return (R1) rs[0];
+	}
+
+	public boolean addEvent(Object object, String methodName, Class<?> tClass) {
 		return this.handler.addEvent(object, methodName, tClass);
 	}
 
