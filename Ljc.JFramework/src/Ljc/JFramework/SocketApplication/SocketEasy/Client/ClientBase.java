@@ -167,7 +167,7 @@ public class ClientBase extends SocketBase {
 				msg.SetMessageBody(negotiationEncryMessage);
 				_startSign.reset();
 				SocketApplicationComm.SendMessage(socketClient, msg, this.encryKey);
-				_startSign.wait(30 * 1000);
+				_startSign.waitOne(30 * 1000);
 				if (StringUtil.isNullOrEmpty(encryKey)) {
 					throw new Exception("协商加密失败");
 				}
@@ -292,7 +292,7 @@ public class ClientBase extends SocketBase {
 				// new Action(() => StartClient()).BeginInvoke(null, null);
 			} else {
 				ex.Data.put("errorResume", errorResume);
-				ex.Data.put("socketClient.Connected", socketClient.isConnected());
+				ex.Data.put("socketClient.Connected", socketClient == null ? false : socketClient.isConnected());
 				ex.Data.put("checksocket", "不需要发起重连");
 			}
 		}
