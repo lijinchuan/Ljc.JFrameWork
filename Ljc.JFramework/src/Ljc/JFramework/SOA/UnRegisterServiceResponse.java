@@ -1,7 +1,11 @@
 package Ljc.JFramework.SOA;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class UnRegisterServiceResponse {
+	@BeanFieldAnnotation(order = 1)
 	private boolean _isSuccess;
+	@BeanFieldAnnotation(order = 2)
 	private String _errMsg;
 
 	public boolean getIsSuccess() {

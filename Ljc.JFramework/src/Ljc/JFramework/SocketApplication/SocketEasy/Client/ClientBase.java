@@ -181,12 +181,14 @@ public class ClientBase extends SocketBase {
 
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			// OnError(e);
 			return false;
 		}
 	}
 
 	private void Receiving() {
+		System.out.println("start receving......");
 		while (!stop/* && socketClient.Connected */) {
 			try {
 				byte[] buff4 = new byte[4];
@@ -195,6 +197,8 @@ public class ClientBase extends SocketBase {
 				if (count != 4)
 					break;
 				int dataLen = BitConverter.GetInt(buff4);
+
+				System.out.print("reciving data,len=" + String.valueOf(dataLen));
 
 				if (dataLen > this._maxPackageLength) {
 					throw new Exception("超过了最大字节数：" + this._maxPackageLength);

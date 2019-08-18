@@ -17,8 +17,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import net.iharder.Base64;
 
 public class RSACryptoServiceProvider {
 	private static final String KEY_ALGORITHM = "RSA";
@@ -187,12 +186,12 @@ public class RSACryptoServiceProvider {
 
 	// ½âÂë·µ»Øbyte
 	public static byte[] decryptBASE64(String key) throws Exception {
-		return (new BASE64Decoder()).decodeBuffer(key);
+		return Base64.decode(key);
 	}
 
 	// ±àÂë·µ»Ø×Ö·û´®
 	public static String encryptBASE64(byte[] key) throws Exception {
-		return (new BASE64Encoder()).encodeBuffer(key);
+		return Base64.encodeBytes(key);
 	}
 
 	private static byte[] removeMSZero(byte[] data) {

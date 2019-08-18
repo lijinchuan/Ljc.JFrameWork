@@ -1,5 +1,8 @@
 package Ljc.JFramework.Utility;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -8,6 +11,19 @@ import java.util.Date;
 public class BitConverter {
 	private static final byte[] bytesTrue = new byte[] { (byte) 1 };
 	private static final byte[] bytesFalse = new byte[] { (byte) 0 };
+
+	public static boolean IsLITTLE_ENDIAN() throws IOException {
+		int a = 0x12345678;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		DataOutputStream dos = new DataOutputStream(baos);
+		dos.writeInt(a);
+		byte[] b = baos.toByteArray();
+		for (int i = 0; i < 4; i++) {
+			System.out.println(Integer.toHexString(b[i]));
+		}
+
+		return Integer.toHexString(b[0]).equals("12");
+	}
 
 	public static byte[] GetBytes(long value) {
 		ByteBuffer buffer = ByteBuffer.allocate(8).order(ByteOrder.nativeOrder());

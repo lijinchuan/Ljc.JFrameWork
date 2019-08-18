@@ -1,6 +1,9 @@
 package Ljc.JFramework.SOA;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class GetRegisterServiceInfoRequest {
+	@BeanFieldAnnotation(order = 1)
 	private int _serviceNo;
 
 	public int getServiceNo() {

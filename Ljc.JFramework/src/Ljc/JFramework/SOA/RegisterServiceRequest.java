@@ -1,10 +1,17 @@
 package Ljc.JFramework.SOA;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class RegisterServiceRequest {
+	@BeanFieldAnnotation(order = 1)
 	private int _serviceNo;
+	@BeanFieldAnnotation(order = 2)
 	private String[] _redirectTcpIps;
+	@BeanFieldAnnotation(order = 3)
 	private int _redirectTcpPort;
+	@BeanFieldAnnotation(order = 4)
 	private String[] _redirectUdpIps;
+	@BeanFieldAnnotation(order = 5)
 	private int _redirectUdpPort;
 
 	public int getServiceNo() {

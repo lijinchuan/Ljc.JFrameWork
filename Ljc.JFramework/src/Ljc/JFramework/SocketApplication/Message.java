@@ -1,5 +1,6 @@
 package Ljc.JFramework.SocketApplication;
 
+import Ljc.JFramework.BeanFieldAnnotation;
 import Ljc.JFramework.EntityBufCore;
 
 public class Message {
@@ -15,6 +16,7 @@ public class Message {
 
 	}
 
+	@BeanFieldAnnotation(order = 1)
 	private MessageHeader _messageHeader = new MessageHeader();
 
 	/// <summary>
@@ -37,6 +39,7 @@ public class Message {
 		_msgBody = body;
 	}
 
+	@BeanFieldAnnotation(order = 2)
 	private byte[] _messageBuffer;
 
 	public byte[] getMessageBuffer() throws Exception {

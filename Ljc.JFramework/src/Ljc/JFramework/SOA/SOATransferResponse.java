@@ -2,12 +2,20 @@ package Ljc.JFramework.SOA;
 
 import java.util.Date;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class SOATransferResponse {
+	@BeanFieldAnnotation(order = 1)
 	private String _clientId;
+	@BeanFieldAnnotation(order = 2)
 	private String _clientTransactionID;
+	@BeanFieldAnnotation(order = 3)
 	private boolean _isSuccess = false;
+	@BeanFieldAnnotation(order = 4)
 	private Date _responseTime;
+	@BeanFieldAnnotation(order = 5)
 	private String _errMsg;
+	@BeanFieldAnnotation(order = 6)
 	private byte[] _result;
 
 	public String getClientId() {

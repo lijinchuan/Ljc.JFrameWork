@@ -1,6 +1,9 @@
 package Ljc.JFramework.SocketApplication;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class LoginRequestMessage {
+	@BeanFieldAnnotation(order = 1)
 	private String _loginID;
 
 	public String getLoginID() {
@@ -11,6 +14,7 @@ public class LoginRequestMessage {
 		this._loginID = value;
 	}
 
+	@BeanFieldAnnotation(order = 2)
 	private String _loginPwd;
 
 	public String getLoginPwd() {

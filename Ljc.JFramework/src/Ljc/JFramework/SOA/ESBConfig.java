@@ -6,26 +6,24 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import Ljc.JFramework.CoreException;
+import Ljc.JFramework.Utility.FileUtil;
+import Ljc.JFramework.Utility.StringUtil;
 
-@XmlAccessorType(XmlAccessType.PROPERTY)
-@XmlRootElement(name = "ESBConfig")
+//@XmlAccessorType(XmlAccessType.PROPERTY)
+//@XmlRootElement(name = "ESBConfig")
 public class ESBConfig {
 	// @XmlElement(name = "ESBServer")
 	private String eSBServer;
 	// @XmlElement(name = "ESBPort")
 	private int eSBPort;
 
-	@XmlElement(name = "AutoStart")
+	// @XmlElement(name = "AutoStart")
 	private boolean autoStart;
 
-	@XmlElement(name = "Security")
+	// @XmlElement(name = "Security")
 	private boolean security;
 
 	public String getESBServer() {
@@ -74,13 +72,30 @@ public class ESBConfig {
 		if (!new File(configfile).exists()) {
 			String configfile2 = System.getProperty("user.dir") + File.separatorChar + "ESBConfig.xml";
 			if (!new File(configfile2).exists()) {
-				throw new Exception(String.format("未找到ESBConfig配置文件，路径：%s 和路径 %s", configfile, configfile2));
+				String configfile3 = System.getProperty("user.esbconfig") + File.separatorChar + "ESBConfig.xml";
+				if (!new File(configfile3).exists()) {
+					throw new Exception(
+							String.format("未找到ESBConfig配置文件，路径：%s 、路径 %s、路径%s", configfile, configfile2, configfile3));
+				} else {
+					configfile = configfile3;
+				}
 			} else {
 				configfile = configfile2;
 			}
 		}
+		// _esbConfig =
+		// Ljc.JFramework.Utility.SerializerUtil.DeSerializerFile(ESBConfig.class,
+		// configfile);
 
-		_esbConfig = Ljc.JFramework.Utility.SerializerUtil.DeSerializerFile(ESBConfig.class, configfile);
+		String configxml = FileUtil.readAllToString(configfile);
+		_esbConfig = new ESBConfig();
+		_esbConfig.setESBServer(StringUtil.getMiddleString(configxml, "<ESBServer>", "</ESBServer>"));
+		_esbConfig.setAutoStart(
+				Boolean.parseBoolean(StringUtil.getMiddleString(configxml, "<AutoStart>", "</AutoStart>")));
+		_esbConfig.setESBPort(Integer.parseInt(StringUtil.getMiddleString(configxml, "<ESBPort>", "</ESBPort>")));
+		_esbConfig
+				.setSecurity(Boolean.parseBoolean(StringUtil.getMiddleString(configxml, "<Security>", "</Security>")));
+
 		if (_esbConfig.getESBServer().indexOf('.') == -1 && _esbConfig.getESBServer().indexOf(':') == -1) {
 			InetAddress[] ipaddress = InetAddress.getAllByName(_esbConfig.getESBServer());
 			if (ipaddress == null || ipaddress.length == 0) {

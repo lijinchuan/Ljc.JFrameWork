@@ -1,6 +1,9 @@
 package Ljc.JFramework.SocketApplication;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class LoginResponseMessage {
+	@BeanFieldAnnotation(order = 1)
 	private String _loginID;
 
 	public String getLoginID() {
@@ -11,6 +14,7 @@ public class LoginResponseMessage {
 		this._loginID = value;
 	}
 
+	@BeanFieldAnnotation(order = 2)
 	private boolean _loginResult;
 
 	public boolean getLoginResult() {
@@ -21,6 +25,7 @@ public class LoginResponseMessage {
 		this._loginResult = value;
 	}
 
+	@BeanFieldAnnotation(order = 3)
 	private String _sessionID;
 
 	public String getSessionID() {
@@ -31,6 +36,7 @@ public class LoginResponseMessage {
 		this._sessionID = value;
 	}
 
+	@BeanFieldAnnotation(order = 4)
 	private int _sessionTimeOut;
 
 	public int getSessionTimeOut() {
@@ -41,6 +47,7 @@ public class LoginResponseMessage {
 		this._sessionTimeOut = value;
 	}
 
+	@BeanFieldAnnotation(order = 5)
 	private int _headBeatInterVal;
 
 	public int getHeadBeatInterVal() {
@@ -51,6 +58,7 @@ public class LoginResponseMessage {
 		this._headBeatInterVal = value;
 	}
 
+	@BeanFieldAnnotation(order = 6)
 	private String _loginFailReson;
 
 	public String getLoginFailReson() {

@@ -17,17 +17,22 @@ public class AutoResetEvent {
 		}
 	}
 
-	public void waitOne(long timeout) throws InterruptedException {
+	public boolean waitOne(long timeout) throws InterruptedException {
+		boolean istimeout = false;
 		synchronized (_monitor) {
 			long t = System.currentTimeMillis();
 			while (!_isOpen) {
 				_monitor.wait(timeout);
 				// Check for timeout
-				if (System.currentTimeMillis() - t >= timeout)
+				if (System.currentTimeMillis() - t >= timeout) {
+					istimeout = true;
 					break;
+				}
 			}
 			_isOpen = false;
 		}
+
+		return istimeout;
 	}
 
 	public void set() {

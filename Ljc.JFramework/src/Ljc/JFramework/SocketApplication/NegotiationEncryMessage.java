@@ -1,6 +1,9 @@
 package Ljc.JFramework.SocketApplication;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class NegotiationEncryMessage {
+	@BeanFieldAnnotation(order = 1)
 	private String _publicKey;
 
 	/// <summary>
@@ -14,6 +17,7 @@ public class NegotiationEncryMessage {
 		this._publicKey = val;
 	}
 
+	@BeanFieldAnnotation(order = 2)
 	private String _encryKey;
 
 	public String getEncryKey() {

@@ -16,22 +16,39 @@ import Ljc.JFramework.Utility.StringUtil;
 import Ljc.JFramework.Utility.ThreadPoolUtil;
 
 public class Person {
+	@BeanFieldAnnotation(order = 1)
 	private String _name = null;
+	@BeanFieldAnnotation(order = 2)
 	private int _age = 0;
+	@BeanFieldAnnotation(order = 3)
 	private short _short = 0;
+	@BeanFieldAnnotation(order = 4)
 	private UInt16 _uint16;
+	@BeanFieldAnnotation(order = 5)
 	private long _long = 0;
+	@BeanFieldAnnotation(order = 6)
 	private byte _byte = 0;
+	@BeanFieldAnnotation(order = 7)
 	private double _double = 0;
+	@BeanFieldAnnotation(order = 8)
 	private float _float = 0;
+	@BeanFieldAnnotation(order = 9)
 	private DateTime _dateTime;
+	@BeanFieldAnnotation(order = 10)
 	private BigDecimal _bigDecimal;
+	@BeanFieldAnnotation(order = 11)
 	private Boolean _bool = false;
+	@BeanFieldAnnotation(order = 12)
 	private char _char;
+	@BeanFieldAnnotation(order = 13)
 	private int[] _intArray;
+	@BeanFieldAnnotation(order = 14)
 	private ShortTypeEnum _enum;
+	@BeanFieldAnnotation(order = 15)
 	private HashMap<Integer, Integer> _dic;
+	@BeanFieldAnnotation(order = 16)
 	private Date _date;
+	@BeanFieldAnnotation(order = 17)
 	private Date[] _dateArray;
 
 	private List<Integer> _list = null;

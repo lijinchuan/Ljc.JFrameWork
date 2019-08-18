@@ -2,12 +2,17 @@ package Ljc.JFramework.SOA;
 
 import java.util.Date;
 
+import Ljc.JFramework.BeanFieldAnnotation;
 import Ljc.JFramework.TypeUtil.DateTime;
 
 public class SOARequest {
+	@BeanFieldAnnotation(order = 1)
 	private int _serviceNo;
+	@BeanFieldAnnotation(order = 2)
 	private int _funcId;
+	@BeanFieldAnnotation(order = 3)
 	private Date _reqestTime;
+	@BeanFieldAnnotation(order = 4)
 	private byte[] _param;
 
 	public int getServiceNo() {

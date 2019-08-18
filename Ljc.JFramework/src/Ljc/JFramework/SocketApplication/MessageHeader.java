@@ -3,9 +3,11 @@ package Ljc.JFramework.SocketApplication;
 import java.util.Date;
 import java.util.HashMap;
 
+import Ljc.JFramework.BeanFieldAnnotation;
 import Ljc.JFramework.TypeUtil.DateTime;
 
 public class MessageHeader {
+	@BeanFieldAnnotation(order = 1)
 	private int _messageType;
 
 	public int getMessageType() {
@@ -16,6 +18,7 @@ public class MessageHeader {
 		this._messageType = value;
 	}
 
+	@BeanFieldAnnotation(order = 2)
 	private String _transactionID;
 
 	/// <summary>
@@ -29,6 +32,7 @@ public class MessageHeader {
 		this._transactionID = value;
 	}
 
+	@BeanFieldAnnotation(order = 3)
 	private Date _messageTime;
 
 	public Date getMessageTime() {
@@ -39,6 +43,7 @@ public class MessageHeader {
 		_messageTime = val;
 	}
 
+	@BeanFieldAnnotation(order = 4)
 	private HashMap<String, String> _customData;
 
 	public HashMap<String, String> getCustomData() {

@@ -409,7 +409,7 @@ public class EntityBufCore {
 				}
 
 				while (!parents.isEmpty() && (temptp = parents.pop()) != null) {
-					for (Field f : temptp.getDeclaredFields()) {
+					for (Field f : ReflectUtil.getDeclaredFieldsOrdered(temptp)) {
 						String fieldname = f.getName();
 						if (fieldname.startsWith("_")) {
 							fieldname = fieldname.substring(1);

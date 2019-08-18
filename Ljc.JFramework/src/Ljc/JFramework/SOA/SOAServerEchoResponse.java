@@ -1,6 +1,9 @@
 package Ljc.JFramework.SOA;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class SOAServerEchoResponse {
+	@BeanFieldAnnotation(order = 1)
 	private boolean _ok;
 
 	public boolean getOk() {

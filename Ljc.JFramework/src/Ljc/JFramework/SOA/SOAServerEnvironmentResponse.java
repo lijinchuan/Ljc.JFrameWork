@@ -1,8 +1,13 @@
 package Ljc.JFramework.SOA;
 
+import Ljc.JFramework.BeanFieldAnnotation;
+
 public class SOAServerEnvironmentResponse {
+	@BeanFieldAnnotation(order = 1)
 	private String _machineName;
+	@BeanFieldAnnotation(order = 2)
 	private String _oSVersion;
+	@BeanFieldAnnotation(order = 3)
 	private int _processorCount;
 
 	public String getMachineName() {

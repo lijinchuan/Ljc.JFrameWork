@@ -14,6 +14,7 @@ import Ljc.JFramework.Utility.AesEncryHelper;
 import Ljc.JFramework.Utility.BitConverter;
 import Ljc.JFramework.Utility.HashEncryptUtil;
 import Ljc.JFramework.Utility.StringUtil;
+import net.iharder.Base64;
 
 public class SocketApplicationComm {
 	private static AtomicLong seqNum = new AtomicLong();
@@ -60,6 +61,8 @@ public class SocketApplicationComm {
 					dos.write(data);
 
 					dos.flush();
+
+					System.out.println("发送消息:" + Base64.encodeBytes(data));
 
 				} catch (IOException ex) {
 					if (dos != null) {
@@ -118,6 +121,8 @@ public class SocketApplicationComm {
 					writeBuffer.put(data);
 					writeBuffer.flip();
 					s.getSocketChanel().write(writeBuffer);
+
+					System.out.println("发送消息:" + Base64.encodeBytes(data));
 				} catch (IOException ex) {
 					throw ex;
 				}
