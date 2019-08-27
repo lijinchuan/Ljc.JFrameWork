@@ -128,16 +128,20 @@ public class SessionClient extends ClientBase {
 		SessionContext.setIsValid(true);
 
 		if (timer == null) {
-			timer = new Timer();
+			timer = new Timer(true);
 			timer.schedule(new TimerTask() {
 
 				public void run() {
 					// TODO Auto-generated method stub
-					HeartBeat_Elapsed();
+					try {
+						HeartBeat_Elapsed();
+					} catch (Exception ex) {
+
+					}
 				}
 
-			}, Math.max(SessionContext.getHeadBeatInterVal(), 5000),
-					Math.max(SessionContext.getHeadBeatInterVal(), 5000));
+			}, Math.max(SessionContext.getHeadBeatInterVal(), 10000),
+					Math.max(SessionContext.getHeadBeatInterVal(), 10000));
 		}
 	}
 

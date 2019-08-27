@@ -11,10 +11,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import Ljc.JFramework.CoreException;
 import Ljc.JFramework.EntityBufCore;
 import Ljc.JFramework.Utility.AesEncryHelper;
+import Ljc.JFramework.Utility.Base64Util;
 import Ljc.JFramework.Utility.BitConverter;
 import Ljc.JFramework.Utility.HashEncryptUtil;
 import Ljc.JFramework.Utility.StringUtil;
-import net.iharder.Base64;
 
 public class SocketApplicationComm {
 	private static AtomicLong seqNum = new AtomicLong();
@@ -62,7 +62,7 @@ public class SocketApplicationComm {
 
 					dos.flush();
 
-					System.out.println("发送消息:" + Base64.encodeBytes(data));
+					System.out.println("发送消息:" + Base64Util.encode(data));
 
 				} catch (IOException ex) {
 					if (dos != null) {
@@ -122,7 +122,7 @@ public class SocketApplicationComm {
 					writeBuffer.flip();
 					s.getSocketChanel().write(writeBuffer);
 
-					System.out.println("发送消息:" + Base64.encodeBytes(data));
+					System.out.println("发送消息:" + Base64Util.encode(data));
 				} catch (IOException ex) {
 					throw ex;
 				}
