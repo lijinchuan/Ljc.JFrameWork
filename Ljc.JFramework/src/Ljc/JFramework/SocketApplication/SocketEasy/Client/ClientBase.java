@@ -61,6 +61,8 @@ public class ClientBase extends SocketBase {
 	public Action OnClientReset = new Action();
 	private AutoResetEvent _startSign = new AutoResetEvent(false);
 
+	Thread threadClient = null;
+
 	/// <summary>
 	/// 每次最大接收的字节数byte
 	/// </summary>
@@ -149,10 +151,10 @@ public class ClientBase extends SocketBase {
 				throw e;
 			}
 
-			if (!isStartClient) {
+			if (!isStartClient || threadClient == null || !threadClient.isAlive()) {
 				Action act = new Action();
 				act.addEvent(this, "Receiving", null);
-				Thread threadClient = new Thread(act);
+				threadClient = new Thread(act);
 				threadClient.start();
 			}
 

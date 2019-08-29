@@ -154,10 +154,10 @@ public class ESBService extends SessionClient {
 		while (true) {
 			try {
 				if (RegisterService()) {
-					// LogHelper.Instance.Info("连接恢复后注册服务成功");
+					System.out.println("连接恢复后注册服务成功");
 					break;
 				} else {
-					// LogHelper.Instance.Info("连接恢复后注册服务失败");
+					System.out.println("连接恢复后注册服务失败");
 				}
 			} catch (Exception ex) {
 				// LogHelper.Instance.Error("连接恢复后注册服务失败", ex);

@@ -174,6 +174,7 @@ public class SessionClient extends ClientBase {
 			isFirstTimeOut = true;
 			SessionContext.setIsLogin(true);
 
+			System.out.println("»á»°»Ö¸´");
 			OnSessionResume();
 
 			if (SessionResume != null) {
@@ -181,6 +182,7 @@ public class SessionClient extends ClientBase {
 					SessionResume.notifyEvent(null);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
+					System.out.println(e.getMessage());
 					e.printStackTrace();
 				}
 			}

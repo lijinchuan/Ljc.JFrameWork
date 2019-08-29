@@ -124,6 +124,7 @@ public class SocketApplicationComm {
 
 					System.out.println("·¢ËÍÏûÏ¢:" + Base64Util.encode(data));
 				} catch (IOException ex) {
+					s.Close();
 					throw ex;
 				}
 
