@@ -707,7 +707,7 @@ public class EntityBufCore {
 				int listarrlen = msReader.ReadInt32();
 				if (listarrlen == -1)
 					return null;
-				Array listArray = (Array) Array.newInstance(buftype.getValueType(), listarrlen);
+				Object listArray = Array.newInstance(buftype.getValueType(), listarrlen);
 				for (int i = 0; i < listarrlen; i++) {
 					Array.set(listArray, i, DeSerialize(buftype.getClassType(), msReader));
 				}
@@ -716,7 +716,7 @@ public class EntityBufCore {
 				int arrlen = msReader.ReadInt32();
 				if (arrlen == -1)
 					return null;
-				Array arr = (Array) Array.newInstance(buftype.getValueType(), arrlen);
+				Object arr = Array.newInstance(buftype.getValueType(), arrlen);
 				for (int i = 0; i < arrlen; i++) {
 					Array.set(arr, i, DeSerialize(buftype.getValueType(), msReader));
 				}
