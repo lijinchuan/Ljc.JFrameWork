@@ -34,16 +34,20 @@ public class DateTime extends Date {
 		}
 
 		long days = (d.getTime() - OADateBegin.getTime()) / DayMills;
-		TimeZone tz = TimeZone.getDefault();
 
+		TimeZone tz = TimeZone.getDefault();
 		double daypart = (d.getTime() + tz.getRawOffset()) % DayMills * 1.0 / DayMills;
+
 		return days + daypart;
 	}
 
 	public static DateTime FromOaDate(double oadate) {
 
-		TimeZone tz = TimeZone.getDefault();
-		return new DateTime(OADateBegin.getTime() + tz.getRawOffset() + (long) (oadate * DayMills));
+		// TimeZone tz = TimeZone.getDefault();
+		// return new DateTime(OADateBegin.getTime() + tz.getRawOffset() + (long)
+		// (oadate * DayMills));
+
+		return new DateTime(OADateBegin.getTime() + (long) (oadate * DayMills));
 	}
 
 	public static Date Now() {
