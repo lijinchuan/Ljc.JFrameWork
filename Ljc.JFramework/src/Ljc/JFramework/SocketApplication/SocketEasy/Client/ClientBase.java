@@ -18,6 +18,7 @@ import Ljc.JFramework.SocketApplication.SocketBase;
 import Ljc.JFramework.Utility.Action;
 import Ljc.JFramework.Utility.AesEncryHelper;
 import Ljc.JFramework.Utility.BitConverter;
+import Ljc.JFramework.Utility.NetCRC32;
 import Ljc.JFramework.Utility.RSACryptoServiceProvider;
 import Ljc.JFramework.Utility.RsaEncryHelper;
 import Ljc.JFramework.Utility.StringUtil;
@@ -228,6 +229,10 @@ public class ClientBase extends SocketBase {
 				}
 				byte[] buffer = ms.GetBytes();
 				ms.Close();
+				int crc32 = NetCRC32.GetCRC32(buffer, 0, buffer.length);
+				if (crc32 != BitConverter.GetInt(buff4)) {
+					throw new IOException("crc32 check,data wrong!");
+				}
 				Action<byte[]> act = new Action<byte[]>();
 				act.addEvent(this, "ProcessMessage", byte[].class);
 				act.setParams(buffer);
