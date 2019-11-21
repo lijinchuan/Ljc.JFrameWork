@@ -196,7 +196,11 @@ public class SessionClient extends ClientBase {
 			AutoReSetEventResult autoEvent = watingEvents.get(message.getMessageHeader().getTransactionID());
 
 			if (autoEvent != null) {
-				autoEvent.setWaitResult(DoMessage(message));
+				try {
+					autoEvent.setWaitResult(DoMessage(message));
+				} catch (Exception ex) {
+					autoEvent.setDataException(new CoreException(ex.getMessage(), ex));
+				}
 				autoEvent.setIsTimeOut(false);
 				autoEvent.set();
 				return;
@@ -291,6 +295,8 @@ public class SessionClient extends ClientBase {
 			// LogManager.LogHelper.Instance.Error("SendMessageAnsy", ex);
 
 			throw ex;
+		} else if (autoResetEvent.getDataException() != null) {
+			throw autoResetEvent.getDataException();
 		} else {
 			T result = EntityBufCore.DeSerialize(classt, (byte[]) autoResetEvent.getWaitResult(), true);
 			return result;
