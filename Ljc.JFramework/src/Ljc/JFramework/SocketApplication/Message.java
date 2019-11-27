@@ -1,5 +1,7 @@
 package Ljc.JFramework.SocketApplication;
 
+import java.util.HashMap;
+
 import Ljc.JFramework.BeanFieldAnnotation;
 import Ljc.JFramework.EntityBufCore;
 
@@ -75,5 +77,18 @@ public class Message {
 
 	public Boolean IsMessage(int msgType) {
 		return this._messageHeader.getMessageType() == msgType;
+	}
+
+	public void AddCustomData(String key, String val) {
+		if (key == null || val == null) {
+			return;
+		}
+		HashMap<String, String> dic = this._messageHeader.getCustomData();
+		if (dic == null) {
+			dic = new HashMap<String, String>();
+			this._messageHeader.setCustomData(dic);
+		}
+		dic.remove(key);
+		dic.put(key, val);
 	}
 }

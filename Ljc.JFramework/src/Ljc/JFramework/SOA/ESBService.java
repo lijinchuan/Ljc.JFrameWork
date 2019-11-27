@@ -17,6 +17,8 @@ public class ESBService extends SessionClient {
 	private boolean SupportTcpServiceRidrect = false;
 	private boolean SupportUDPServiceRedirect = false;
 	private ESBRedirectService RedirectTcpServiceServer = null;
+	private String _serviceName;
+	private String _endPointName;
 
 	public int getServiceNo() {
 		return this._serviceNo;
@@ -26,17 +28,22 @@ public class ESBService extends SessionClient {
 		this._serviceNo = value;
 	}
 
-	public ESBService(String serverip, int serverport, int sNo, boolean startSession,
-			boolean supportTcpServiceRidrect) {
+	public ESBService(String serverip, int serverport, int sNo, boolean startSession, boolean supportTcpServiceRidrect,
+			String serviceName, String endPointName) {
 		super(serverip, serverport, startSession, false);
 		// TODO Auto-generated constructor stub
 
 		this.setServiceNo(sNo);
+		this._serviceName = serviceName;
+		this._endPointName = endPointName;
 	}
 
-	public ESBService(int sNo, boolean supportTcpServiceRidrect) throws Exception {
+	public ESBService(int sNo, boolean supportTcpServiceRidrect, String serviceName, String endPointName)
+			throws Exception {
 		super(ESBConfig.ReadConfig().getESBServer(), ESBConfig.ReadConfig().getESBPort(), true, false);
 		this.setServiceNo(sNo);
+		this._serviceName = serviceName;
+		this._endPointName = endPointName;
 		this.SupportTcpServiceRidrect = supportTcpServiceRidrect;
 	}
 
@@ -124,6 +131,9 @@ public class ESBService extends SessionClient {
 			// req.RedirectUdpIps = RedirectUpdServiceServer.GetBindIps();
 			// req.RedirectUdpPort = RedirectUpdServiceServer.GetBindUdpPort();
 		}
+
+		msg.AddCustomData("ServiceName", this._serviceName);
+		msg.AddCustomData("EndPointName", this._endPointName);
 
 		msg.SetMessageBody(req);
 
