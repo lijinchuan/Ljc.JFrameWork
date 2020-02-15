@@ -233,24 +233,34 @@ public class ESBServer extends SessionServer {
 
 					synchronized (LockObj) {
 						List<ESBServiceInfo> li = new ArrayList<ESBServiceInfo>();
+						boolean isexists = false;
 						for (ESBServiceInfo p : ServiceContainer) {
-							if (p.getSession().getIPAddress() == session.getIPAddress()
+							if (p.getSession().getSessionID() == session.getSessionID()
+									&& p.getSession().getIPAddress() == session.getIPAddress()
 									&& p.getSession().getPort() == session.getPort()
 									&& p.getServiceNo() == req.getServiceNo()) {
 								li.add(p);
+								continue;
+							}
+
+							if (!isexists && p.getServiceNo() == req.getServiceNo()
+									&& p.getSession().getSessionID() == session.getSessionID()) {
+								isexists = true;
 							}
 						}
 						ServiceContainer.removeAll(li);
 
-						ESBServiceInfo info = new ESBServiceInfo();
-						info.setServiceNo(req.getServiceNo());
-						info.setSession(session);
-						info.setRedirectTcpIps(req.getRedirectTcpIps());
-						info.setRedirectTcpPort(req.getRedirectTcpPort());
-						info.setRedirectUdpIps(req.getRedirectUdpIps());
-						info.setRedirectUdpPort(req.getRedirectUdpPort());
+						if (!isexists) {
+							ESBServiceInfo info = new ESBServiceInfo();
+							info.setServiceNo(req.getServiceNo());
+							info.setSession(session);
+							info.setRedirectTcpIps(req.getRedirectTcpIps());
+							info.setRedirectTcpPort(req.getRedirectTcpPort());
+							info.setRedirectUdpIps(req.getRedirectUdpIps());
+							info.setRedirectUdpPort(req.getRedirectUdpPort());
 
-						ServiceContainer.add(info);
+							ServiceContainer.add(info);
+						}
 					}
 
 					RegisterServiceResponse resp = new RegisterServiceResponse();
