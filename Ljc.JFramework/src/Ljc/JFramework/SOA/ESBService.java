@@ -161,6 +161,7 @@ public class ESBService extends SessionClient {
 	protected void OnSessionResume() {
 		super.OnSessionResume();
 
+		int trytimes = 0, maxtrytimes = 10;
 		while (true) {
 			try {
 				if (RegisterService()) {
@@ -175,7 +176,10 @@ public class ESBService extends SessionClient {
 			}
 
 			try {
-				Thread.sleep(3000);
+				if (trytimes++ > maxtrytimes) {
+					break;
+				}
+				Thread.sleep(trytimes * 100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -186,6 +190,7 @@ public class ESBService extends SessionClient {
 	@Override
 	protected final void OnLoginSuccess() {
 		super.OnLoginSuccess();
+		int trytimes = 0, maxtrytimes = 30;
 		while (true) {
 			try {
 				if (RegisterService()) {
@@ -199,7 +204,10 @@ public class ESBService extends SessionClient {
 				// LogHelper.Error("×¢²á·þÎñÊ§°Ü", ex);
 			}
 			try {
-				Thread.sleep(3000);
+				if (trytimes++ > maxtrytimes) {
+					break;
+				}
+				Thread.sleep(trytimes * 100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
