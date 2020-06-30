@@ -1,3 +1,0 @@
-INDEX VERSION 1.127
-D:\JavaProj\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1560116978.index
-\TestJFramework\src

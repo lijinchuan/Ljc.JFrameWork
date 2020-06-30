@@ -95,8 +95,15 @@ System.out.println("name:"+properties.getProperty("name"));
   pw.print(cfg.getSecurity());
   pw.print("<br/>");
   
-  String respstr=ESBClient.DoSOARequest(String.class, 0, 1, "hello");
-  pw.print("esbecho:"+respstr);
+  pw.print("是不是小端："+BitConverter.IsLITTLE_ENDIAN());
+  
+  Boolean boo=Ljc.JFramework.SOA.ESBClient.DoSOARequest(Boolean.class, 0, 3, 1);
+	//EditText v=(EditText)this.findViewById(id.editText1);
+	//v.setText("检查 是否存在服务1："+boo);
+  pw.print("检查服务是否存在"+boo.toString());
+  
+  //String respstr=ESBClient.DoSOARequest(String.class, 0, 1, "hello");
+  //pw.print("esbecho:"+respstr);
   
    //pw.write(String.valueOf(BigDecimal.valueOf(1.21).remainder(BigDecimal.valueOf(1))));
    

@@ -1,9 +1,0 @@
-package Ljc.JFramework;
-
-public class BoolObject {
-	private boolean _bool = false;
-
-	public boolean getBool() {
-		return _bool;
-	}
-}

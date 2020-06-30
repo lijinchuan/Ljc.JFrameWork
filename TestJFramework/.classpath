@@ -121,8 +121,6 @@
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/joni-2.1.2.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/jruby-complete-1.6.8.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/jsch-0.1.42.jar"/>
-	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/jsp-2.1-6.1.14.jar"/>
-	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/jsp-api-2.1-6.1.14.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/junit-4.12.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/leveldbjni-all-1.8.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/libthrift-0.9.3.jar"/>
@@ -134,5 +132,6 @@
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/spymemcached-2.11.6.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/xmlenc-0.52.jar"/>
 	<classpathentry kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/hbase/hbase-lib/lib/xz-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/GitHub/Ljc.JFrameWork/lib/base64-2.3.8.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

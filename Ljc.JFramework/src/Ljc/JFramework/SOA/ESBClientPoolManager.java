@@ -2,10 +2,12 @@ package Ljc.JFramework.SOA;
 
 import java.util.Random;
 
+import Ljc.JFramework.Utility.Action;
 import Ljc.JFramework.Utility.Func3;
 
 class ESBClientPoolManager {
 	private ESBClient[] Clients;
+	public Action<Exception> OnError;
 
 	public ESBClientPoolManager(Integer clientcount, String ip, RegisterServiceInfo info,
 			Func3<Integer, String, RegisterServiceInfo, ESBClient> getClient) throws Exception {
@@ -35,6 +37,14 @@ class ESBClientPoolManager {
 	}
 
 	void client_Error(Exception obj) {
+		if (this.OnError != null) {
+			try {
+				this.OnError.notifyEvent(obj);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		System.out.println("³ö´í:" + obj.getMessage());
 	}
 }
