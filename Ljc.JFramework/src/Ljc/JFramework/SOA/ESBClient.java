@@ -32,7 +32,6 @@ public class ESBClient extends SessionClient {
 	ESBClient(String serverip, int serverport, boolean startSession, boolean isSecurity) {
 		super(serverip, serverport, startSession, isSecurity);
 		// TODO Auto-generated constructor stub
-		_clientmanager.OnError.addEvent(this, "Clent_Error", Exception.class);
 	}
 
 	void SetServiceNo(int value) {
@@ -42,7 +41,6 @@ public class ESBClient extends SessionClient {
 	ESBClient() throws Exception {
 		super(ESBConfig.ReadConfig().getESBServer(), ESBConfig.ReadConfig().getESBPort(),
 				ESBConfig.ReadConfig().getAutoStart(), ESBConfig.ReadConfig().getSecurity());
-		_clientmanager.OnError.addEvent(this, "Clent_Error", Exception.class);
 	}
 
 	String GetESBServer() {
@@ -280,7 +278,7 @@ public class ESBClient extends SessionClient {
 		 * this.CloseClient(); // client.Dispose(); synchronized (_esbClientDicManager)
 		 * { _esbClientDicManager.remove(this._serviceNo); }
 		 */
-
+		System.out.println("Clent_Error" + ex.getMessage());
 	}
 
 }

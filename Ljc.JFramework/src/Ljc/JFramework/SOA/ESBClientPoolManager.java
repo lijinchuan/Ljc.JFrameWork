@@ -7,7 +7,7 @@ import Ljc.JFramework.Utility.Func3;
 
 class ESBClientPoolManager {
 	private ESBClient[] Clients;
-	public Action<Exception> OnError;
+	public Action<Exception> OnError = new Action<Exception>();
 
 	public ESBClientPoolManager(Integer clientcount, String ip, RegisterServiceInfo info,
 			Func3<Integer, String, RegisterServiceInfo, ESBClient> getClient) throws Exception {
@@ -45,6 +45,6 @@ class ESBClientPoolManager {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("³ö´í:" + obj.getMessage());
+		System.out.println("client_Error:" + obj.getMessage());
 	}
 }
