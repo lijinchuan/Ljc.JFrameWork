@@ -34,6 +34,7 @@ public class ESBService extends SessionClient {
 		// TODO Auto-generated constructor stub
 
 		this.setServiceNo(sNo);
+		this.OnClientReset.addEvent(this, "ESBService_OnClientReset", null);
 		this._serviceName = serviceName;
 		this._endPointName = endPointName;
 	}
@@ -42,6 +43,7 @@ public class ESBService extends SessionClient {
 			throws Exception {
 		super(ESBConfig.ReadConfig().getESBServer(), ESBConfig.ReadConfig().getESBPort(), true, false);
 		this.setServiceNo(sNo);
+		this.OnClientReset.addEvent(this, "ESBService_OnClientReset", null);
 		this._serviceName = serviceName;
 		this._endPointName = endPointName;
 		this.SupportTcpServiceRidrect = supportTcpServiceRidrect;
@@ -157,6 +159,33 @@ public class ESBService extends SessionClient {
 
 	}
 
+	void ESBService_OnClientReset() {
+		int trytimes = 0, maxtrytimes = 10;
+		while (true) {
+			try {
+				if (RegisterService()) {
+					System.out.println("连接重置后注册服务成功");
+					break;
+				} else {
+					System.out.println("连接重置后注册服务失败");
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				this.OnError(ex);
+			}
+
+			try {
+				if (trytimes++ > maxtrytimes) {
+					break;
+				}
+				Thread.sleep(trytimes * 100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	protected void OnSessionResume() {
 		super.OnSessionResume();
@@ -171,7 +200,7 @@ public class ESBService extends SessionClient {
 					System.out.println("连接恢复后注册服务失败");
 				}
 			} catch (Exception ex) {
-				// LogHelper.Instance.Error("连接恢复后注册服务失败", ex);
+				ex.printStackTrace();
 				this.OnError(ex);
 			}
 
@@ -190,7 +219,7 @@ public class ESBService extends SessionClient {
 	@Override
 	protected final void OnLoginSuccess() {
 		super.OnLoginSuccess();
-		int trytimes = 0, maxtrytimes = 30;
+		int trytimes = 0, maxtrytimes = 10;
 		while (true) {
 			try {
 				if (RegisterService()) {

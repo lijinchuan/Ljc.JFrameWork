@@ -285,7 +285,7 @@ public class ClientBase extends SocketBase {
 
 			if (socketClient != null && errorResume && (socketClient.isClosed() || !socketClient.isConnected())) {
 				ex.Data.put("checksocket", "需要发起重连");
-
+				System.out.println("需要发起重连");
 				try {
 					Ljc.JFramework.Utility.ThreadPoolUtil.QueueUserWorkItem(new Runnable() {
 
@@ -305,6 +305,7 @@ public class ClientBase extends SocketBase {
 				ex.Data.put("errorResume", errorResume);
 				ex.Data.put("socketClient.Connected", socketClient == null ? false : socketClient.isConnected());
 				ex.Data.put("checksocket", "不需要发起重连");
+				System.out.println("不需要发起重连");
 			}
 		}
 	}
