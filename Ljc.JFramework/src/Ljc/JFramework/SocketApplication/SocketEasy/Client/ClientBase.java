@@ -113,6 +113,10 @@ public class ClientBase extends SocketBase {
 		return this.socketClient != null && this.socketClient.isConnected() && !this.socketClient.isClosed();
 	}
 
+	protected void Client_Reset() {
+
+	}
+
 	public Boolean StartClient() {
 		try {
 			if (this.IsConnected())
@@ -177,6 +181,8 @@ public class ClientBase extends SocketBase {
 			}
 
 			isStartClient = true;
+
+			Client_Reset();
 
 			if (isResetClient && OnClientReset != null) {
 				OnClientReset.notifyEvent(null);

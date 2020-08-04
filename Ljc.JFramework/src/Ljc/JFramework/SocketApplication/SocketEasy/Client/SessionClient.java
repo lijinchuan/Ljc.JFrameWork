@@ -28,6 +28,7 @@ public class SessionClient extends ClientBase {
 	/// 是否第一次报超时
 	/// </summary>
 	private boolean isFirstTimeOut = true;
+	private boolean isclientreset = false;
 
 	public Action SessionTimeOut = new Action();
 	public Action SessionResume = new Action();
@@ -80,6 +81,13 @@ public class SessionClient extends ClientBase {
 
 	protected void OnSessionResume() {
 
+	}
+
+	@Override
+	protected void Client_Reset() {
+		// TODO Auto-generated method stub
+		super.Client_Reset();
+		isclientreset = true;
 	}
 
 	public final void Login(String uid, String pwd) throws Exception {
@@ -170,7 +178,7 @@ public class SessionClient extends ClientBase {
 	}
 
 	private void ReciveHeartBeat(Message message) {
-		if (SessionContext.IsTimeOut() || !isFirstTimeOut) {
+		if (!isclientreset && (SessionContext.IsTimeOut() || !isFirstTimeOut)) {
 			isFirstTimeOut = true;
 			SessionContext.setIsLogin(true);
 
@@ -187,6 +195,8 @@ public class SessionClient extends ClientBase {
 				}
 			}
 		}
+		if (isclientreset)
+			isclientreset = false;
 		// SessionContext.LastSessionTime = message.MessageHeader.MessageTime;
 		SessionContext.setLastSessionTime(System.currentTimeMillis());
 	}

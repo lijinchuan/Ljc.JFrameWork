@@ -160,29 +160,12 @@ public class ESBService extends SessionClient {
 	}
 
 	void ESBService_OnClientReset() {
-		int trytimes = 0, maxtrytimes = 10;
-		while (true) {
-			try {
-				if (RegisterService()) {
-					System.out.println("连接重置后注册服务成功");
-					break;
-				} else {
-					System.out.println("连接重置后注册服务失败");
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				this.OnError(ex);
-			}
-
-			try {
-				if (trytimes++ > maxtrytimes) {
-					break;
-				}
-				Thread.sleep(trytimes * 100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			System.out.println("client is reset!");
+			Login(null, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -190,29 +173,11 @@ public class ESBService extends SessionClient {
 	protected void OnSessionResume() {
 		super.OnSessionResume();
 
-		int trytimes = 0, maxtrytimes = 10;
-		while (true) {
-			try {
-				if (RegisterService()) {
-					System.out.println("连接恢复后注册服务成功");
-					break;
-				} else {
-					System.out.println("连接恢复后注册服务失败");
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				this.OnError(ex);
-			}
-
-			try {
-				if (trytimes++ > maxtrytimes) {
-					break;
-				}
-				Thread.sleep(trytimes * 100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			Login(null, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
